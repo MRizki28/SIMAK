@@ -15,7 +15,7 @@
         <div class="main-header">
             <div class="logo-header position-relative" data-background-color="blue">
                 <a href="/" class="logo ">
-                    <span class="navbar-brand text-light font-weight-bold " style="left: 65px;">SIMAK</span>
+                    <span class="navbar-brand text-light position-relative font-weight-bold " style="left: 65px;">SIMAK</span>
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
                     data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">

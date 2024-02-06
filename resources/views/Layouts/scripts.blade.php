@@ -95,7 +95,7 @@
         });
     </script>
     {{-- avatar sidebar user --}}
-    <script>
+    {{-- <script>
         $(document).ready(function(){
 
             function setAvatarSidebar(name) {
@@ -136,6 +136,6 @@
             }
             fetchDataAndUpdate();
         })
-    </script>
+    </script> --}}
 
 

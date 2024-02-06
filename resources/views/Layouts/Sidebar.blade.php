@@ -32,6 +32,12 @@
                                 <i class="fa-solid fa-home"></i>
                                 <p>Dashboard</p>
                             </a>
+                        </li>     
+						<li class="nav-item {{ request()->is('/typedocument') ? 'active' : '' }}">
+                            <a href="{{ url('/typedocument') }}">
+                                <i class="fas fa-paperclip"></i>
+                                <p>Jenis Dokumen</p>
+                            </a>
                         </li>                
                     </ul>
 				</div>
