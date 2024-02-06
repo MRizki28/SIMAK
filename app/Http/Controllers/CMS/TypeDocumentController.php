@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TypeDocument\TypeDocumentRequest;
 use App\Repositories\TypeDocumentRepositories;
 use App\Traits\HttpResponseTraits;
 use Illuminate\Http\Request;
@@ -19,11 +20,11 @@ class TypeDocumentController extends Controller
 
     public function getAllData()
     {
-        $data = $this->typeDocumentRepositories->getAllData();
-        if ($data->isEmpty()) {
-            return $this->dataNotFound();
-        }else{
-            return $this->success($data);
-        }
+        return $this->typeDocumentRepositories->getAllData();
+    }
+
+    public function createData(TypeDocumentRequest $request)
+    {
+        return  $this->typeDocumentRepositories->createData($request);
     }
 }

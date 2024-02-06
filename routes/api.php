@@ -22,7 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function() {
 
     Route::prefix('typedocument')->controller(TypeDocumentController::class)->group(function() {
-        Route::get  ('/'    , 'getAllData');
+        Route::get  ('/'        , 'getAllData');
+        Route::post ('/create'  , 'createData');
     });
     
 });
