@@ -15,10 +15,8 @@
 	<script src="{{asset('static/js/atlantis.min.js')}}"></script>
 	<script src="{{asset('static/js/setting-demo.js')}}"></script>
 	<script src="{{asset('static/js/setting-demo2.js')}}"></script>
-	<script src="{{asset('static/js/helper/helper.js')}}"></script>
 	<script src="{{asset('static/js/select2.full.min.js')}}"></script>
     <script src="{{ asset('static/js/plugin/chart.js/chart.min.js') }}"></script>
-	<script src="{{ asset('static/js/select2-tree/src/select2totree.js') }}"></script>
 
 	{{-- Jquery Validate --}}
 	<script src="{{asset('static/js/plugin/jquery-validate/jquery.form.js')}}"></script>

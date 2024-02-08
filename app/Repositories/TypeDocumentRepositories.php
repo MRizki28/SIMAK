@@ -22,7 +22,7 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
         $data = $this->typeDocumentModel->all();
         if ($data->isEmpty()) {
             return $this->dataNotFound();
-        }else{
+        } else {
             return $this->success($data);
         }
     }
@@ -32,6 +32,43 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
         try {
             $data = $this->typeDocumentModel->create($request->all());
             return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function getDataById($id)
+    {
+        $data = $this->typeDocumentModel::where('id', $id)->first();
+        if (!$data) {
+            return $this->idOrDataNotFound();
+        } else {
+            return $this->success($data);
+        }
+    }
+
+    public function updateData(TypeDocumentRequest $request, $id)
+    {
+        try {
+            $data = $this->typeDocumentModel::where('id', $id)->first();
+            $data->name_type_document = $request->input('name_type_document');
+            $data->save();
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function deleteData($id)
+    {
+        try {
+            $data = $this->typeDocumentModel::where('id', $id)->first();
+            if (!$data) {
+                return $this->idOrDataNotFound();
+            } else {
+                $data->delete();
+                return $this->delete();
+            }
         } catch (\Throwable $th) {
             return $this->error($th);
         }

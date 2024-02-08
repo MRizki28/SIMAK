@@ -27,4 +27,19 @@ class TypeDocumentController extends Controller
     {
         return  $this->typeDocumentRepositories->createData($request);
     }
+
+    public function getDataById($id)
+    {
+        return $this->typeDocumentRepositories->getDataById($id);
+    }
+
+    public function updateData(TypeDocumentRequest $request, $id)
+    {
+        return $this->typeDocumentRepositories->updateData($request, $id);
+    }
+
+    public function deleteData($id)
+    {
+        return $this->typeDocumentRepositories->deleteData($id);
+    }
 }

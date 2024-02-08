@@ -75,6 +75,46 @@
         </div>
     </div>
 
+    {{-- modal update --}}
+    <div class="modal fade " id="typeDocumentEditModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 550px; top:118px;">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="modal-body">
+                        <div class="header">
+                            <span style="font-size: 20px;" id="modal-title">Edit Data</span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="form mt-4">
+                            <form action="" id="formEdit">
+                                @csrf
+                                <input type="hidden" name="id" id="id">
+                                <div class="form-group form-show-validation">
+                                    <label for="name_type_document">Jenis Dokumen</label>
+                                    <input type="text" class="form-control  required" required name="name_type_document"
+                                        id="name_type_document">
+                                </div>
+                                <div class="button-footer d-flex justify-content-between mt-4">
+                                    <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
+                                        <div class="button-footer d-flex justify-content-between mt-4">
+                                            <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
+                                                <button type="button" class="btn btn-danger text-white mr-3"
+                                                    data-dismiss="modal" aria-label="Close">Batal</button>
+                                                <button class="btn btn-primary" type="submit">Simpan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             function getAllData() {
@@ -100,9 +140,9 @@
                                 '</td>';
                             tableBody +=
                                 "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
-                                "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#accountModal' data-id='" +
+                                "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#typeDocumentEditModal' data-id='" +
                                 item.id + "'><i class='fas fa-edit'></i></button>" +
-                                "<button class='btn btn-sm' data-id='" +
+                                "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
                                 item.id +
                                 "' name='rejected'><i class='fas fa-trash-alt'></i></button>" +
                                 "</td>";
@@ -115,7 +155,7 @@
             }
             getAllData();
 
-            function validation() {
+            function validationCreateData() {
                 $('#formTambah').validate({
                     rules: {
                         name_type_document: {
@@ -138,7 +178,32 @@
                     }
                 });
             }
-            validation();
+
+            function validationUpdateData() {
+                $('#formEdit').validate({
+                    rules: {
+                        name_type_document: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        name_type_document: {
+                            required: "Field ini wajib diisi"
+                        }
+                    },
+                    highlight: function(element) {
+                        $(element).closest('.form-group').removeClass('has-success').addClass(
+                            'has-error');
+                    },
+
+                    success: function(element) {
+                        $(element).closest('.form-group').removeClass('has-error').addClass(
+                            'has-success');
+                    }
+                });
+            }
+            validationCreateData();
+            validationUpdateData();
 
             //create data
             $("#formTambah").submit(function(e) {
@@ -146,6 +211,7 @@
                 let formData = new FormData(this);
                 let submitButton = $(this).find(':submit');
 
+                submitButton.attr('disabled', true);
                 $.ajax({
                     type: "POST",
                     url: "{{ url('api/v1/typedocument/create') }}",
@@ -154,7 +220,7 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        console.log(response)
+                        submitButton.attr('disabled', false);
                         if (response.message == "Check your validation") {
                             Swal.fire({
                                 title: 'Peringatan',
@@ -181,11 +247,161 @@
                                 showCancelButton: false,
                                 confirmButtonText: 'OK',
                             }).then(function() {
+                                $('#typeDocumentModal').modal('hide');
                                 window.location.reload();
                             });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.attr('disabled', false);
+                        console.log(error)
+                        Swal.fire({
+                            title: "Error",
+                            html: 'Terjadi kesalahan',
+                            icon: "error",
+                            timer: 5000,
+                            showConfirmButton: true
+                        });
                     }
                 });
+            });
+
+            //get data by id
+            $(document).on('click', '.edit-modal', function() {
+                const id = $(this).data('id');
+                console.log("Edit modal clicked, id:", id);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('api/v1/typedocument/get') }}/" + id,
+                    dataType: "JSON",
+                    success: function(response) {
+                        console.log(response);
+                        $('#id').val(response.data.id);
+                        $('#name_type_document').val(response.data.name_type_document);
+                    }
+                });
+            });
+
+            //update data
+            $("#formEdit").submit(function(e) {
+                e.preventDefault();
+                let id = $('#id').val();
+                console.log("Form submitted for editing, id:", id);
+                let formData = new FormData(this);
+                let submitButton = $(this).find(':submit');
+                submitButton.attr('disabled', true);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('api/v1/typedocument/update') }}/" + id,
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response);
+                        submitButton.attr('disabled', false);
+                        if (response.message == "Check your validation") {
+                            Swal.fire({
+                                title: 'Peringatan',
+                                text: 'Input tidak boleh kosong !',
+                                icon: 'warning',
+                                timer: 5000,
+                                showConfirmButton: true
+                            });
+                        } else if (response.code == 400) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Terjadi kesalahan',
+                                icon: 'error',
+                                timer: 5000,
+                                showConfirmButton: true
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Success',
+                                text: 'Data berhasil diperbaharui',
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                            }).then(function() {
+                                $('#typeDocumentEditModal').modal('hide');
+                                window.location.reload();
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.attr('disabled', false);
+                        console.log(error)
+                        console.log(xhr)
+                        Swal.fire({
+                            title: "Error",
+                            html: 'Terjadi kesalahan',
+                            icon: "error",
+                            timer: 5000,
+                            showConfirmButton: true
+                        });
+                    }
+                });
+
+            });
+
+            //deleteData
+
+            $(document).on('click', '.delete-confirm', function() {
+                let id = $(this).data('id');
+                Swal.fire({
+                    title: 'Hapus ?',
+                    text: 'Anda tidak dapat mengembalikan  ini',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Batal',
+                    confirmButtonText: 'Ya',
+                    reverseButtons: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ url('api/v1/typedocument/delete') }}/" + id,
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "id": id
+                            },
+                            success: function(response) {
+                                if (response.code === 400) {
+                                    Swal.fire({
+                                        title: 'Gagal menghapus data',
+                                        text: 'Data sedang digunakan !',
+                                        icon: 'error',
+                                        timer: 5000,
+                                        showConfirmButton: true
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Success',
+                                        text: 'Data berhasil dihapus',
+                                        icon: 'success',
+                                        timer: 5000,
+                                        showConfirmButton: true
+                                    }).then(function() {
+                                        window.location.reload();
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Terjadi kesalahan',
+                                    icon: 'error',
+                                    timer: 5000,
+                                    showConfirmButton: true
+                                });
+                            }
+                        });
+                    }
+                })
             });
         });
     </script>
