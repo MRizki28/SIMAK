@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CMS\TypeDocumentController;
+use App\Http\Controllers\CMS\YearController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::prefix('v1')->group(function() {
         Route::get      ('/get/{id}'    , 'getDataById');
         Route::post     ('/update/{id}' , 'updateData');
         Route::delete   ('/delete/{id}' , 'deleteData');
+    });
+
+    Route::prefix('year')->controller(YearController::class)->group(function()  {
+        Route::get      ('/'            , 'getAllData');
     });
     
 });

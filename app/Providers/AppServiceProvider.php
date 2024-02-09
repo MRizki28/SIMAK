@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Interfaces\TypeDocumentInterfaces;
+use App\Interfaces\YearInterfaces;
 use App\Repositories\TypeDocumentRepositories;
+use App\Repositories\YearRepositories;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(TypeDocumentInterfaces::class, TypeDocumentRepositories::class);
+        $this->app->bind(YearInterfaces::class, YearRepositories::class);
     }
 
     /**
