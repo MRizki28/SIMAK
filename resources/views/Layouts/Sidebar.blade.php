@@ -38,7 +38,13 @@
                                 <i class="fas fa-paperclip"></i>
                                 <p>Jenis Dokumen</p>
                             </a>
-                        </li>                
+                        </li>  
+						<li class="nav-item {{ request()->is('/arsip') ? 'active' : '' }}">
+                            <a href="{{ url('/arsip') }}">
+                                <i class="fas fa-file"></i>
+                                <p>Buat Arsip</p>
+                            </a>
+                        </li>                 
                     </ul>
 				</div>
 			</div>

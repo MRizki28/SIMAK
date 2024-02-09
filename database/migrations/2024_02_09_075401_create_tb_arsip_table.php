@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('code_arsip');
             $table->string('file_arsip');
             $table->date('date_arsip');
+            $table->text('description');
             $table->boolean('is_private')->default(false);
             $table->timestamps();
         });

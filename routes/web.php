@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('typedocument', function () {
     return view('pages.typedocument');
 });
+
+Route::get('arsip', function () {
+    return view('pages.arsip');
+});

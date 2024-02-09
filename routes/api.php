@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CMS\ArsipController;
 use App\Http\Controllers\CMS\TypeDocumentController;
 use App\Http\Controllers\CMS\YearController;
 use Illuminate\Http\Request;
@@ -32,6 +33,10 @@ Route::prefix('v1')->group(function() {
 
     Route::prefix('year')->controller(YearController::class)->group(function()  {
         Route::get      ('/'            , 'getAllData');
+    });
+
+    Route::prefix('arsip')->controller(ArsipController::class)->group(function()  {
+        Route::get      ('/'            , 'list');
     });
     
 });
