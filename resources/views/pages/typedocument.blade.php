@@ -346,7 +346,8 @@
 
             //deleteData
 
-            $(document).on('click', '.delete-confirm', function() {
+            $(document).on('click', '.delete-confirm', function(e) {
+                e.preventDefault();
                 let id = $(this).data('id');
                 Swal.fire({
                     title: 'Hapus ?',
@@ -382,7 +383,7 @@
                                         timer: 5000,
                                         showConfirmButton: true
                                     }).then(function() {
-                                        window.location.reload()
+                                        getAllData();
                                     });
                                 }
                             },
