@@ -18,21 +18,21 @@ trait HttpResponseTraits
         return response()->json([
             'code' => $code,
             'message' => $message
-        ],404);
+        ]);
     }
 
     protected function idOrDataNotFound($message = 'Id or data not found', $code = 404) {
         return response()->json([
             'code' => $code,
             'message' => $message
-        ],404);
+        ]);
     }
 
     protected function delete($message = 'Success delete', $code = 200) {
         return response()->json([
             'code' => $code,
             'message' => $message
-        ],200);
+        ]);
     }
 
     protected function error(string $message = 'error', int $code = 400, mixed $payload = null, mixed $class = null, string $method = '')
@@ -50,6 +50,6 @@ trait HttpResponseTraits
                 'On Line: ' . $payload->getLine()
             ]);
         }
-        return response()->json($data,400);
+        return response()->json($data);
     }
 }

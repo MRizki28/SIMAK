@@ -125,9 +125,8 @@
                 $.ajax({
                     type: "GET",
                     url: "{{ url('api/v1/typedocument') }}",
-                    dataType: "json",
+                    dataType: "JSON",
                     success: function(response) {
-                        console.log(response)
                         let tableBody = "";
                         $.each(response.data, function(index, item) {
                             tableBody += '<tr>';
@@ -254,7 +253,6 @@
                     },
                     error: function(xhr, status, error) {
                         submitButton.attr('disabled', false);
-                        console.log(error)
                         Swal.fire({
                             title: "Error",
                             html: 'Terjadi kesalahan',
@@ -334,8 +332,6 @@
                     },
                     error: function(xhr, status, error) {
                         submitButton.attr('disabled', false);
-                        console.log(error)
-                        console.log(xhr)
                         Swal.fire({
                             title: "Error",
                             html: 'Terjadi kesalahan',
@@ -386,7 +382,7 @@
                                         timer: 5000,
                                         showConfirmButton: true
                                     }).then(function() {
-                                        getAllData();
+                                        window.location.reload()
                                     });
                                 }
                             },

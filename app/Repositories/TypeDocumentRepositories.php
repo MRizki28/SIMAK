@@ -30,7 +30,11 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
     public function createData($request)
     {
         try {
-            $data = $this->typeDocumentModel->create($request->all());
+            $reqAll = $request->all();
+            foreach ($reqAll as $key => $value) {
+                $reqAll[$key] = htmlspecialchars($value);
+            }
+            $data = $this->typeDocumentModel->create($reqAll);
             return $this->success($data);
         } catch (\Throwable $th) {
             return $this->error($th);
@@ -51,7 +55,7 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
     {
         try {
             $data = $this->typeDocumentModel::where('id', $id)->first();
-            $data->name_type_document = $request->input('name_type_document');
+            $data->name_type_document = htmlspecialchars($request->input('name_type_document'));
             $data->save();
             return $this->success($data);
         } catch (\Throwable $th) {
