@@ -248,7 +248,7 @@
                                 confirmButtonText: 'OK',
                             }).then(function() {
                                 $('#typeDocumentModal').modal('hide');
-                                window.location.reload();
+                                getAllData()
                             });
                         }
                     },
@@ -328,7 +328,7 @@
                                 confirmButtonText: 'OK',
                             }).then(function() {
                                 $('#typeDocumentEditModal').modal('hide');
-                                window.location.reload();
+                                getAllData();
                             });
                         }
                     },
@@ -386,7 +386,7 @@
                                         timer: 5000,
                                         showConfirmButton: true
                                     }).then(function() {
-                                        window.location.reload();
+                                        getAllData();
                                     });
                                 }
                             },
