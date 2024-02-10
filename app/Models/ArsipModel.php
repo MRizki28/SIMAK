@@ -22,4 +22,9 @@ class ArsipModel extends Model
         'description',
         'is_private'
     ];
+
+    public function typeDocument()
+    {
+        return $this->belongsTo(TypeDocumentModel::class, 'id_type_document');
+    }
 }

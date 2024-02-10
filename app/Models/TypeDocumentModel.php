@@ -16,4 +16,9 @@ class TypeDocumentModel extends Model
         'id_user',
         'name_type_document'
     ];
+
+    public function arsip()
+    {
+        return $this->hasMany(ArsipModel::class, 'id_type_document');
+    }
 }
