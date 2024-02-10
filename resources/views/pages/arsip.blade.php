@@ -185,7 +185,9 @@
 
             $(document).on('click', '.page-link', function(event) {
                 event.preventDefault()
+                
                 const url = new URL($(this).attr('href'))
+
                 const fullUrl = url.pathname + url.search
                 loadData(fullUrl)
             })
