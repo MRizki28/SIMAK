@@ -18,21 +18,6 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-2 mb-md-0 row">
                             <div class="col-md-5 col-12 row mb-2" style="margin-left: -8px;">
-                                {{-- Form Sort --}}
-                                <div class="input-group-append ml-2">
-                                    <button class="btn dropdown-toggle" type="button" data-value="" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false" id="filter-button"> <span
-                                            id="filter-label">
-                                        </span> <i class="fas fa-filter"></i></button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" data-value="asc" href="#">A - Z</a>
-                                        <a class="dropdown-item" data-value="desc" href="#">Z - A</a>
-                                        <a class="dropdown-item" data-value="latest" href="#">Terbaru</a>
-                                        <div role="separator" class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" data-value="clear" href="#">Hapus
-                                            Filter</a>
-                                    </div>
-                                </div>
 
                                 {{-- Form Search --}}
                                 <div class="input-icon">
@@ -43,7 +28,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-5 col-12 p-0 d-flex justify-content-end align-items-center " style="margin-right: 20px;">
+                            <div class="col-md-5 col-12 p-0 d-flex justify-content-end align-items-center "
+                                style="margin-right: 20px;">
                                 {{-- Form search by daterange --}}
                                 <div class="form-group col-sm-12 col-md-7 row">
                                     <div class="input-group">
@@ -61,7 +47,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class=" table " id="dataTable">
+                            <table class=" table " id="table">
                                 <thead style="background-color: #f7f8fa;">
                                     <tr class="text-center" style="padding: 0 25px !important;">
                                         <th style="padding: 0 25px !important;">No</th>
@@ -76,19 +62,18 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <tr>
-                                        <td style="padding: 0 25px !important;">1</td>
-                                        <td style="padding: 0 25px !important;">SR-001</td>
-                                        <td style="padding: 0 25px !important;">Rizki</td>
-                                        <td style="padding: 0 25px !important;">Surat Masuk</td>
-                                        <td style="padding: 0 25px !important;">2024</td>
-                                        <td style="padding: 0 25px !important;">File</td>
-                                        <td style="padding: 0 25px !important;">2024-05-02</td>
-                                        <td style="padding: 0 25px !important;">Private</td>
-                                        <td style="padding: 0 25px !important;">Aksi</td>
-                                    </tr>
+
                                 </tbody>
+
                             </table>
+                            <div class="d-flex justify-content-between align-items-center px-4">
+
+                                <span class="mb-3 text-muted">
+                                    Total <span id="data-total">...</span> data
+                                </span>
+
+                                <ul class="pagination pg-info"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,8 +99,7 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
                                     <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required
-                                        name="name_type_document">
+                                    <input type="text" class="form-control  required" required name="name_type_document">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -175,4 +159,96 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            function paramsSearch() {
+                const search = $("#form-search").val();
+                const params = {
+                    search
+                };
+
+                return {
+                    search,
+                };
+            }
+
+            $(document).on('keyup', '#form-search', function(event) {
+                if (event.keyCode === 13) {
+                    loadData();
+                }
+            });
+
+            $(document).on('click', '#search-button', function() {
+                loadData()
+            })
+
+            $(document).on('click', '.page-link', function(event) {
+                event.preventDefault()
+                const url = new URL($(this).attr('href'))
+                const fullUrl = url.pathname + url.search
+                loadData(fullUrl)
+            })
+
+            function loadData(url) {
+                let params = paramsSearch();
+                console.log(params)
+                let endpoint = paramsUrl(
+                    url || "api/v1/arsip/",
+                    params
+                );
+
+                const pagination = $(".pagination");
+
+                $("#table tbody").empty();
+                pagination.empty();
+
+                $.ajax({
+                    type: "GET",
+                    url: endpoint,
+                    dataType: "JSON",
+                    success: function(response) {
+                        console.log(response)
+                        let tableBody = "";
+
+                        if (response.code == 200) {
+                            $.each(response.data.data, function(item, value) {
+                                let name_type_document = value.type_document.name_type_document;
+                                let file_arsip = value.file_arsip;
+                                console.log(file_arsip)
+                                $("#table tbody").empty();
+                                tableBody += "<tr>";
+                                tableBody += "<td>" + (item + 1) + "</td>"
+                                tableBody += "<td>" + value.code_arsip + "</td>"
+                                tableBody += "<td>" + value.id_user + "</td>"
+                                tableBody += "<td>" + name_type_document +
+                                    "</td>"
+                                tableBody += "<td>" + value.id_year + "</td>"
+                                tableBody += "<td>" + value.file_arsip + "</td>"
+                                tableBody += "<td>" + value.date_arsip + "</td>"
+                                tableBody += "<td>" + value.is_private + "</td>"
+                                tableBody +=
+                                    "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
+                                    "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#typeDocumentEditModal' data-id='" +
+                                    value.id + "'><i class='fas fa-edit'></i></button>" +
+                                    "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
+                                    value.id +
+                                    "' name='rejected'><i class='fas fa-trash-alt'></i></button>" +
+                                    "</td>";
+                                tableBody += "</tr>";
+
+                                $("#table tbody").append(tableBody);
+                            });
+                            paginationLink(pagination, response);
+                        } else {
+                            $("#table tbody").empty();
+                            pagination.empty();
+                        }
+                    }
+                });
+            }
+
+            loadData();
+        });
+    </script>
 @endsection
