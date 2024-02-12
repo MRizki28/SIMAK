@@ -74,7 +74,7 @@
                             </table>
                             <div class="d-flex justify-content-between align-items-center px-4">
                                 <span class="mb-3 text-muted">
-                                    Total <span id="data-total">...</span> data
+                                    Total <span id="data-total">0</span> data
                                 </span>
                                 <ul class="pagination pg-info"></ul>
                             </div>
@@ -254,12 +254,14 @@
 
                                 $("#table tbody").append(tableBody);
                                 $("#dataNotFound").hide();
+                                $("#data-total").text(response.data.total);
                             });
                             paginationLink(pagination, response);
                         } else {
                             $("#table tbody").empty();
                             $("#dataNotFound").show();
                             pagination.empty();
+                            $("#data-total").text('0');
                         }
                     }
                 });
