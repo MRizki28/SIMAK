@@ -32,3 +32,99 @@ function paginationLink(element, params) {
         }
     })
 }
+
+function dateRangePickerSetup(element) {
+    element.daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            format: 'YYYY-MM-DD',
+            cancelLabel: 'Bersihkan',
+            applyLabel: 'Gunakan'
+        },
+    })
+
+    element.on('apply.daterangepicker', function (ev, picker) {
+        const startDate = picker.startDate.format('YYYY-MM-DD');
+        const endDate = picker.endDate.format('YYYY-MM-DD');
+        console.log("Start Date:", startDate);
+        console.log("End Date:", endDate);
+
+        console.log($(this).data('start-date'));
+        console.log($(this).data('end-date'));
+
+        $(this).val(startDate + ' s/d ' + endDate);
+        $(this).data('start-date', startDate);
+        $(this).data('end-date', endDate);
+    });
+
+
+    element.on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+        $(this).data('start-date', '')
+        $(this).data('end-date', '')
+    });
+}
+
+function successAlert() {
+    return Swal.fire({
+        title: 'Success',
+        text: 'Data berhasil Ditambahkan',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+    })
+}
+
+function errorAlert() {
+    Swal.fire({
+        title: 'Error!',
+        text: 'Terjadi kesalahan',
+        icon: 'error',
+        timer: 5000,
+        showConfirmButton: true
+    }).then(function () {
+        window.location.reload();
+    });
+}
+
+function warningAlert() {
+    Swal.fire({
+        title: 'Peringatan',
+        text: 'Input tidak boleh kosong !',
+        icon: 'warning',
+        timer: 5000,
+        showConfirmButton: true
+    });
+}
+
+function deleteAlert() {
+    return Swal.fire({
+        title: 'Hapus ?',
+        text: 'Anda tidak dapat mengembalikan  ini',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Ya',
+        reverseButtons: true,
+    })
+}
+
+function failedDeleteDataAlert() {
+    Swal.fire({
+        title: 'Gagal menghapus data',
+        text: 'Data sedang digunakan !',
+        icon: 'error',
+        timer: 5000,
+        showConfirmButton: true
+    });
+}
+
+function successDeleteAlert() {
+    return Swal.fire({
+        title: 'Success',
+        text: 'Data berhasil dihapus',
+        icon: 'success',
+        timer: 5000,
+        showConfirmButton: true
+    })
+}

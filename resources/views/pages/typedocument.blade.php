@@ -54,7 +54,7 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
                                     <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required name="name_type_document">
+                                    <input type="text" class="form-control  required" required name="name_type_document" id="name_type_document">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -221,31 +221,11 @@
                     success: function(response) {
                         submitButton.attr('disabled', false);
                         if (response.message == "Check your validation") {
-                            Swal.fire({
-                                title: 'Peringatan',
-                                text: 'Input tidak boleh kosong !',
-                                icon: 'warning',
-                                timer: 5000,
-                                showConfirmButton: true
-                            });
+                            warningAlert();
                         } else if (response.code == 400) {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Terjadi kesalahan',
-                                icon: 'error',
-                                timer: 5000,
-                                showConfirmButton: true
-                            }).then(function() {
-                                window.location.reload();
-                            });
+                            errorAlert();
                         } else {
-                            Swal.fire({
-                                title: 'Success',
-                                text: 'Data berhasil Ditambahkan',
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonText: 'OK',
-                            }).then(function() {
+                            successAlert().then(function() {
                                 $('#typeDocumentModal').modal('hide');
                                 getAllData()
                             });
@@ -253,13 +233,7 @@
                     },
                     error: function(xhr, status, error) {
                         submitButton.attr('disabled', false);
-                        Swal.fire({
-                            title: "Error",
-                            html: 'Terjadi kesalahan',
-                            icon: "error",
-                            timer: 5000,
-                            showConfirmButton: true
-                        });
+                        errorAlert();
                     }
                 });
             });
@@ -300,31 +274,11 @@
                         console.log(response);
                         submitButton.attr('disabled', false);
                         if (response.message == "Check your validation") {
-                            Swal.fire({
-                                title: 'Peringatan',
-                                text: 'Input tidak boleh kosong !',
-                                icon: 'warning',
-                                timer: 5000,
-                                showConfirmButton: true
-                            });
+                            warningAlert();
                         } else if (response.code == 400) {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Terjadi kesalahan',
-                                icon: 'error',
-                                timer: 5000,
-                                showConfirmButton: true
-                            }).then(function() {
-                                window.location.reload();
-                            });
+                            errorAlert();
                         } else {
-                            Swal.fire({
-                                title: 'Success',
-                                text: 'Data berhasil diperbaharui',
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonText: 'OK',
-                            }).then(function() {
+                            successAlert().then(function() {
                                 $('#typeDocumentEditModal').modal('hide');
                                 getAllData();
                             });
@@ -332,32 +286,27 @@
                     },
                     error: function(xhr, status, error) {
                         submitButton.attr('disabled', false);
-                        Swal.fire({
-                            title: "Error",
-                            html: 'Terjadi kesalahan',
-                            icon: "error",
-                            timer: 5000,
-                            showConfirmButton: true
-                        });
+                        errorAlert();
                     }
                 });
+            });
 
+            function resetModal() {
+                $('#id').val('').removeClass('border-danger');
+                $('.form-group').removeClass('has-success', 'has-error');
+                $('#name_type_document').val('');
+                
+            }
+
+            $('#typeDocumentEditModal , #typeDocumentModal' ).on('hidden.bs.modal', function() {
+                resetModal()
             });
 
             //deleteData
-
             $(document).on('click', '.delete-confirm', function(e) {
                 e.preventDefault();
                 let id = $(this).data('id');
-                Swal.fire({
-                    title: 'Hapus ?',
-                    text: 'Anda tidak dapat mengembalikan  ini',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    cancelButtonText: 'Batal',
-                    confirmButtonText: 'Ya',
-                    reverseButtons: true,
-                }).then((result) => {
+                deleteAlert().then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
@@ -368,33 +317,15 @@
                             },
                             success: function(response) {
                                 if (response.code === 400) {
-                                    Swal.fire({
-                                        title: 'Gagal menghapus data',
-                                        text: 'Data sedang digunakan !',
-                                        icon: 'error',
-                                        timer: 5000,
-                                        showConfirmButton: true
-                                    });
+                                    failedDeleteDataAlert();
                                 } else {
-                                    Swal.fire({
-                                        title: 'Success',
-                                        text: 'Data berhasil dihapus',
-                                        icon: 'success',
-                                        timer: 5000,
-                                        showConfirmButton: true
-                                    }).then(function() {
+                                    successDeleteAlert().then(function() {
                                         getAllData();
                                     });
                                 }
                             },
                             error: function(xhr, status, error) {
-                                Swal.fire({
-                                    title: 'Error',
-                                    text: 'Terjadi kesalahan',
-                                    icon: 'error',
-                                    timer: 5000,
-                                    showConfirmButton: true
-                                });
+                                errorAlert();
                             }
                         });
                     }

@@ -23,7 +23,7 @@
                                 <div class="input-icon">
                                     <input type="text" class="form-control" placeholder="Cari..." id="form-search">
                                     <span class="input-icon-addon" id="search-button">
-                                        <i class="fa fa-search"></i>
+                                        <i class="fa fa-search " style="cursor: pointer;"></i>
                                     </span>
                                 </div>
                             </div>
@@ -162,14 +162,17 @@
 
     <script>
         $(document).ready(function() {
+
+            dateRangePickerSetup($('#datetime'))
             function paramsSearch() {
                 const search = $("#form-search").val();
-                const params = {
-                    search
-                };
-
+                const startDate = $("#datetime").data("start-date");
+                const endDate = $("#datetime").data("end-date");
+                
                 return {
                     search,
+                    startDate,
+                    endDate
                 };
             }
 
@@ -183,9 +186,14 @@
                 loadData()
             })
 
+            $('#datetime').on('apply.daterangepicker cancel.daterangepicker', function() {
+                loadData();
+            });
+
+
             $(document).on('click', '.page-link', function(event) {
                 event.preventDefault()
-                
+
                 const url = new URL($(this).attr('href'))
 
                 const fullUrl = url.pathname + url.search
@@ -251,6 +259,7 @@
             }
 
             loadData();
+
         });
     </script>
 @endsection
