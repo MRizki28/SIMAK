@@ -87,7 +87,7 @@
 
     {{-- modal create --}}
     <div class="modal fade " id="typeDocumentModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 550px; top:118px;">
+        <div class="modal-dialog" style="max-width: 1024px; top:118px;">
             <div class="modal-content">
                 <div class="container">
                     <div class="modal-body">
@@ -101,9 +101,25 @@
                             <form action="" id="formTambah">
                                 @csrf
                                 <input type="hidden" name="id" id="id">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="code_arsip">Kode Arsip</label>
+                                            <input type="text" class="form-control  required" required name="code_arsip">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="name_type_document">Jenis Dokumen</label>
+                                            <input type="text" class="form-control  required" required
+                                                name="name_type_document">
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group form-show-validation">
-                                    <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required name="name_type_document">
+                                    <label for="file_arsip">File</label>
+                                    <input type="file" class="form-control  required" required name="file_arsip">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
