@@ -111,10 +111,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-show-validation">
                                             <label for="name_type_document">Jenis Dokumen</label>
-                                            <input type="text" class="form-control  required" required
-                                                name="name_type_document">
+                                            <select name="name_type_document" class="form-control" id="name_type_document"
+                                                style="width: 100%; height: 30px;">
+                                                <option value="" selected disabled hidden>Choose here</option>
+                                            </select>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div class="form-group form-show-validation">
@@ -158,8 +161,9 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
                                     <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required
-                                        name="name_type_document" id="name_type_document">
+                                    <select name="name_type_document" id="name_type_document">
+                                        <option value="">testing</option>
+                                    </select>
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -184,6 +188,10 @@
         $(document).ready(function() {
 
             dateRangePickerSetup($('#datetime'))
+
+            $("#name_type_document").select2();
+            $(".select2-selection").addClass("form-control");
+
 
             function paramsSearch() {
                 const search = $("#form-search").val();
@@ -285,6 +293,20 @@
 
             loadData();
 
+            $.ajax({
+                type: "GET",
+                url: "{{ url('api/v1/typedocument') }}",
+                dataType: "JSON",
+                success: function(response) {
+                    let option = "";
+                    $.each(response.data, function(index, item) {
+                        option += '<option value="' + item.id +
+                            '">' + item.name_type_document + '</option>';
+                    });
+
+                    $("#name_type_document").append(option)
+                }
+            });
         });
     </script>
 @endsection
