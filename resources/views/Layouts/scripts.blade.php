@@ -20,8 +20,11 @@
     <script src="{{ asset('static/helper/helper.js') }}"></script>
 
 	{{-- Jquery Validate --}}
-	<script src="{{asset('static/js/plugin/jquery-validate/jquery.form.js')}}"></script>
-	<script src="{{asset('static/js/plugin/jquery-validate/jquery.validate.js')}}"></script>
+	
+	<script src="{{asset('static/jquery-validation/dist/jquery.validate.js')}}"></script>
+    <script src="{{asset('static/jquery-validation/dist/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('static/jquery-validation/dist/additional-methods.js')}}"></script>
+    <script src="{{asset('static/jquery-validation/dist/additional-methods.min.js')}}"></script>
 
 	{{-- Numeral --}}
 	<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>

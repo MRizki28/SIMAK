@@ -128,3 +128,11 @@ function successDeleteAlert() {
         showConfirmButton: true
     })
 }
+
+$(document).ready(function () {
+    $.validator.addMethod("fileExtension", function(value, element) {
+        return this.optional(element) || /\.(docx|png|jpg|jpeg|xlsx|xls|csv|doc|pdf)$/i.test(value);
+    },
+    "Hanya file dengan ekstensi docx, png, jpg, jpeg, xlsx, xls, csv, doc, atau pdf yang diperbolehkan."
+    );
+});

@@ -87,7 +87,7 @@
 
     {{-- modal create --}}
     <div class="modal fade " id="typeDocumentModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 1024px; top:118px;">
+        <div class="modal-dialog" style="max-width: 1024px; ">
             <div class="modal-content">
                 <div class="container">
                     <div class="modal-body">
@@ -105,13 +105,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-show-validation">
                                             <label for="code_arsip">Kode Arsip</label>
-                                            <input type="text" class="form-control  required" required name="code_arsip">
+                                            <input type="text" class="form-control  required" required name="code_arsip"
+                                                placeholder="Contoh: SM-001">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group form-show-validation">
-                                            <label for="name_type_document">Jenis Dokumen</label>
-                                            <select name="name_type_document" class="form-control" id="name_type_document"
+                                            <label for="id_type_document">Jenis Dokumen</label>
+                                            <select name="id_type_document" class="form-control" id="id_type_document"
                                                 style="width: 100%; height: 30px;">
                                                 <option value="" selected disabled hidden>Choose here</option>
                                             </select>
@@ -136,7 +137,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-show-validation">
                                             <label for="date_arsip">Label</label>
-                                            <select class="form-control" name="" id="">
+                                            <select class="form-control" name="in_or_out_arsip" id="in_or_out_arsip">
                                                 <option value="" selected disabled hidden>Choose here</option>
                                                 <option value="suratMasuk">Surat Masuk</option>
                                                 <option value="suratKeluar">Surat Keluar</option>
@@ -147,14 +148,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-show-validation">
                                             <label for="file_arsip">File</label>
-                                            <input type="file" class="form-control  required" required
-                                                name="file_arsip">
+                                            <input type="file" class="form-control" required
+                                                name="file_arsip" id="file_arsip">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="date_arsip">Description</label>
-                                    <textarea class=" required" id="summernote" required name="date_arsip"></textarea>
+                                    <textarea class="form-control"  required name="description" id="description" rows="3"></textarea>
                                 </div>
 
                                 <div class="button-footer d-flex justify-content-between mt-4">
@@ -178,17 +179,11 @@
 
     <script>
         $(document).ready(function() {
-            $("#summernote").summernote({
-                placeholder: "Deskripsi",
-                height: 120,
-            });
-
             dateRangePickerSetup($('#datetime'))
 
-            $("#name_type_document").select2();
+            $("#id_type_document").select2();
             $("#id_year").select2();
             $(".select2-selection").addClass("form-control");
-
 
             function paramsSearch() {
                 const search = $("#form-search").val();
@@ -215,7 +210,6 @@
             $('#datetime').on('apply.daterangepicker cancel.daterangepicker', function() {
                 loadData();
             });
-
 
             $(document).on('click', '.page-link', function(event) {
                 event.preventDefault()
@@ -337,11 +331,80 @@
                     let dataTypeDocument = result[0];
                     let dataYear = result[1];
 
-                    $("#name_type_document").append(dataTypeDocument);
+                    $("#id_type_document").append(dataTypeDocument);
                     $("#id_year").append(dataYear);
                 }).catch(function(err) {
                     console.log(error)
                 });
+
+                function validationCreateData() {
+                    $('#formTambah').validate({
+                        rules: {
+                            code_arsip: {
+                                required: true
+                            },
+                            id_type_document: {
+                                required: true
+                            },
+                            id_year: {
+                                required: true
+                            },
+                            date_arsip: {
+                                required: true
+                            },
+                            in_or_out_arsip: {
+                                required: true
+                            },
+                            file_arsip: {
+                                required: true,
+                                extension: "docx|png|jpg|jpeg|xlxs|xlx|csv|doc|pdf"
+                            },
+                            description: {
+                                required: true
+                            }
+
+                        },
+                        messages: {
+                            code_arsip: {
+                                required: "Field ini wajib diisi"
+                            },
+                            id_type_document: {
+                                required: "Field ini wajib diisi"
+                            },
+                            id_year: {
+                                required: "Field ini wajib diisi"
+                            },
+                            date_arsip: {
+                                required: "Field ini wajib diisi"
+                            },
+                            in_or_out_arsip: {
+                                required: "Field ini wajib diisi"
+                            },
+                            file_arsip: {
+                                required: "Field ini wajib diisi",
+                                extension: "Format only png,jpg,jpeg,pdf,docx,doc,xlxs,xlx,csv"
+                            },
+                            description: {
+                                required: "Field ini wajib diisi",
+                            },
+
+                        },
+                        highlight: function(element) {
+                            $(element).closest('.form-group, .select2').removeClass('has-success').addClass(
+                                'has-error');
+                        },
+
+                        success: function(element) {
+                            $(element).closest('.form-group, .select2').removeClass('has-error').addClass(
+                                'has-success');
+                        }
+                    });
+                }
+            $('#id_type_document, #id_year').on('change', function() {
+                $(this).valid();
+            });
+
+            validationCreateData();
         });
     </script>
 @endsection
