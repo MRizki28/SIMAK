@@ -37,6 +37,7 @@ Route::prefix('v1')->group(function() {
 
     Route::prefix('arsip')->controller(ArsipController::class)->group(function()  {
         Route::get      ('/'            , 'list');
+        Route::post     ('/create'      , 'createData');
     });
     
 });
