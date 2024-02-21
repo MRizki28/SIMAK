@@ -117,13 +117,46 @@
                                             </select>
                                         </div>
                                     </div>
-
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="id_year">Tahun Arsip</label>
+                                            <select name="id_year" class="form-control" id="id_year"
+                                                style="width: 100%; height: 30px;">
+                                                <option value="" selected disabled hidden>Choose here</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="date_arsip">Tanggal Arsip</label>
+                                            <input type="date" class="form-control  required" required
+                                                name="date_arsip">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="date_arsip">Label</label>
+                                            <select class="form-control" name="" id="">
+                                                <option value="" selected disabled hidden>Choose here</option>
+                                                <option value="suratMasuk">Surat Masuk</option>
+                                                <option value="suratKeluar">Surat Keluar</option>
+                                                <option value="nonSurat">Jenis Lain</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="file_arsip">File</label>
+                                            <input type="file" class="form-control  required" required
+                                                name="file_arsip">
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <div class="form-group form-show-validation">
-                                    <label for="file_arsip">File</label>
-                                    <input type="file" class="form-control  required" required name="file_arsip">
+                                    <label for="date_arsip">Description</label>
+                                    <textarea class=" required" id="summernote" required name="date_arsip"></textarea>
                                 </div>
+
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
                                         <div class="button-footer d-flex justify-content-between mt-4">
@@ -186,10 +219,15 @@
 
     <script>
         $(document).ready(function() {
+            $("#summernote").summernote({
+                placeholder: "Deskripsi",
+                height: 120
+            });
 
             dateRangePickerSetup($('#datetime'))
 
             $("#name_type_document").select2();
+            $("#id_year").select2();
             $(".select2-selection").addClass("form-control");
 
 
@@ -293,20 +331,58 @@
 
             loadData();
 
-            $.ajax({
-                type: "GET",
-                url: "{{ url('api/v1/typedocument') }}",
-                dataType: "JSON",
-                success: function(response) {
-                    let option = "";
-                    $.each(response.data, function(index, item) {
-                        option += '<option value="' + item.id +
-                            '">' + item.name_type_document + '</option>';
+            function getDataTypeDocument() {
+                return new Promise(function(resolve, reject) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ url('api/v1/typedocument') }}",
+                        dataType: "JSON",
+                        success: function(response) {
+                            let option = "";
+                            $.each(response.data, function(index, item) {
+                                option += '<option value="' + item.id +
+                                    '">' + item.name_type_document + '</option>';
+                            });
+                            resolve(option)
+                        },
+                        error: function(error) {
+                            reject(error);
+                        }
                     });
+                })
+            }
 
-                    $("#name_type_document").append(option)
-                }
-            });
+            function getDataYear() {
+                return new Promise(function(resolve, reject) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ url('api/v1/year') }}",
+                        dataType: "JSON",
+                        success: function(response) {
+                            let option2 = "";
+                            $.each(response.data, function(index, item) {
+                                option2 += '<option value="' + item.id +
+                                    '">' + item.year + '</option>';
+                            });
+                            resolve(option2)
+                        },
+                        error: function(error) {
+                            reject(error);
+                        }
+                    });
+                })
+            }
+
+            Promise.all([getDataTypeDocument(), getDataYear()])
+                .then(function(result) {
+                    let dataTypeDocument = result[0];
+                    let dataYear = result[1];
+
+                    $("#name_type_document").append(dataTypeDocument);
+                    $("#id_year").append(dataYear);
+                }).catch(function(err) {
+                    console.log(error)
+                });
         });
     </script>
 @endsection

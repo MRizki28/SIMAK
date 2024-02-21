@@ -41,6 +41,9 @@
 	{{-- Font --}}
 	<script src="{{ asset('static/js/plugin/webfont/webfont.min.js') }}"></script>
 
+    {{-- summernote --}}
+    <script src="{{ asset('static/summernote/summernote-bs4.min.js') }}"></script>
+
 	<script>
 		WebFont.load({
 				google: {

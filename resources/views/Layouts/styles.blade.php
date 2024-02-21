@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="{{ asset('static/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('static/css/dateRangePicker/dateRangePicker.css') }}">
 <link rel="stylesheet" href="{{asset('static/font-awesome/js/all.min.js')}}">
+<link rel="stylesheet" href="{{ asset('static/summernote/summernote-bs4.min.css') }}">
 
 {{-- Custom css --}}
 <link rel="stylesheet" href="{{ asset('static/css/index.css') }}">
