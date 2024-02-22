@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class=" d-flex justify-content-end">
-                            <button class="btn btn-primary " data-toggle="modal" data-target="#typeDocumentModal">Tambah
+                            <button class="btn btn-primary " data-toggle="modal" data-target="#arsipModal">Tambah
                                 Data
                                 <i class="fas fa-plus"></i>
                             </button>
@@ -86,7 +86,7 @@
     </div>
 
     {{-- modal create --}}
-    <div class="modal fade " id="typeDocumentModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade " id="arsipModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 1024px; ">
             <div class="modal-content">
                 <div class="container">
@@ -148,14 +148,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-show-validation">
                                             <label for="file_arsip">File</label>
-                                            <input type="file" class="form-control" required
-                                                name="file_arsip" id="file_arsip">
+                                            <input type="file" class="form-control" required name="file_arsip"
+                                                id="file_arsip">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="date_arsip">Description</label>
-                                    <textarea class="form-control"  required name="description" id="description" rows="3"></textarea>
+                                    <textarea class="form-control" required name="description" id="description" rows="3"></textarea>
                                 </div>
 
                                 <div class="button-footer d-flex justify-content-between mt-4">
@@ -337,74 +337,108 @@
                     console.log(error)
                 });
 
-                function validationCreateData() {
-                    $('#formTambah').validate({
-                        rules: {
-                            code_arsip: {
-                                required: true
-                            },
-                            id_type_document: {
-                                required: true
-                            },
-                            id_year: {
-                                required: true
-                            },
-                            date_arsip: {
-                                required: true
-                            },
-                            in_or_out_arsip: {
-                                required: true
-                            },
-                            file_arsip: {
-                                required: true,
-                                extension: "docx|png|jpg|jpeg|xlxs|xlx|csv|doc|pdf"
-                            },
-                            description: {
-                                required: true
-                            }
-
+            function validationCreateData() {
+                $('#formTambah').validate({
+                    rules: {
+                        code_arsip: {
+                            required: true
                         },
-                        messages: {
-                            code_arsip: {
-                                required: "Field ini wajib diisi"
-                            },
-                            id_type_document: {
-                                required: "Field ini wajib diisi"
-                            },
-                            id_year: {
-                                required: "Field ini wajib diisi"
-                            },
-                            date_arsip: {
-                                required: "Field ini wajib diisi"
-                            },
-                            in_or_out_arsip: {
-                                required: "Field ini wajib diisi"
-                            },
-                            file_arsip: {
-                                required: "Field ini wajib diisi",
-                                extension: "Format only png,jpg,jpeg,pdf,docx,doc,xlxs,xlx,csv"
-                            },
-                            description: {
-                                required: "Field ini wajib diisi",
-                            },
-
+                        id_type_document: {
+                            required: true
                         },
-                        highlight: function(element) {
-                            $(element).closest('.form-group, .select2').removeClass('has-success').addClass(
-                                'has-error');
+                        id_year: {
+                            required: true
                         },
-
-                        success: function(element) {
-                            $(element).closest('.form-group, .select2').removeClass('has-error').addClass(
-                                'has-success');
+                        date_arsip: {
+                            required: true
+                        },
+                        in_or_out_arsip: {
+                            required: true
+                        },
+                        file_arsip: {
+                            required: true,
+                            extension: "docx|png|jpg|jpeg|xlxs|xlx|csv|doc|pdf"
+                        },
+                        description: {
+                            required: true
                         }
-                    });
-                }
+
+                    },
+                    messages: {
+                        code_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_type_document: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_year: {
+                            required: "Field ini wajib diisi"
+                        },
+                        date_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        in_or_out_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        file_arsip: {
+                            required: "Field ini wajib diisi",
+                            extension: "Format only png,jpg,jpeg,pdf,docx,doc,xlxs,xlx,csv"
+                        },
+                        description: {
+                            required: "Field ini wajib diisi",
+                        },
+
+                    },
+                    highlight: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-success').addClass(
+                            'has-error');
+                    },
+
+                    success: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-error').addClass(
+                            'has-success');
+                    }
+                });
+            }
             $('#id_type_document, #id_year').on('change', function() {
                 $(this).valid();
             });
 
             validationCreateData();
+
+            $("#formTambah").submit(function(e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+                let submitButton = $(this).find(":submit");
+
+                submitButton.attr("disabled", true);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('api/v1/arsip/create') }}",
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response);
+                        submitButton.attr('disabled', false);
+                        if (response.message == "Check your validation") {
+                            warningAlert();
+                        } else if (response.code == 400) {
+                            errorAlert();
+                        } else {
+                            successAlert().then(function() {
+                                $('#arsipModal').modal('hide');
+                                loadData()
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.attr('disabled', false);
+                        errorAlert();
+                    }
+                });
+            });
         });
     </script>
 @endsection

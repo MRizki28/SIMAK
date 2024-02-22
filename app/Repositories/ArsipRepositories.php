@@ -26,7 +26,7 @@ class ArsipRepositories implements ArsipInterfaces
         $search = $request->input('search');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-        $limit = $request->input('limit') ? $request->input('limit') : 1;
+        $limit = $request->input('limit') ? $request->input('limit') : 10;
         $page = (int) $request->input('page', 1);
 
         $query = $this->arsipModel::query()->with('typeDocument');

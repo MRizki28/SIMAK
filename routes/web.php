@@ -24,3 +24,7 @@ Route::get('typedocument', function () {
 Route::get('arsip', function () {
     return view('pages.arsip');
 });
+
+Route::get('/login', function () {
+    return view('Auth.Login');
+});
