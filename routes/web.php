@@ -28,3 +28,7 @@ Route::get('arsip', function () {
 Route::get('/login', function () {
     return view('Auth.Login');
 });
+
+Route::get('/usermanagement', function () {
+    return view('pages.superadmin.usermanagement');
+});

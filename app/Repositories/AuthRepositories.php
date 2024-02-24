@@ -37,4 +37,14 @@ class AuthRepositories implements AuthInterfaces
             return $this->error($th);
         }
     }
+
+    public function getAllData()
+    {
+        $data = $this->userModel->all();
+        if ($data->isEmpty()) {
+            return $this->dataNotFound();
+        } else {
+            return $this->success($data);
+        }
+    }
 }

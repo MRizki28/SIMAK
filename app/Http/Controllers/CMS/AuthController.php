@@ -20,4 +20,9 @@ class AuthController extends Controller
     {
         return $this->authRepositories->register($request);
     }
+
+    public function getAllData()
+    {
+        return $this->authRepositories->getAllData();
+    }
 }

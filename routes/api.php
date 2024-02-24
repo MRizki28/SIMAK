@@ -42,7 +42,7 @@ Route::prefix('v1')->group(function() {
     });
 
     Route::prefix('auth')->controller(AuthController::class)->group(function()  {
-        Route::get      ('/'            , 'list');
+        Route::get      ('/'            , 'getAllData');
         Route::post     ('/register'      , 'register');
     });
     

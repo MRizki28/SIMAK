@@ -45,6 +45,12 @@
                                 <i class="fas fa-file"></i>
                                 <p>Buat Arsip</p>
                             </a>
+                        </li>     
+						<li class="nav-item {{ request()->is('usermanagement*') ? 'active' : '' }}">
+                            <a href="{{ url('/usermanagement') }}">
+                                <i class="fas fa-user"></i>
+                                <p>User Manajemen</p>
+                            </a>
                         </li>                 
                     </ul>
 				</div>
