@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tb_jabatan', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('kode_jabatan');
             $table->string('jabatan');
             $table->timestamps();
         });

@@ -29,6 +29,10 @@ Route::get('/login', function () {
     return view('Auth.Login');
 });
 
+Route::get('/jabatan', function () {
+    return view('pages.superadmin.position');
+});
+
 Route::get('/usermanagement', function () {
     return view('pages.superadmin.usermanagement');
 });
