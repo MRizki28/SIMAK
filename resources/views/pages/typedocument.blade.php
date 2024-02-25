@@ -94,7 +94,7 @@
                                 <div class="form-group form-show-validation">
                                     <label for="name_type_document">Jenis Dokumen</label>
                                     <input type="text" class="form-control  required" required name="name_type_document"
-                                        id="name_type_document">
+                                        id="ename_type_document">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -249,7 +249,7 @@
                     success: function(response) {
                         console.log(response);
                         $('#id').val(response.data.id);
-                        $('#name_type_document').val(response.data.name_type_document);
+                        $('#ename_type_document').val(response.data.name_type_document);
                     }
                 });
             });
@@ -293,8 +293,10 @@
 
             function resetModal() {
                 $('#id').val('').removeClass('border-danger');
-                $('.form-group').removeClass('has-success', 'has-error');
+                $('.form-group').removeClass('has-error').removeClass('has-success');
                 $('#name_type_document').val('');
+                $('#name_type_document-error').remove();
+                $('#ename_type_document-error').remove();
                 
             }
 
