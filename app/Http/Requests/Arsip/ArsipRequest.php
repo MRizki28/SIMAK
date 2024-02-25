@@ -24,7 +24,7 @@ class ArsipRequest extends FormRequest
     public function rules()
     {
          // 'code_arsip' => 'required|unique:tb_arsip,code_arsip,id_user,' . auth()->id()
-        if ($this->is("api/v1/updateData/*")) {
+        if ($this->is("api/v1/update/*")) {
             $rules["id_type_document"] = "required";
             $rules["id_year"] = "required";
             $rules["code_arsip"] = "required";

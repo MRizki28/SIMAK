@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class=" d-flex justify-content-end">
-                            <button class="btn btn-primary " data-toggle="modal" data-target="#typeDocumentModal">Tambah
+                            <button class="btn btn-primary " data-toggle="modal" data-target="#positionModal">Tambah
                                 Data
                                 <i class="fas fa-plus"></i>
                             </button>
@@ -38,7 +38,7 @@
     </div>
 
     {{-- modal create --}}
-    <div class="modal fade " id="typeDocumentModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade " id="positionModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 550px; top:118px;">
             <div class="modal-content">
                 <div class="container">
@@ -54,12 +54,14 @@
                                 @csrf
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
-                                    <label for="name">Kode Jabatan</label>
-                                    <input type="text" class="form-control  " required name="name" id="name">
+                                    <label for="code_position">Kode Jabatan</label>
+                                    <input type="text" class="form-control  " required name="code_position"
+                                        id="code_position" placeholder="LR-001">
                                 </div>
                                 <div class="form-group form-show-validation">
-                                    <label for="email">Jabatan</label>
-                                    <input type="text" class="form-control" required name="email" id="email">
+                                    <label for="position">Jabatan</label>
+                                    <input type="text" class="form-control" required name="position" id="position"
+                                        placeholder="input here">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -81,7 +83,7 @@
     </div>
 
     {{-- modal update --}}
-    <div class="modal fade " id="typeDocumentEditModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade " id="positionEditModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 550px; top:118px;">
             <div class="modal-content">
                 <div class="container">
@@ -97,9 +99,14 @@
                                 @csrf
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
-                                    <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required
-                                        name="name_type_document" id="name_type_document">
+                                    <label for="code_position">Kode Jabatan</label>
+                                    <input type="text" class="form-control  " required name="code_position"
+                                        id="ecode_position" placeholder="LR-001" readonly="readonly">
+                                </div>
+                                <div class="form-group form-show-validation">
+                                    <label for="position">Jabatan</label>
+                                    <input type="text" class="form-control" required name="position" id="eposition"
+                                        placeholder="input here">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -120,6 +127,7 @@
         </div>
     </div>
 
+
     <script>
         $(document).ready(function() {
             function getAllData() {
@@ -129,7 +137,7 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/auth') }}",
+                    url: "{{ url('api/v1/position') }}",
                     dataType: "json",
                     success: function(response) {
                         console.log(response)
@@ -141,15 +149,15 @@
                                 (index + 1) + "</td>";
                             tableBody +=
                                 '<td style="padding: 0 25px !important;"  class="text-center">' +
-                                item.name +
+                                item.code_position +
                                 '</td>';
                             tableBody +=
                                 '<td style="padding: 0 25px !important;"  class="text-center">' +
-                                item.email +
+                                item.position +
                                 '</td>';
                             tableBody +=
                                 "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
-                                "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#typeDocumentEditModal' data-id='" +
+                                "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#positionEditModal' data-id='" +
                                 item.id + "'><i class='fas fa-edit'></i></button>" +
                                 "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
                                 item.id +
@@ -166,26 +174,20 @@
             function validationCreateData() {
                 $('#formTambah').validate({
                     rules: {
-                        name: {
+                        code_position: {
                             required: true
                         },
-                        email: {
-                            required: true
-                        },
-                        password: {
+                        position: {
                             required: true
                         }
                     },
                     messages: {
-                        name: {
+                        code_position: {
                             required: "Field ini wajib diisi"
                         },
-                        email: {
+                        position: {
                             required: "Field ini wajib diisi"
-                        },
-                        password: {
-                            required: "Field ini wajib diisi"
-                        },
+                        }
                     },
                     highlight: function(element) {
                         $(element).closest('.form-group').removeClass('has-success').addClass(
@@ -200,6 +202,38 @@
             }
             validationCreateData();
 
+            function validationEditData() {
+                $('#formEdit').validate({
+                    rules: {
+                        code_position: {
+                            required: true
+                        },
+                        position: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        code_position: {
+                            required: "Field ini wajib diisi"
+                        },
+                        position: {
+                            required: "Field ini wajib diisi"
+                        }
+                    },
+                    highlight: function(element) {
+                        $(element).closest('.form-group').removeClass('has-success').addClass(
+                            'has-error');
+                    },
+
+                    success: function(element) {
+                        $(element).closest('.form-group').removeClass('has-error').addClass(
+                            'has-success');
+                    }
+                });
+            }
+
+            validationEditData()
+
             $("#formTambah").submit(function(e) {
                 e.preventDefault();
 
@@ -208,7 +242,7 @@
                 submitButton.attr('disabled', true);
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/auth/register') }}",
+                    url: "{{ url('api/v1/position/create') }}",
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -216,11 +250,12 @@
                     success: function(response) {
                         console.log(response)
                         submitButton.attr('disabled', false);
-                        if (response.errors && response.errors.email && response.errors.email
-                            .includes('The email has already been taken.')) {
+                        if (response.errors && response.errors.code_position && response.errors
+                            .code_position
+                            .includes('The code position has already been taken.')) {
                             Swal.fire({
                                 title: 'Warning!',
-                                text: 'Email sudah terdaftar sebelumnya !',
+                                text: 'Kode jabatan sudah terdaftar sebelumnya !',
                                 icon: 'warning',
                                 showConfirmButton: true
                             });
@@ -230,7 +265,7 @@
                             errorAlert();
                         } else {
                             successAlert().then(function() {
-                                $('#typeDocumentModal').modal('hide');
+                                $('#positionModal').modal('hide');
                                 getAllData()
                             });
                         }
@@ -240,7 +275,95 @@
                         errorAlert();
                     }
                 });
+            });
 
+            $(document).on('click', '.edit-modal', function() {
+                const id = $(this).data('id');
+                console.log("Edit modal clicked, id:", id);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('api/v1/position/get') }}/" + id,
+                    dataType: "JSON",
+                    success: function(response) {
+                        console.log(response);
+                        $('#id').val(response.data.id);
+                        $('#ecode_position').val(response.data.code_position);
+                        $('#eposition').val(response.data.position);
+                    }
+                });
+            });
+
+            $("#formEdit").submit(function(e) {
+                e.preventDefault();
+                let id = $('#id').val();
+                console.log(id)
+                let formData = new FormData(this);
+                let submitButton = $(this).find(':submit');
+                submitButton.attr('disabled', true);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('api/v1/position/update') }}/" + id,
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response)
+                        submitButton.attr('disabled', false);
+                        if (response.errors && response.errors.code_position && response.errors
+                            .code_position
+                            .includes('The code position has already been taken.')) {
+                            Swal.fire({
+                                title: 'Warning!',
+                                text: 'Kode jabatan sudah terdaftar sebelumnya !',
+                                icon: 'warning',
+                                showConfirmButton: true
+                            });
+                        } else if (response.message == 'Check your validation') {
+                            warningAlert();
+                        } else if (response.code == 400) {
+                            errorAlert();
+                        } else {
+                            successAlert().then(function() {
+                                $('#positionEditModal').modal('hide');
+                                getAllData()
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.attr('disabled', false);
+                        errorAlert();
+                    }
+                });
+            });
+
+            $(document).on('click', '.delete-confirm', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                deleteAlert().then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ url('api/v1/position/delete') }}/" + id,
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "id": id
+                            },
+                            success: function(response) {
+                                if (response.code === 400) {
+                                    failedDeleteDataAlert();
+                                } else {
+                                    successDeleteAlert().then(function() {
+                                        getAllData();
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                errorAlert();
+                            }
+                        });
+                    }
+                })
             });
         });
     </script>

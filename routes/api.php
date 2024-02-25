@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CMS\ArsipController;
 use App\Http\Controllers\CMS\AuthController;
+use App\Http\Controllers\CMS\PositionController;
 use App\Http\Controllers\CMS\TypeDocumentController;
 use App\Http\Controllers\CMS\YearController;
 use Illuminate\Http\Request;
@@ -39,6 +40,15 @@ Route::prefix('v1')->group(function() {
     Route::prefix('arsip')->controller(ArsipController::class)->group(function()  {
         Route::get      ('/'            , 'list');
         Route::post     ('/create'      , 'createData');
+    });
+
+
+    Route::prefix('position')->controller(PositionController::class)->group(function()  {
+        Route::get      ('/'            , 'getAllData');
+        Route::post     ('/create'      , 'createData');
+        Route::get      ('/get/{id}'    , 'getDataById');
+        Route::post     ('/update/{id}' , 'updateData');
+        Route::delete   ('/delete/{id}' , 'deleteData');
     });
 
     Route::prefix('auth')->controller(AuthController::class)->group(function()  {
