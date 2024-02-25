@@ -365,6 +365,24 @@
                     }
                 })
             });
+
+            function resetModal() {
+                $('#id').val('').removeClass('border-danger');
+                $('.form-group').removeClass('has-success').removeClass('has-error');
+                $('#code_position').val('');
+                $('#position').val('');
+                $('#ecode_position').val('');
+                $('#eposition').val('');
+                $('#code_position-error').remove();
+                $('#position-error').remove();
+                $('#ecode_position-error').remove();
+                $('#eposition-error').remove();
+                
+            }
+
+            $('#positionModal , #positionEditModal' ).on('hidden.bs.modal', function() {
+                resetModal()
+            });
         });
     </script>
 @endsection
