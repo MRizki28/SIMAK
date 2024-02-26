@@ -22,4 +22,8 @@ class User extends Authenticatable
         'email',
         'password'
     ];
+
+    public function position() {
+        return $this->belongsTo(PositionModel::class, 'id_position');
+    }
 }

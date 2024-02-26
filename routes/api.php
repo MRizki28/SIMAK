@@ -42,7 +42,6 @@ Route::prefix('v1')->group(function() {
         Route::post     ('/create'      , 'createData');
     });
 
-
     Route::prefix('position')->controller(PositionController::class)->group(function()  {
         Route::get      ('/'            , 'getAllData');
         Route::post     ('/create'      , 'createData');
@@ -54,6 +53,9 @@ Route::prefix('v1')->group(function() {
     Route::prefix('auth')->controller(AuthController::class)->group(function()  {
         Route::get      ('/'            , 'getAllData');
         Route::post     ('/register'      , 'register');
+        Route::get      ('/get/{id}'    , 'getDataById');
+        Route::post     ('/resetpassword/{id}'    , 'resetPassword');
+        Route::delete   ('/delete/{id}' , 'deleteData');
     });
     
 });

@@ -16,4 +16,9 @@ class PositionModel extends Model
         'code_position',
         'position'
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class, 'id_position');
+    }
 }

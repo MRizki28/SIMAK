@@ -24,6 +24,7 @@ class AuthRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id_position' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required'

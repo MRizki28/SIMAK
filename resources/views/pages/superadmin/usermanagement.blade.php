@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class=" d-flex justify-content-end">
-                            <button class="btn btn-primary " data-toggle="modal" data-target="#typeDocumentModal">Tambah
+                            <button class="btn btn-primary " data-toggle="modal" data-target="#userManagementModal">Tambah
                                 Data
                                 <i class="fas fa-plus"></i>
                             </button>
@@ -23,6 +23,7 @@
                                         <th style="padding: 0 25px !important;" width="50">No</th>
                                         <th style="padding: 0 25px !important;">Name</th>
                                         <th style="padding: 0 25px !important;">Email</th>
+                                        <th style="padding: 0 25px !important;">Jabatan</th>
                                         <th style="padding: 0 25px !important;" width="120">Aksi</th>
                                     </tr>
                                 </thead>
@@ -38,7 +39,7 @@
     </div>
 
     {{-- modal create --}}
-    <div class="modal fade " id="typeDocumentModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade " id="userManagementModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 550px; top:118px;">
             <div class="modal-content">
                 <div class="container">
@@ -60,6 +61,13 @@
                                 <div class="form-group form-show-validation">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control" required name="email" id="email">
+                                </div>
+                                <div class="form-group form-show-validation">
+                                    <label for="id_position">Jabatan</label>
+                                    <select name="id_position" id="id_position" style="width: 100%; height: 30px;">
+                                        <option value="" selected disabled hidden>Choose here</option>
+                                    </select>
+
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="password">Password</label>
@@ -86,7 +94,7 @@
     </div>
 
     {{-- modal update --}}
-    <div class="modal fade " id="typeDocumentEditModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade " id="userManagementEditModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="max-width: 550px; top:118px;">
             <div class="modal-content">
                 <div class="container">
@@ -98,23 +106,33 @@
                             </button>
                         </div>
                         <div class="form mt-4">
-                            <form action="" id="formEdit">
+                            <form action="" id="formTambah">
                                 @csrf
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
-                                    <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required
-                                        name="name_type_document" id="name_type_document">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control  " required name="ename" id="ename">
+                                </div>
+                                <div class="form-group form-show-validation">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" required name="eemail" id="eemail">
+                                </div>
+                                <div class="form-group form-show-validation">
+                                    <label for="id_position">Jabatan</label>
+                                    <select name="id_position" id="eid_position" style="width: 100%; height: 30px;">
+                                        <option value="" selected disabled hidden>Choose here</option>
+                                    </select>
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
+                                    <div id="button-reset" class="display-none">
+                                        <button class="btn btn-success text-white mr-3 d-flex justify-content-start"
+                                            id="reset-password-btn">Reset
+                                            Password</button>
+                                    </div>
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
-                                        <div class="button-footer d-flex justify-content-between mt-4">
-                                            <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
-                                                <button type="button" class="btn btn-danger text-white mr-3"
-                                                    data-dismiss="modal" aria-label="Close">Batal</button>
-                                                <button class="btn btn-primary" type="submit">Simpan</button>
-                                            </div>
-                                        </div>
+                                        <button type="button" class="btn btn-danger text-white mr-3"
+                                            data-dismiss="modal" aria-label="Close">Batal</button>
+                                        <button class="btn btn-primary" type="submit">Simpan</button>
                                     </div>
                                 </div>
                             </form>
@@ -127,6 +145,10 @@
 
     <script>
         $(document).ready(function() {
+            $("#id_position").select2();
+            $("#eid_position").select2();
+            $(".select2-selection").addClass("form-control");
+
             function getAllData() {
                 if ($.fn.DataTable.isDataTable("#dataTable")) {
                     $("#dataTable").DataTable().destroy();
@@ -152,9 +174,17 @@
                                 '<td style="padding: 0 25px !important;"  class="text-center">' +
                                 item.email +
                                 '</td>';
+                            if (item.position !== null) {
+                                tableBody +=
+                                    '<td style="padding: 0 25px !important;"  class="text-center">' +
+                                    item.position.position + '</td>';
+                            } else {
+                                tableBody +=
+                                    '<td style="padding: 0 25px !important;"  class="text-center">Admin</td>';
+                            }
                             tableBody +=
                                 "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
-                                "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#typeDocumentEditModal' data-id='" +
+                                "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#userManagementEditModal' data-id='" +
                                 item.id + "'><i class='fas fa-edit'></i></button>" +
                                 "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
                                 item.id +
@@ -177,12 +207,18 @@
                         email: {
                             required: true
                         },
+                        id_position: {
+                            required: true
+                        },
                         password: {
                             required: true
                         }
                     },
                     messages: {
                         name: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_position: {
                             required: "Field ini wajib diisi"
                         },
                         email: {
@@ -193,17 +229,22 @@
                         },
                     },
                     highlight: function(element) {
-                        $(element).closest('.form-group').removeClass('has-success').addClass(
+                        $(element).closest('.form-group, .select2').removeClass('has-success').addClass(
                             'has-error');
                     },
 
                     success: function(element) {
-                        $(element).closest('.form-group').removeClass('has-error').addClass(
+                        $(element).closest('.form-group, .select2').removeClass('has-error').addClass(
                             'has-success');
                     }
                 });
             }
             validationCreateData();
+
+            $('#id_position').on('change', function() {
+                $(this).valid();
+            });
+
 
             $("#formTambah").submit(function(e) {
                 e.preventDefault();
@@ -235,7 +276,7 @@
                             errorAlert();
                         } else {
                             successAlert().then(function() {
-                                $('#typeDocumentModal').modal('hide');
+                                $('#userManagementModal').modal('hide');
                                 getAllData()
                             });
                         }
@@ -247,6 +288,101 @@
                 });
 
             });
+
+            function getDataPosition() {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('api/v1/position') }}",
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        let option = "";
+                        $.each(response.data, function(index, item) {
+                            option += '<option value="' + item.id +
+                                '">' + item.position + '</option>';
+                        });
+                        $('#id_position').append(option)
+                        $('#eid_position').append(option)
+
+                    }
+                });
+            }
+
+            getDataPosition();
+
+            $(document).on('click', '.edit-modal', function() {
+                const id = $(this).data('id');
+                $('#reset-password-btn').data('id', id);
+                console.log(id);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('api/v1/auth/get') }}/" + id,
+                    dataType: "json",
+                    success: function(response) {
+                        $('#ename').val(response.data.name);
+                        $('#eemail').val(response.data.email);
+                    }
+
+                });
+            });
+
+            $(document).on('click', '#reset-password-btn', function(e) {
+                e.preventDefault();
+                const id = $(this).data('id');
+                const value = $(this).attr('id');
+                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                console.log(id)
+
+                Swal.fire({
+                    title: 'Reset Password!',
+                    text: 'Yakin ingin mereset password user ini',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: 'Batal',
+                    confirmButtonText: 'Ya',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let data = {
+                            _token: csrfToken,
+                        };
+                        $('#reset-password-btn').prop(
+                            'disabled', true);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ url('api/v1/auth/resetpassword') }}/" + id,
+                            data: data,
+                            dataType: "JSON",
+                            success: function(response) {
+                                $('#reset-password-btn').prop(
+                                    'disabled', true);
+                                if (response.code == 400) {
+                                    errorAlert();
+                                } else {
+                                    successAlert().then(function() {
+                                        $('#userManagementEditModal').modal(
+                                            'hide');
+                                        $('#reset-password-btn').prop(
+                                            'disabled', true);
+                                    });
+                                }
+                            },
+                            error: function(error) {
+                                errorAlert();
+                                console.log(error)
+                            }
+                        });
+                    }
+                });
+            });
+
+            $('#userManagementModal , #userManagementEditModal').on('hidden.bs.modal', function() {
+                $('#reset-password-btn').prop(
+                    'disabled', false);
+            });
+
+
         });
     </script>
 @endsection
