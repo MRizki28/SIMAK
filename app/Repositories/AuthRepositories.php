@@ -76,6 +76,21 @@ class AuthRepositories implements AuthInterfaces
             return $this->error($th);
         }
     }
+
+    public function updateData(AuthRequest $request, $id)
+    {
+        try {
+            $data = $this->userModel->where('id', $id)->first();
+            $data->id_position = htmlspecialchars($request->input('id_position'));
+            $data->name = htmlspecialchars($request->input('name'));
+            $data->email = htmlspecialchars($request->input('email'));
+            $data->save();
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
     public function deleteData($id)
     {
         try {
