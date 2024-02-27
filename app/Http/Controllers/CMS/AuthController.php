@@ -36,6 +36,11 @@ class AuthController extends Controller
         return $this->authRepositories->resetPassword($request,$id);
     }
 
+    public function updateData(AuthRequest $request, $id)
+    {
+        return $this->authRepositories->updateData($request, $id);
+    }
+
     public function deleteData($id)
     {
         return $this->authRepositories->deleteData($id);
