@@ -5,6 +5,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class AuthRequest extends FormRequest
 {
@@ -21,14 +22,24 @@ class AuthRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
-        return [
-            'id_position' => 'required',
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required'
-        ];
+
+        if ($this->is("api/v1/auth/*")) {
+            $rules['id_position'] = 'required';
+            $rules['name'] = 'required';
+            $rules['email'] = [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($this->route('id')),
+            ];
+        } else {
+            $rules['id_position'] = 'required';
+            $rules['name'] = 'required';
+            $rules['email'] = 'required|email|unique:users';
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(Validator $validator)
