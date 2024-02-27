@@ -55,6 +55,7 @@ Route::prefix('v1')->group(function() {
         Route::post     ('/register'      , 'register');
         Route::get      ('/get/{id}'    , 'getDataById');
         Route::post     ('/resetpassword/{id}'    , 'resetPassword');
+        Route::post     ('/update/{id}' , 'updateData');
         Route::delete   ('/delete/{id}' , 'deleteData');
     });
     
