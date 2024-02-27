@@ -106,16 +106,16 @@
                             </button>
                         </div>
                         <div class="form mt-4">
-                            <form action="" id="formTambah">
+                            <form action="" id="formEdit">
                                 @csrf
-                                <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="id" id="eid">
                                 <div class="form-group form-show-validation">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control  " required name="ename" id="ename">
+                                    <input type="text" class="form-control  " required name="name" id="ename">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control" required name="eemail" id="eemail">
+                                    <input type="text" class="form-control" required name="email" id="eemail">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="id_position">Jabatan</label>
@@ -241,6 +241,44 @@
             }
             validationCreateData();
 
+            function validationEditData() {
+                $('#formEdit').validate({
+                    rules: {
+                        name: {
+                            required: true
+                        },
+                        email: {
+                            required: true
+                        },
+                        id_position: {
+                            required: true
+                        },
+                    },
+                    messages: {
+                        name: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_position: {
+                            required: "Field ini wajib diisi"
+                        },
+                        email: {
+                            required: "Field ini wajib diisi"
+                        },
+                    },
+                    highlight: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-success').addClass(
+                            'has-error');
+                    },
+
+                    success: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-error').addClass(
+                            'has-success');
+                    }
+                });
+            }
+
+            validationEditData();
+
             $('#id_position').on('change', function() {
                 $(this).valid();
             });
@@ -318,6 +356,7 @@
                     dataType: "json",
                     success: function(response) {
                         console.log('disini', response)
+                        $('#eid').val(response.data.id);
                         $('#ename').val(response.data.name);
                         $('#eemail').val(response.data.email);
                         $('#eid_position').val(response.data.id_position).trigger('change');
@@ -378,7 +417,7 @@
 
             $("#formEdit").submit(function(e) {
                 e.preventDefault();
-                let id = $('#id').val();
+                let id = $('#eid').val();
                 console.log("Form submitted for editing, id:", id);
                 let formData = new FormData(this);
                 let submitButton = $(this).find(':submit');
@@ -386,7 +425,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/typedocument/update') }}/" + id,
+                    url: "{{ url('api/v1/auth/update') }}/" + id,
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -400,7 +439,7 @@
                             errorAlert();
                         } else {
                             successAlert().then(function() {
-                                $('#typeDocumentEditModal').modal('hide');
+                                $('#userManagementEditModal').modal('hide');
                                 getAllData();
                             });
                         }
@@ -412,7 +451,28 @@
                 });
             });
 
+            function resetModal() {
+                $('#id').val('').removeClass('border-danger');
+                $('.form-group').removeClass('has-error').removeClass('has-success');
+                $('#id_position').val('');
+                $('#eid_position').val('');
+                $('#name').val('');
+                $('#ename').val('');
+                $('#email').val('');
+                $('#eemail').val('');
+                $('#password').val('12345678');
+                $('#id_position-error').remove();
+                $('#eid_position-error').remove();
+                $('#name-error').remove();
+                $('#ename-error').remove();
+                $('#email-error').remove();
+                $('#eemail-error').remove();
+                $('#password-error').remove();
+                
+            }
+
             $('#userManagementModal , #userManagementEditModal').on('hidden.bs.modal', function() {
+                resetModal();
                 $('#reset-password-btn').prop(
                     'disabled', false);
             });
