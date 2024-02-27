@@ -11,5 +11,6 @@ interface AuthInterfaces {
     public function getAllData();
     public function getDataById($id);
     public function resetPassword(Request $request, $id);
+    public function updateData(AuthRequest $request, $id);
     public function deleteData($id);
 }
