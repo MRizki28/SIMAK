@@ -286,7 +286,6 @@
                         errorAlert();
                     }
                 });
-
             });
 
             function getDataPosition() {
@@ -303,7 +302,6 @@
                         });
                         $('#id_position').append(option)
                         $('#eid_position').append(option)
-
                     }
                 });
             }
@@ -319,10 +317,11 @@
                     url: "{{ url('api/v1/auth/get') }}/" + id,
                     dataType: "json",
                     success: function(response) {
+                        console.log('disini', response)
                         $('#ename').val(response.data.name);
                         $('#eemail').val(response.data.email);
+                        $('#eid_position').val(response.data.id_position).trigger('change');
                     }
-
                 });
             });
 
@@ -377,11 +376,46 @@
                 });
             });
 
+            $("#formEdit").submit(function(e) {
+                e.preventDefault();
+                let id = $('#id').val();
+                console.log("Form submitted for editing, id:", id);
+                let formData = new FormData(this);
+                let submitButton = $(this).find(':submit');
+                submitButton.attr('disabled', true);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('api/v1/typedocument/update') }}/" + id,
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response);
+                        submitButton.attr('disabled', false);
+                        if (response.message == "Check your validation") {
+                            warningAlert();
+                        } else if (response.code == 400) {
+                            errorAlert();
+                        } else {
+                            successAlert().then(function() {
+                                $('#typeDocumentEditModal').modal('hide');
+                                getAllData();
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.attr('disabled', false);
+                        errorAlert();
+                    }
+                });
+            });
+
             $('#userManagementModal , #userManagementEditModal').on('hidden.bs.modal', function() {
                 $('#reset-password-btn').prop(
                     'disabled', false);
             });
-
 
         });
     </script>
