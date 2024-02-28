@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('v1')->group(function () {
 
-        Route::prefix('v1/auth')->controller(AuthController::class)->group(function () {
+        Route::prefix('auth')->controller(AuthController::class)->group(function () {
             Route::get      ('/',                   'getAllData');
             Route::post     ('/register',           'register');
             Route::get      ('/get/{id}',           'getDataById');

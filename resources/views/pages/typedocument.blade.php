@@ -219,6 +219,7 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
+                        console.log(response)
                         submitButton.attr('disabled', false);
                         if (response.message == "Check your validation") {
                             warningAlert();

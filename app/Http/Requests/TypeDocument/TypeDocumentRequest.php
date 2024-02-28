@@ -23,11 +23,10 @@ class TypeDocumentRequest extends FormRequest
      */
     public function rules(): array
     {
-        // return [
-        //     'name_type_document' => 'required|unique:tb_,name_type_document,user_id,' . auth()->id(),
-        // ];        
+        $userId = auth()->id();
+
         return [
-            'name_type_document' => 'required'
+            'name_type_document' => 'required|unique:tb_type_document,name_type_document,NULL,id,id_user,' . $userId,
         ];
     }
 

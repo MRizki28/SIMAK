@@ -6,6 +6,7 @@ use App\Http\Requests\TypeDocument\TypeDocumentRequest;
 use App\Interfaces\TypeDocumentInterfaces;
 use App\Models\TypeDocumentModel;
 use App\Traits\HttpResponseTraits;
+use Illuminate\Support\Facades\Auth;
 
 class TypeDocumentRepositories implements TypeDocumentInterfaces
 {
@@ -27,17 +28,19 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
         }
     }
 
-    public function createData($request)
+    public function createData(TypeDocumentRequest $request)
     {
         try {
-            $reqAll = $request->all();
-            foreach ($reqAll as $key => $value) {
-                $reqAll[$key] = htmlspecialchars($value);
-            }
-            $data = $this->typeDocumentModel->create($reqAll);
+            $user = Auth::user();
+            $data = new $this->typeDocumentModel;
+            $data->id_user = $user->id;
+            $data->name_type_document = $request->input('name_type_document');
+            $data->save();
             return $this->success($data);
         } catch (\Throwable $th) {
-            return $this->error($th);
+            return response()->json([
+                'errors' => $th->getMessage()
+            ]);
         }
     }
 
