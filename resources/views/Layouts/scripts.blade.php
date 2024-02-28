@@ -66,7 +66,7 @@
 
     {{-- logout --}}
     <script>
-        const urlLogout = 'v1/logout'
+        const urlLogout = 'api/v1/auth/logout'
         $(document).ready(function() {
             $('#iconLogout').click(function(e) {
                 Swal.fire({
@@ -91,6 +91,7 @@
                                 window.location.href = '/login';
                             },
                             error: function(xhr, status, error) {
+                                console.log(error)
                                 alert('Error: Failed to logout. Please try again.');
                             }
                         });

@@ -141,7 +141,7 @@
                                                 <option value="" selected disabled hidden>Choose here</option>
                                                 <option value="suratMasuk">Surat Masuk</option>
                                                 <option value="suratKeluar">Surat Keluar</option>
-                                                <option value="nonSurat">Jenis Lain</option>
+                                                <option value="tidakKeduanya">Jenis Lain</option>
                                             </select>
                                         </div>
                                     </div>

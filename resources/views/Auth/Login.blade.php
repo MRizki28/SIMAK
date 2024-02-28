@@ -12,8 +12,10 @@
 <body style="background-color: #f5f5f5;">
     <div class="d-flex justify-content-center align-items-center h-100" style="min-height: 100vh">
         <div class="content-wrapper">
-            <div class=" d-flex justify-content-center align-items-center" style="padding: 1.25rem 1.25rem; flex-grow: 1;">
-                <form style="width: 20rem;">
+            <div class=" d-flex justify-content-center align-items-center"
+                style="padding: 1.25rem 1.25rem; flex-grow: 1;">
+                <form style="width: 20rem;" id="formLogin">
+                    @csrf
                     <div class="card mb-0" style="border: -1px solid black !important;">
                         <div class="card-body">
                             <div class="text-center  ">
@@ -22,26 +24,29 @@
                                 <h5 class="mb-0 mt-1 font-weight-bold">Masuk ke akun Anda</h5>
                             </div>
                             <div>
-                                <div class="form-group form-validation">
-                                    <input type="text" class="form-control" placeholder="Email@gmail.com">
+                                <div class="form-group form-show-validation">
+                                    <input type="email" class="form-control" placeholder="Email@gmail.com"
+                                        name="email">
                                 </div>
-                                <div class="form-group form-validation">
-                                    <input type="text" class="form-control" placeholder="Password">
+                                <div class="form-group form-show-validation">
+                                    <input type="password" class="form-control" placeholder="Password" name="password">
                                 </div>
-                                
+
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block p-2">Login</button>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-center">
-                                    <img src="{{ asset("img/logo/footerlogo.png") }}" width="100%">
+                                    <img src="{{ asset('img/logo/footerlogo.png') }}" width="100%">
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-sm-12 text-center">
-                                    <a href="https://api.whatsapp.com/send?phone=082290333669&text=Hallo%20saya%20butuh%20bantuan%20login!" target="_blank">
-                                        <button type="button" class="btn btn-info btn-sm">Bantuan <i class="icon-help ml-2"></i></button>
+                                    <a href="https://api.whatsapp.com/send?phone=082290333669&text=Hallo%20saya%20butuh%20bantuan%20login!"
+                                        target="_blank">
+                                        <button type="button" class="btn btn-info btn-sm">Bantuan <i
+                                                class="icon-help ml-2"></i></button>
                                     </a>
                                 </div>
                             </div>
@@ -54,5 +59,86 @@
 </body>
 
 @include('Layouts.scripts')
+
+<script>
+    $(document).ready(function() {
+
+        function validationLogin() {
+            $('#formLogin').validate({
+                rules: {
+                    email: {
+                        required: true
+                    },
+                    password: {
+                        required: true
+                    },
+                },
+                messages: {
+                    email: {
+                        required: "Field ini wajib diisi"
+                    },
+                    password: {
+                        required: "Field ini wajib diisi"
+                    }
+                },
+                highlight: function(element) {
+                    $(element).closest('.form-show-validation').removeClass('has-success').addClass(
+                        'has-error');
+                },
+
+                success: function(element) {
+                    $(element).closest('.form-show-validation').removeClass('has-error').addClass(
+                        'has-success');
+                }
+            });
+        }
+
+        validationLogin();
+
+        $('#formLogin').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            let submitButton = $(this).find(':submit');
+
+            submitButton.attr('disabled', true);
+
+            $.ajax({
+                type: "POST",
+                url: "{{ url('api/v1/auth/login') }}",
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    console.log(formData)
+                    submitButton.attr('disabled', false);
+                    console.log(response)
+                    if (response.message == "Check your validation") {
+                        warningAlert();
+                    } else if (response.message == "Unauthorization") {
+                        Swal.fire({
+                            title: 'Peringatan',
+                            text: 'Email atau password anda salah',
+                            icon: 'warning',
+                            timer: 5000,
+                            showConfirmButton: true
+                        });
+                    } else if (response.code == 400) {
+                        errorAlert();
+                    } else {
+                        Swal.fire({
+                            title: 'success',
+                            text: 'Login Berhasil',
+                            icon: 'success',
+                            timer: 5000,
+                            showConfirmButton: true
+                        });
+                        window.location.href = '/'
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 </html>

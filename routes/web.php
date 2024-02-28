@@ -13,26 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.dashboard');
-});
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('Auth.Login');
+    })->name('login');
+}); 
 
-Route::get('typedocument', function () {
-    return view('pages.typedocument');
-});
+Route::middleware(['web', 'auth'])->group(function () {
 
-Route::get('arsip', function () {
-    return view('pages.arsip');
-});
+    Route::get('/', function () {
+        return view('pages.dashboard');
+    });
 
-Route::get('/login', function () {
-    return view('Auth.Login');
-});
+    Route::get('typedocument', function () {
+        return view('pages.typedocument');
+    });
 
-Route::get('/jabatan', function () {
-    return view('pages.superadmin.position');
-});
+    Route::get('arsip', function () {
+        return view('pages.arsip');
+    });
 
-Route::get('/usermanagement', function () {
-    return view('pages.superadmin.usermanagement');
+    Route::get('/jabatan', function () {
+        return view('pages.superadmin.position');
+    });
+
+    Route::get('/usermanagement', function () {
+        return view('pages.superadmin.usermanagement');
+    });
 });
