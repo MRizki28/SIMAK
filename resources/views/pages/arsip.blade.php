@@ -176,12 +176,6 @@
             </div>
         </div>
     </div>
-
-    <div class="form-group files color">
-        <label>Upload Your File </label>
-        <input type="file" class="form-control" multiple="">
-      </div>
-
     <script>
         $(document).ready(function() {
             dateRangePickerSetup($('#datetime'))
@@ -293,7 +287,7 @@
                 return new Promise(function(resolve, reject) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('api/v1/typedocument') }}",
+                        url: "{{ url('api/v1/typedocument/get/user') }}",
                         dataType: "JSON",
                         success: function(response) {
                             let option = "";
