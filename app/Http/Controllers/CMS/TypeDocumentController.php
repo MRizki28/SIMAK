@@ -33,6 +33,11 @@ class TypeDocumentController extends Controller
         return $this->typeDocumentRepositories->getDataById($id);
     }
 
+    public function getDataByUser()
+    {
+        return $this->typeDocumentRepositories->getDataByUser();
+    }
+
     public function updateData(TypeDocumentRequest $request, $id)
     {
         return $this->typeDocumentRepositories->updateData($request, $id);
