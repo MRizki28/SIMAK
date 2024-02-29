@@ -28,6 +28,17 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
         }
     }
 
+    public function getDataByUser()
+    {
+        try {
+            $user  = Auth::user()->id;
+            $data = $this->typeDocumentModel->where('id_user', $user)->get();
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
     public function createData(TypeDocumentRequest $request)
     {
         try {
