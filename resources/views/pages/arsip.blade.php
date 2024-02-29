@@ -149,7 +149,7 @@
                                         <div class="form-group form-show-validation">
                                             <label for="file_arsip">File</label>
                                             <input type="file" class="form-control" required name="file_arsip"
-                                                id="file_arsip">
+                                                id="file_arsip" multiple>
                                         </div>
                                     </div>
                                 </div>
@@ -176,6 +176,11 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group files color">
+        <label>Upload Your File </label>
+        <input type="file" class="form-control" multiple="">
+      </div>
 
     <script>
         $(document).ready(function() {
