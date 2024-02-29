@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::prefix('typedocument')->controller(TypeDocumentController::class)->group(function () {
             Route::get      ('/',               'getAllData');
+            Route::get      ('/get/user',       'getDataByUser');
             Route::post     ('/create',         'createData');
             Route::get      ('/get/{id}',       'getDataById');
             Route::post     ('/update/{id}',    'updateData');
