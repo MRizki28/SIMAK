@@ -5,20 +5,24 @@ namespace App\Repositories;
 use App\Http\Requests\Arsip\ArsipRequest;
 use App\Interfaces\ArsipInterfaces;
 use App\Models\ArsipModel;
+use App\Models\FileModel;
 use App\Traits\HttpResponseTraits;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ArsipRepositories implements ArsipInterfaces
 {
     protected $arsipModel;
+    protected $fileModel;
 
     use HttpResponseTraits;
 
-    public function __construct(ArsipModel $arsipModel)
+    public function __construct(ArsipModel $arsipModel, FileModel $fileModel)
     {
         $this->arsipModel = $arsipModel;
+        $this->fileModel = $fileModel;
     }
 
     public function list(Request $request)
@@ -58,23 +62,37 @@ class ArsipRepositories implements ArsipInterfaces
     public function createData(ArsipRequest $request)
     {
         try {
+            $user = Auth::user()->id;
             $data = new $this->arsipModel;
+            $data->id_user = $user;
             $data->id_type_document = $request->input('id_type_document');
             $data->id_year = $request->input("id_year");
             $data->code_arsip = $request->input("code_arsip");
-            if ($request->hasFile('file_arsip')) {
-                $file = $request->file('file_arsip');
-                $extention = $file->getClientOriginalExtension();
-                $filename  = 'ARSIP-' . Str::uuid() . '.' . $extention;
-                $file->move(public_path('uploads/arsip/'), $filename);
-                $data->file_arsip = $filename;
-            }
             $data->date_arsip = Carbon::parse($request->input('date_arsip'))->format('Y-m-d');
             $data->description = htmlspecialchars($request->input("description"));
             $data->in_or_out_arsip = $request->input('in_or_out_arsip');
             $data->is_private = $request->has('is_private') ? true : false;
             $data->save();
-            return $this->success($data);
+
+            $tbFile = []; 
+            if ($request->hasFile('file_arsip')) {
+                foreach ($request->file('file_arsip') as $key => $file) {
+                    $extention = $file->getClientOriginalExtension();
+                    $filename  = 'ARSIP-' . Str::uuid() . '.' . $extention;
+                    $file->move(public_path('uploads/arsip/'), $filename);
+
+                    $tbFile[$key] = new $this->fileModel; 
+                    $tbFile[$key]->id_arsip = $data->id;
+                    $tbFile[$key]->file_arsip = $filename;
+                    $tbFile[$key]->save();
+            
+                }
+            }
+
+            return $this->success([
+                'data' => $data,
+                'file' => $tbFile
+            ]);
         } catch (\Throwable $th) {
             return $this->error($th);
         }

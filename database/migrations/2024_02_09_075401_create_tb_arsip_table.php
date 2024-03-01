@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignUuid('id_type_document')->constrained('tb_type_document');
             $table->foreignUuid('id_year')->constrained('tb_year');
             $table->string('code_arsip');
-            $table->string('file_arsip');
             $table->date('date_arsip');
             $table->text('description');
             $table->enum("in_or_out_arsip", ["suratMasuk","suratKeluar" , "tidakKeduanya"]);
