@@ -97,15 +97,6 @@
 
         validationLogin();
 
-        function encryptToken(token, key) {
-            return CryptoJS.AES.encrypt(token, key).toString();
-        }
-
-        function decryptToken(tokenEncrpyt, key) {
-            let bytes = CryptoJS.AES.decrypt(tokenEncrpyt, key);
-            return bytes.toString(CryptoJS.enc.Utf8)
-        }
-
         $('#formLogin').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);

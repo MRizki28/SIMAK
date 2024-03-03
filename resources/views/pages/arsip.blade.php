@@ -176,6 +176,8 @@
             </div>
         </div>
     </div>
+
+    <a href="/file/id/id_arsip">view</a>
     <script>
         $(document).ready(function() {
             dateRangePickerSetup($('#datetime'))
@@ -239,7 +241,7 @@
                     success: function(response) {
                         console.log(response)
                         let tableBody = "";
-
+                        let getToken = decryptToken(localStorage.getItem('auth_token'), key)
                         if (response.code == 200) {
                             $.each(response.data.data, function(item, value) {
                                 let name_type_document = value.type_document.name_type_document;
@@ -253,7 +255,8 @@
                                 tableBody += "<td>" + name_type_document +
                                     "</td>"
                                 tableBody += "<td>" + value.id_year + "</td>"
-                                tableBody += "<td>" + value.file_arsip + "</td>"
+                                tableBody += "<td><a href='/file/"+getToken +"/" + value.id + "'>View</a></td>";
+
                                 tableBody += "<td>" + value.date_arsip + "</td>"
                                 tableBody += "<td>" + value.is_private + "</td>"
                                 tableBody +=

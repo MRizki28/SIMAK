@@ -136,3 +136,13 @@ $(document).ready(function () {
     "Hanya file dengan ekstensi docx, png, jpg, jpeg, xlsx, xls, csv, doc, atau pdf yang diperbolehkan."
     );
 });
+
+
+function encryptToken(token, key) {
+    return CryptoJS.AES.encrypt(token, key).toString();
+}
+
+function decryptToken(tokenEncrpyt, key) {
+    let bytes = CryptoJS.AES.decrypt(tokenEncrpyt, key);
+    return bytes.toString(CryptoJS.enc.Utf8)
+}

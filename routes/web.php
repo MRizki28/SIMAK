@@ -41,7 +41,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.superadmin.usermanagement');
     });
 
-    Route::get('/file/{id}/{id_arsip}', function () {
+    Route::get('/file/{getToken}/{id}', function () {
         return view('pages.file.file');
     });
 });
