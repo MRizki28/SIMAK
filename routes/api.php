@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::prefix('arsip')->controller(ArsipController::class)->group(function () {
             Route::get      ('/',               'list');
+            Route::get      ('file/{id_user}/{id_arsip}',               'getFile');
             Route::post     ('/create',         'createData');
         });
 

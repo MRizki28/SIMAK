@@ -135,11 +135,11 @@
                             timer: 5000,
                             showConfirmButton: true
                         });
-                        let token = encryptToken(response.token, key);
-                        console.log(token);
-                        localStorage.setItem('auth_token', token);
+                        let id = encryptToken(response.user.id, key);
+                        console.log(id);
+                        localStorage.setItem('id_user', id);
 
-                        let getToken = decryptToken(localStorage.getItem('auth_token'), key)
+                        let getToken = decryptToken(localStorage.getItem('id_user'), key)
                         console.log('hasil decrypt', getToken);
                         window.location.href = '/'
                     }

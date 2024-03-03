@@ -74,18 +74,17 @@ class ArsipRepositories implements ArsipInterfaces
             $data->is_private = $request->has('is_private') ? true : false;
             $data->save();
 
-            $tbFile = []; 
+            $tbFile = [];
             if ($request->hasFile('file_arsip')) {
                 foreach ($request->file('file_arsip') as $key => $file) {
                     $extention = $file->getClientOriginalExtension();
                     $filename  = 'ARSIP-' . Str::uuid() . '.' . $extention;
                     $file->move(public_path('uploads/arsip/'), $filename);
 
-                    $tbFile[$key] = new $this->fileModel; 
+                    $tbFile[$key] = new $this->fileModel;
                     $tbFile[$key]->id_arsip = $data->id;
                     $tbFile[$key]->file_arsip = $filename;
                     $tbFile[$key]->save();
-            
                 }
             }
 
@@ -93,6 +92,24 @@ class ArsipRepositories implements ArsipInterfaces
                 'data' => $data,
                 'file' => $tbFile
             ]);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function getFile($id_user, $id_arsip)
+    {
+        try {
+            $data = FileModel::where('id_arsip', $id_arsip)
+                ->whereHas('getArsip', function ($query) use ($id_user) {
+                    $query->where('id_user', $id_user);
+                })
+                ->get();
+            if (!$data) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data);
+            }
         } catch (\Throwable $th) {
             return $this->error($th);
         }

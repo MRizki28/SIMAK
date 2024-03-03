@@ -1,6 +1,9 @@
 <?php
 
+use App\Helper\Helper;
 use Illuminate\Support\Facades\Route;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +20,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', function () {
         return view('Auth.Login');
     })->name('login');
-}); 
+});
 
 Route::middleware(['web', 'auth'])->group(function () {
 
@@ -41,7 +44,11 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.superadmin.usermanagement');
     });
 
-    Route::get('/file/{getToken}/{id}', function () {
-        return view('pages.file.file');
+    Route::get('/file/{id_user}/{id_arsip}', function ($id_user, $id_arsip) {
+        if (!Helper::isValidUserId($id_user) || !Helper::isValidArsipId($id_arsip)) {
+            abort(404);
+        } else {
+            return view('pages.file.file');
+        }
     });
 });

@@ -70,6 +70,7 @@ class AuthRepositories implements AuthInterfaces
 
                 return response()->json([
                     'message' => 'Success login',
+                    'user' => $user,
                     'token' => $token,
                     'token_type' => 'Bearer'
                 ]);

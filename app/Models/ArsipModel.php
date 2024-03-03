@@ -17,7 +17,6 @@ class ArsipModel extends Model
         'id_type_document',
         'id_year',
         'code_arsip',
-        'file_arsip',
         'date_arsip',
         'description',
         'is_private'
@@ -26,5 +25,10 @@ class ArsipModel extends Model
     public function typeDocument()
     {
         return $this->belongsTo(TypeDocumentModel::class, 'id_type_document');
+    }
+
+    public function getFile()
+    {
+        return $this->belongsTo(FileModel::class, 'id_arsip');
     }
 }
