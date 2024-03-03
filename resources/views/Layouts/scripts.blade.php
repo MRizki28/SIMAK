@@ -47,6 +47,12 @@
     {{-- summernote --}}
     <script src="{{ asset('static/summernote/summernote-bs4.min.js') }}"></script>
 
+    {{-- crypto.js --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
+    {{-- aes encrypt --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/aes.min.js" integrity="sha512-UOtWWEXoMk1WLeC873Gmrkb2/dZMwvN1ViM9C1mNvNmQSeXpEr8sRzXLmUSha1X4x5V892uFmEjiZzUsYiHYiw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 	<script>
 		WebFont.load({
 				google: {

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="key" content="{{ env('APP_KEY') }}">
     <title>SIMAK - LOGIN</title>
     @include('Layouts.styles')
 </head>
@@ -62,6 +63,7 @@
 
 <script>
     $(document).ready(function() {
+        var key = $('meta[name="key"]').attr('content');
 
         function validationLogin() {
             $('#formLogin').validate({
@@ -95,6 +97,15 @@
 
         validationLogin();
 
+        function encryptToken(token, key) {
+            return CryptoJS.AES.encrypt(token, key).toString();
+        }
+
+        function decryptToken(tokenEncrpyt, key) {
+            let bytes = CryptoJS.AES.decrypt(tokenEncrpyt, key);
+            return bytes.toString(CryptoJS.enc.Utf8)
+        }
+
         $('#formLogin').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
@@ -110,7 +121,7 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    console.log(formData)
+                    console.log(console.log)
                     submitButton.attr('disabled', false);
                     console.log(response)
                     if (response.message == "Check your validation") {
@@ -133,6 +144,12 @@
                             timer: 5000,
                             showConfirmButton: true
                         });
+                        let token = encryptToken(response.token, key);
+                        console.log(token);
+                        localStorage.setItem('auth_token', token);
+
+                        let getToken = decryptToken(localStorage.getItem('auth_token'), key)
+                        console.log('hasil decrypt', getToken);
                         window.location.href = '/'
                     }
                 }

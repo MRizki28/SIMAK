@@ -40,4 +40,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/usermanagement', function () {
         return view('pages.superadmin.usermanagement');
     });
+
+    Route::get('/file/{id}/{id_arsip}', function () {
+        return view('pages.file.file');
+    });
 });
