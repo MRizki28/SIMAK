@@ -27,6 +27,16 @@ class ArsipModel extends Model
         return $this->belongsTo(TypeDocumentModel::class, 'id_type_document');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(YearModel::class, 'id_year');
+    }
+
     public function getFile()
     {
         return $this->belongsTo(FileModel::class, 'id_arsip');
