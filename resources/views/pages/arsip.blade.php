@@ -157,6 +157,10 @@
                                     <label for="date_arsip">Description</label>
                                     <textarea class="form-control" required name="description" id="description" rows="3"></textarea>
                                 </div>
+                                <div class="form-group form-show-validation">
+                                    <label for="date_arsip">Private</label>
+                                    <input type="checkbox" name="is_private" id="is_private">
+                                </div>
 
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -176,8 +180,6 @@
             </div>
         </div>
     </div>
-
-    <a href="/file/id/id_arsip">view</a>
     <script>
         $(document).ready(function() {
             dateRangePickerSetup($('#datetime'))
@@ -246,19 +248,24 @@
                             $.each(response.data.data, function(item, value) {
                                 let name_type_document = value.type_document.name_type_document;
                                 let file_arsip = value.file_arsip;
+                                let name = value.user.name;
+                                let year = value.year.year
                                 console.log(file_arsip)
                                 $("#table tbody").empty();
                                 tableBody += "<tr>";
                                 tableBody += "<td>" + (item + 1) + "</td>"
                                 tableBody += "<td>" + value.code_arsip + "</td>"
-                                tableBody += "<td>" + value.id_user + "</td>"
+                                tableBody += "<td>" + name + "</td>"
                                 tableBody += "<td>" + name_type_document +
                                     "</td>"
-                                tableBody += "<td>" + value.id_year + "</td>"
-                                tableBody += "<td><a href='/file/"+idUser +"/" + value.id + "'>View</a></td>";
+                                tableBody += "<td>" + year + "</td>"
+                                tableBody += "<td><a href='/file/" + idUser + "/" + value.id +
+                                    "'>View</a></td>";
 
                                 tableBody += "<td>" + value.date_arsip + "</td>"
-                                tableBody += "<td>" + value.is_private + "</td>"
+                                tableBody += "<td>" + (value.is_private === 0 ?
+                                    "<i class='fas fa-lock-open'></i>" :
+                                    "<i class='fas fa-lock'></i>") + "</td>";
                                 tableBody +=
                                     "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
                                     "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#typeDocumentEditModal' data-id='" +
@@ -408,12 +415,39 @@
 
             validationCreateData();
 
+            $('#is_private').click(function() {
+                if ($(this).is(':checked')) {
+                    Swal.fire({
+                        title: 'Private!',
+                        html: 'Data arsip anda akan bersifat privat',
+                        showCancelButton: true,
+                        cancelButtonText: 'Batal',
+                        confirmButtonText: 'Ya',
+                        reverseButtons: true,
+                        confirmButtonColor: '#1572E8',
+                        customClass: {
+                            confirmButton: 'btn btn-secondary border-0',
+                            cancelButton: 'btn btn-dark border-0'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {} else {
+                            $(this).prop('checked', false);
+                        }
+                    });
+                }
+            });
+
             $("#formTambah").submit(function(e) {
                 e.preventDefault();
                 let formData = new FormData(this);
                 let submitButton = $(this).find(":submit");
 
+                let isPrivate = $("#is_private").is(":checked");
+                formData.append("is_private", isPrivate);
+
+                console.log(isPrivate)
                 submitButton.attr("disabled", true);
+
                 $.ajax({
                     type: "POST",
                     url: "{{ url('api/v1/arsip/create') }}",
