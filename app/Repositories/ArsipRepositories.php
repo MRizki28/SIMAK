@@ -33,7 +33,7 @@ class ArsipRepositories implements ArsipInterfaces
         $limit = $request->input('limit') ? $request->input('limit') : 10;
         $page = (int) $request->input('page', 1);
 
-        $query = $this->arsipModel::query()->with('typeDocument');
+        $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year');
 
         if ($startDate && $endDate) {
             $query->whereBetween('date_arsip', [$startDate, $endDate]);
@@ -46,6 +46,10 @@ class ArsipRepositories implements ArsipInterfaces
                     ->orWhere('description', 'like', '%' . $search . '%')
                     ->orWhereHas('typeDocument', function ($query) use ($search) {
                         $query->where('name_type_document', 'like', '%' . $search . '%');
+                    })->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    })->orWhereHas('year', function ($query) use ($search) {
+                        $query->where('year', 'like', '%' . $search . '%');
                     });
             });
         }
@@ -71,16 +75,15 @@ class ArsipRepositories implements ArsipInterfaces
             $data->date_arsip = Carbon::parse($request->input('date_arsip'))->format('Y-m-d');
             $data->description = htmlspecialchars($request->input("description"));
             $data->in_or_out_arsip = $request->input('in_or_out_arsip');
-            $data->is_private = $request->has('is_private') ? true : false;
+            $data->is_private = $request->has('is_private') && $request->input('is_private') == 'true' ? true : false;
             $data->save();
 
             $tbFile = [];
             if ($request->hasFile('file_arsip')) {
                 foreach ($request->file('file_arsip') as $key => $file) {
                     $extention = $file->getClientOriginalExtension();
-                    $filename  = 'ARSIP-' . Str::uuid() . '.' . $extention;
+                    $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
                     $file->move(public_path('uploads/arsip/'), $filename);
-
                     $tbFile[$key] = new $this->fileModel;
                     $tbFile[$key]->id_arsip = $data->id;
                     $tbFile[$key]->file_arsip = $filename;
