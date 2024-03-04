@@ -144,16 +144,14 @@ class ArsipRepositories implements ArsipInterfaces
 
             $tbFile = [];
             if ($request->hasFile('file_arsip')) {
-                foreach ($request->file('file_arsip') as $key => $file) {
+                foreach ($request->file('file_arsip') as $file) {
                     $extension = $file->getClientOriginalExtension();
                     $filename = 'ARSIP-' . Str::random(5) . '.' . $extension;
                     $file->move(public_path('uploads/arsip/'), $filename);
-
                     $newFile = new FileModel();
                     $newFile->id_arsip = $data->id;
                     $newFile->file_arsip = $filename;
                     $newFile->save();
-    
                     $tbFile[] = $newFile;
                 }
             }
