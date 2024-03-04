@@ -30,4 +30,9 @@ class ArsipController extends Controller
     {
         return $this->arsipRepositories->getFile($id_user, $id_arsip);
     }
+
+    public function updateData(ArsipRequest $request, $id)
+    {
+        return $this->arsipRepositories->updateData($request, $id);
+    }
 }

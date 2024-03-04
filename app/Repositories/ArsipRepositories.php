@@ -117,4 +117,54 @@ class ArsipRepositories implements ArsipInterfaces
             return $this->error($th);
         }
     }
+
+    public function updateData(ArsipRequest $request, $id)
+    {
+        try {
+            $user = Auth::user()->id;
+            $data = $this->arsipModel->findOrFail($id);
+            $data->id_user = $user;
+            $data->id_type_document = $request->input('id_type_document');
+            $data->id_year = $request->input("id_year");
+            $data->code_arsip = $request->input("code_arsip");
+            $data->date_arsip = Carbon::parse($request->input('date_arsip'))->format('Y-m-d');
+            $data->description = htmlspecialchars($request->input("description"));
+            $data->in_or_out_arsip = $request->input('in_or_out_arsip');
+            $data->is_private = $request->has('is_private') && $request->input('is_private') == 'true' ? true : false;
+            $data->save();
+    
+            $oldFiles = $this->fileModel->where('id_arsip', $id)->get();
+            foreach ($oldFiles as $oldFile) {
+                $oldFilePath = public_path('uploads/arsip/') . $oldFile->file_arsip;
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
+                $oldFile->delete();
+            }
+
+            $tbFile = [];
+            if ($request->hasFile('file_arsip')) {
+                foreach ($request->file('file_arsip') as $key => $file) {
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = 'ARSIP-' . Str::random(5) . '.' . $extension;
+                    $file->move(public_path('uploads/arsip/'), $filename);
+
+                    $newFile = new FileModel();
+                    $newFile->id_arsip = $data->id;
+                    $newFile->file_arsip = $filename;
+                    $newFile->save();
+    
+                    $tbFile[] = $newFile;
+                }
+            }
+    
+            return $this->success([
+                'data' => $data,
+                'file' => $tbFile
+            ]);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+    
 }

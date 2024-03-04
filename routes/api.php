@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get      ('/get/user',       'getDataByUser');
             Route::post     ('/create',         'createData');
             Route::get      ('/get/{id}',       'getDataById');
-            Route::post     ('/update/{id}',    'updateData');
+            Route::post     ('/create',         'createData');
             Route::delete   ('/delete/{id}',    'deleteData');
         });
 
@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get      ('/',               'list');
             Route::get      ('file/{id_user}/{id_arsip}',               'getFile');
             Route::post     ('/create',         'createData');
+            Route::post     ('/update/{id}',         'updateData');
         });
 
         Route::prefix('position')->controller(PositionController::class)->group(function () {

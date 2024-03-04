@@ -10,4 +10,5 @@ interface ArsipInterfaces
     public function list(Request $request);
     public function createData(ArsipRequest $request);
     public function getFile($id_user , $id_arsip);
+    public function updateData(ArsipRequest $request, $id);
 }

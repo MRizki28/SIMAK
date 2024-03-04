@@ -29,7 +29,7 @@ class ArsipRequest extends FormRequest
             $rules["id_year"] = "required";
             $rules["code_arsip"] = "required";
             // $rules["file_arsip"] = "mimes:png,jpg,pdf,docx,doc,xlxs,xlx,csv";
-            $rules["date_arsip"] = "required";
+            // $rules["date_arsip"] = "required";
             $rules["description"] = "required";
             $rules["in_or_out_arsip"] = "required|in:suratMasuk,suratKeluar, tidakKeduanya";
         } else {
