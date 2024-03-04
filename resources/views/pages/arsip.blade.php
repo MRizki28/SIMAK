@@ -475,6 +475,35 @@
                     }
                 });
             });
+
+            $(document).on('click', '.delete-confirm', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                deleteAlert().then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ url('api/v1/arsip/delete') }}/" + id,
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "id": id
+                            },
+                            success: function(response) {
+                                if (response.code === 400) {
+                                    failedDeleteDataAlert();
+                                } else {
+                                    successDeleteAlert().then(function() {
+                                        loadData();
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                errorAlert();
+                            }
+                        });
+                    }
+                })
+            });
         });
     </script>
 @endsection

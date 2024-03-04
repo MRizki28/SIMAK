@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class ArsipRepositories implements ArsipInterfaces
 {
@@ -132,7 +133,7 @@ class ArsipRepositories implements ArsipInterfaces
             $data->in_or_out_arsip = $request->input('in_or_out_arsip');
             $data->is_private = $request->has('is_private') && $request->input('is_private') == 'true' ? true : false;
             $data->save();
-    
+
             $oldFiles = $this->fileModel->where('id_arsip', $id)->get();
             foreach ($oldFiles as $oldFile) {
                 $oldFilePath = public_path('uploads/arsip/') . $oldFile->file_arsip;
@@ -155,7 +156,7 @@ class ArsipRepositories implements ArsipInterfaces
                     $tbFile[] = $newFile;
                 }
             }
-    
+
             return $this->success([
                 'data' => $data,
                 'file' => $tbFile
@@ -164,5 +165,26 @@ class ArsipRepositories implements ArsipInterfaces
             return $this->error($th);
         }
     }
-    
+
+    public function deleteData($id)
+    {
+        try {
+            $data = $this->arsipModel->where('id', $id)->first();
+
+            $fileArsip = $this->fileModel->where('id_arsip', $id)->get();
+            foreach ($fileArsip as $file) {
+                $location = public_path('uploads/arsip/') . $file->file_arsip;
+                $file->delete();
+
+                if (File::exists($location)) {
+                    File::delete($location);
+                }
+            }
+            $data->delete();
+
+            return $this->delete();
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
 }

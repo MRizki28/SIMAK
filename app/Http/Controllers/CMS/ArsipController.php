@@ -35,4 +35,9 @@ class ArsipController extends Controller
     {
         return $this->arsipRepositories->updateData($request, $id);
     }
+
+    public function deleteData($id)
+    {
+        return $this->arsipRepositories->deleteData($id);
+    }
 }
