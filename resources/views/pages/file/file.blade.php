@@ -23,7 +23,7 @@
                     <div class="card-header">
                     </div>
                     <div class="card-body">
-                        <div class="row " id="content">
+                        <div class="row p-2" id="content">
 
                         </div>
                     </div>
@@ -60,11 +60,11 @@
                             } else if (file.file_arsip.toLowerCase().endsWith('.docx') || file
                                 .file_arsip.toLowerCase().endsWith('.doc')) {
                                 contentBody +=
-                                    '<i class="fas fa-file-word fa-2xl text-center mb-1"></i>';
+                                    '<i class="fas fa-file-word fa-2xl text-center mb-1" style="color:#1269DB;"></i>';
                             } else if (file.file_arsip.toLowerCase().endsWith('.xlsx') || file
                                 .file_arsip.toLowerCase().endsWith('.xls')) {
                                 contentBody +=
-                                    '<i class="fas fa-file-excel fa-2xl text-center mb-1"></i>';
+                                    '<i class="fas fa-file-excel fa-2xl text-center mb-1" style="color:green;"></i>';
                             } else {
                                 contentBody +=
                                     '<i class="fas fa-file-archive fa-2xl text-center mb-1" style="color:#F2AC34;"></i>';
