@@ -243,7 +243,8 @@
                     success: function(response) {
                         console.log(response)
                         let tableBody = "";
-                        let idUser = decryptToken(localStorage.getItem('id_user'), key)
+                        let idUser = decryptToken(Cookies.get('cookie_user'), key)
+                        console.log(idUser)
                         if (response.code == 200) {
                             $.each(response.data.data, function(item, value) {
                                 let name_type_document = value.type_document.name_type_document;

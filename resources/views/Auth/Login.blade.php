@@ -137,10 +137,10 @@
                         });
                         let id = encryptToken(response.user.id, key);
                         console.log(id);
-                        localStorage.setItem('id_user', id);
-
-                        let getToken = decryptToken(localStorage.getItem('id_user'), key)
-                        console.log('hasil decrypt', getToken);
+                        Cookies.set('cookie_user', id, {
+                            secure: true, 
+                            SameSite: 'Strict'
+                        });
                         window.location.href = '/'
                     }
                 }
