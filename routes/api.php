@@ -59,6 +59,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post     ('/create',         'createData');
             Route::post     ('/update/{id}',         'updateData');
             Route::delete   ('/delete/{id}',    'deleteData');
+            Route::get      ('/get/{id}',       'getDataById');
+            Route::delete   ('/delete/file/{id}',    'deleteFile');
+            Route::post     ('/add/file',         'addFile');
         });
 
         Route::prefix('position')->controller(PositionController::class)->group(function () {
