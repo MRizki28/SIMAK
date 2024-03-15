@@ -97,6 +97,16 @@ function warningAlert() {
     });
 }
 
+function warningExtentionAlert() {
+    Swal.fire({
+        title: 'Peringatan',
+        text: 'Format file tidak di dukung !',
+        icon: 'warning',
+        timer: 5000,
+        showConfirmButton: true
+    });
+}
+
 function deleteAlert() {
     return Swal.fire({
         title: 'Hapus ?',
