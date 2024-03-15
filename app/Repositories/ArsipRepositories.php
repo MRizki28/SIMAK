@@ -77,18 +77,25 @@ class ArsipRepositories implements ArsipInterfaces
             $data->description = htmlspecialchars($request->input("description"));
             $data->in_or_out_arsip = $request->input('in_or_out_arsip');
             $data->is_private = $request->has('is_private') && $request->input('is_private') == 'true' ? true : false;
-            $data->save();
 
             $tbFile = [];
             if ($request->hasFile('file_arsip')) {
                 foreach ($request->file('file_arsip') as $key => $file) {
                     $extention = $file->getClientOriginalExtension();
-                    $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
-                    $file->move(public_path('uploads/arsip/'), $filename);
-                    $tbFile[$key] = new $this->fileModel;
-                    $tbFile[$key]->id_arsip = $data->id;
-                    $tbFile[$key]->file_arsip = $filename;
-                    $tbFile[$key]->save();
+                    if (!in_array($extention, ['png', 'jpg', 'jpeg', 'pdf', 'docx', 'doc', 'xlsx', 'xls', 'csv'])) {
+                        return response()->json([
+                            'code' => 400,
+                            'message' => 'Invalid file extention'
+                        ]);
+                    }else{
+                        $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
+                        $file->move(public_path('uploads/arsip/'), $filename);
+                        $tbFile[$key] = new $this->fileModel;
+                        $tbFile[$key]->id_arsip = $data->id;
+                        $tbFile[$key]->file_arsip = $filename;
+                        $tbFile[$key]->save();
+                        $data->save();
+                    }
                 }
             }
 
@@ -185,6 +192,62 @@ class ArsipRepositories implements ArsipInterfaces
             return $this->delete();
         } catch (\Throwable $th) {
             return $this->error($th);
+        }
+    }
+
+    public function getDataById($id)
+    {
+        try {
+            $data = $this->arsipModel->with('getFile')->where('id', $id)->first();
+            if (!$data) {
+                return $this->idOrDataNotFound();
+            } else {
+                return $this->success($data);
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function deleteFile($id)
+    {
+        try {
+            $data = $this->fileModel->where('id', $id)->first();
+            $location = public_path('uploads/arsip/') . $data->file_arsip;
+            $data->delete();
+
+            if (File::exists($location)) {
+                File::delete($location);
+            }
+            return $this->delete();
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function addFile(ArsipRequest $request)
+    {
+        try {
+            if ($request->hasFile('file_arsip')) {
+                foreach ($request->file('file_arsip') as $file) {
+                    $extention = $file->getClientOriginalExtension();
+                    if (!in_array($extention, ['png', 'jpg', 'jpeg', 'pdf', 'docx', 'doc', 'xlsx', 'xls', 'csv'])) {
+                        return response()->json([
+                            'message' => 'Invalid file extention'
+                        ]);
+                    }
+                    $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
+                    $file->move(public_path('uploads/arsip/'), $filename);
+                    $data = new $this->fileModel;
+                    $data->file_arsip = $filename;
+                    $data->id_arsip = $request->input('id_arsip');
+                    $data->save();
+                }
+            }
+
+            return $this->success('Files uploaded successfully.');
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
         }
     }
 }
