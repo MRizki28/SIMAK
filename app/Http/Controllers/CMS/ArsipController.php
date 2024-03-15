@@ -40,4 +40,19 @@ class ArsipController extends Controller
     {
         return $this->arsipRepositories->deleteData($id);
     }
+
+    public function getDataById($id)
+    {
+        return $this->arsipRepositories->getDataById($id);
+    }
+
+    public function deleteFile($id)
+    {
+        return $this->arsipRepositories->deleteFile($id);
+    }
+
+    public function addFile(ArsipRequest $request)
+    {
+        return $this->arsipRepositories->addFile($request);
+    }
 }
