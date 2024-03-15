@@ -34,7 +34,9 @@ class ArsipRepositories implements ArsipInterfaces
         $limit = $request->input('limit') ? $request->input('limit') : 10;
         $page = (int) $request->input('page', 1);
 
-        $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year');
+        $user = Auth::user()->id;
+
+        $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user);
 
         if ($startDate && $endDate) {
             $query->whereBetween('date_arsip', [$startDate, $endDate]);
@@ -88,13 +90,13 @@ class ArsipRepositories implements ArsipInterfaces
                             'message' => 'Invalid file extention'
                         ]);
                     }else{
+                        $data->save();
                         $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
                         $file->move(public_path('uploads/arsip/'), $filename);
                         $tbFile[$key] = new $this->fileModel;
                         $tbFile[$key]->id_arsip = $data->id;
                         $tbFile[$key]->file_arsip = $filename;
                         $tbFile[$key]->save();
-                        $data->save();
                     }
                 }
             }
