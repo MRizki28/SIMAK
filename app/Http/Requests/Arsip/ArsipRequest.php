@@ -23,23 +23,32 @@ class ArsipRequest extends FormRequest
      */
     public function rules()
     {
-         // 'code_arsip' => 'required|unique:tb_arsip,code_arsip,id_user,' . auth()->id()
+        $rules = [];
+
         if ($this->is("api/v1/arsip/update/*")) {
-            $rules["id_type_document"] = "required";
-            $rules["id_year"] = "required";
-            $rules["code_arsip"] = "required";
-            // $rules["file_arsip"] = "mimes:png,jpg,pdf,docx,doc,xlxs,xlx,csv";
-            // $rules["date_arsip"] = "required";
-            $rules["description"] = "required";
-            $rules["in_or_out_arsip"] = "required|in:suratMasuk,suratKeluar, tidakKeduanya";
+            $rules = [
+                'id_type_document' => 'required',
+                'id_year' => 'required',
+                'code_arsip' => 'required',
+                'date_arsip' => 'required',
+                'description' => 'required',
+                'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar, tidakKeduanya',
+            ];
+        } elseif ($this->is("api/v1/arsip/add/file")) {
+            $rules = [
+                'id_arsip' => 'required',
+                'file_arsip' => 'required',
+            ];
         } else {
-            $rules["id_type_document"] = "required";
-            $rules["id_year"] = "required";
-            $rules["code_arsip"] = "required";
-            // $rules["file_arsip"] = "required|mimes:png,jpg,jpeg,pdf,docx,doc,xlxs,xlx,csv";
-            $rules["date_arsip"] = "required";
-            $rules["description"] = "required";
-            $rules["in_or_out_arsip"] = "required|in:suratMasuk,suratKeluar, tidakKeduanya";
+            $rules = [
+                'id_type_document' => 'required',
+                'id_year' => 'required',
+                'code_arsip' => 'required',
+                'date_arsip' => 'required',
+                'description' => 'required',
+                'file_arsip' => 'required',
+                'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar, tidakKeduanya',
+            ];
         }
 
         return $rules;
