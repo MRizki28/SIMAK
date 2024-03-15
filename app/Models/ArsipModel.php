@@ -39,6 +39,6 @@ class ArsipModel extends Model
 
     public function getFile()
     {
-        return $this->belongsTo(FileModel::class, 'id_arsip');
+        return $this->hasMany(FileModel::class, 'id_arsip');
     }
 }
