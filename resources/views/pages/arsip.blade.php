@@ -106,7 +106,7 @@
                                         <div class="form-group form-show-validation">
                                             <label for="code_arsip">Kode Arsip</label>
                                             <input type="text" class="form-control  required" required name="code_arsip"
-                                                placeholder="Contoh: SM-001">
+                                                placeholder="Contoh: SM-001" id="code_arsip">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -131,7 +131,7 @@
                                         <div class="form-group form-show-validation">
                                             <label for="date_arsip">Tanggal Arsip</label>
                                             <input type="date" class="form-control  required" required
-                                                name="date_arsip">
+                                                name="date_arsip" id="date_arsip">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -149,7 +149,7 @@
                                         <div class="form-group form-show-validation">
                                             <label for="file_arsip">File</label>
                                             <input type="file" class="form-control" required name="file_arsip[]"
-                                                id="file_arsip[]" multiple>
+                                                id="file_arsip" multiple>
                                         </div>
                                     </div>
                                 </div>
@@ -230,7 +230,7 @@
                                                 name="date_arsip" id="edate_arsip">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group form-show-validation">
                                             <label for="date_arsip">Label</label>
                                             <select class="form-control" name="in_or_out_arsip" id="ein_or_out_arsip">
@@ -239,14 +239,6 @@
                                                 <option value="suratKeluar">Surat Keluar</option>
                                                 <option value="tidakKeduanya">Jenis Lain</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group form-show-validation">
-                                            <label for="file_arsip">File</label>
-                                            <input type="file" class="form-control" disabled required
-                                                name="file_arsip[]" id="efile_arsip" multiple>
-                                            <span id="total-file"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -283,6 +275,8 @@
 
             $("#id_type_document").select2();
             $("#id_year").select2();
+            $("#eid_type_document").select2();
+            $("#eid_year").select2();
             $(".select2-selection").addClass("form-control");
 
             function paramsSearch() {
@@ -440,6 +434,8 @@
 
                     $("#id_type_document").append(dataTypeDocument);
                     $("#id_year").append(dataYear);
+                    $("#eid_type_document").append(dataTypeDocument);
+                    $("#eid_year").append(dataYear);
                 }).catch(function(err) {
                     console.log(error)
                 });
@@ -585,9 +581,98 @@
                         console.log(response);
                         $('#eid').val(response.data.id);
                         $('#ecode_arsip').val(response.data.code_arsip);
-                        $('#total_file').Html(response.data.file_arsip.length);
+                        $('#eid_type_document').val(response.data.id_type_document).trigger(
+                            'change');
+                        $('#eid_year').val(response.data.id_year).trigger('change');
+                        $('#edate_arsip').val(response.data.date_arsip);
+                        $('#ein_or_out_arsip').val(response.data.in_or_out_arsip).trigger(
+                            'change');
+                        $('#edescription').val(response.data.description);
+                        if (response.data.is_private) {
+                            $("#eis_private").prop("checked", true);
+                        } else {
+                            $("#eis_private").prop("checked", false);
+                        }
                     }
                 });
+            });
+
+            $("#formEdit").submit(function(e) {
+                e.preventDefault();
+                let id = $('#eid').val();
+                console.log("Form submitted for editing, id:", id);
+                let formData = new FormData(this);
+                let submitButton = $(this).find(':submit');
+                submitButton.attr('disabled', true);
+                let isPrivate = $("#eis_private").is(":checked");
+                formData.append("is_private", isPrivate);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('api/v1/arsip/update') }}/" + id,
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response);
+                        submitButton.attr('disabled', false);
+                        if (response.message == "Check your validation") {
+                            warningAlert();
+                        } else if (response.code == 400) {
+                            errorAlert();
+                        } else {
+                            successAlert().then(function() {
+                                $('#arsipModalEdit').modal('hide');
+                                loadData();
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.attr('disabled', false);
+                        errorAlert();
+                    }
+                });
+            });
+
+            function resetModal() {
+                $('#id').val('').removeClass('border-danger');
+                $('.form-group').removeClass('has-error').removeClass('has-success');
+                $('#code_arsip').val('');
+                $('#ecode_arsip').val('');
+                $('#id_type_document').val('').trigger('change');
+                $('#eid_type_document').val('').trigger('change');
+                $('#id_year').val('').trigger('change');
+                $('#eid_year').val('').trigger('change');
+                $('#date_arsip').val('');
+                $('#edate_arsip').val('');
+                $('#in_or_out_arsip').val('');
+                $('#ein_or_out_arsip').val('');
+                $('#file_arsip').val('');
+                $('#description').val('');
+                $('#edescription').val('');
+                $("#is_private").prop("checked", false);
+                $("#eis_private").prop("checked", false);
+
+                $('#code_arsip-error').remove();
+                $('#ecode_arsip-error').remove();
+                $('#id_type_document-error').remove();
+                $('#eid_type_document-error').remove();
+                $('#id_year-error').remove();
+                $('#eid_year-error').remove();
+                $('#date_arsip-error').remove();
+                $('#edate_arsip-error').remove();
+                $('#in_or_out_arsip-error').remove();
+                $('#ein_out_arsip-error').remove();
+                $('#file_arsip-error').remove();
+                $('#description-error').remove();
+                $('#edescription-error').remove();
+                
+
+            }
+
+            $('#arsipModal , #arsipModalEdit').on('hidden.bs.modal', function() {
+                resetModal()
             });
 
             $(document).on('click', '.delete-confirm', function(e) {
