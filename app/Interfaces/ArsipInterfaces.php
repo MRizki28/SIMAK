@@ -12,4 +12,7 @@ interface ArsipInterfaces
     public function getFile($id_user , $id_arsip);
     public function updateData(ArsipRequest $request, $id);
     public function deleteData($id);
+    public function getDataById($id);
+    public function deleteFile($id);
+    public function addFile(ArsipRequest $request);
 }
