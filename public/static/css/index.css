@@ -1,3 +1,18 @@
 .w-60 {
     width: 60%;
 }
+#content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 18px;
+}
+
+@media screen and (max-width: 767px) {
+    #content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nameFile {
+        text-align: center
+    }
+}

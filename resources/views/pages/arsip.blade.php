@@ -67,7 +67,7 @@
                                 <tfoot id="dataNotFound">
                                     <tr class="text-center text-muted" id="template-empty-info">
                                         <td colspan="9" class=" ">
-                                            <i class="fas fa-folder-open mr-1"></i> File tidak ditemukan ...
+                                            <i class="fas fa-folder-open mr-1"></i> Data tidak ditemukan ...
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -335,8 +335,11 @@
                         console.log(response)
                         let tableBody = "";
                         let idUser = decryptToken(Cookies.get('cookie_user'), key)
-                        console.log(idUser)
                         if (response.code == 200) {
+                            let userName = response.data.data[0].user
+                                .name; // Dapatkan nama pengguna dari respons API
+                            localStorage.setItem('user_name',
+                                userName); // Simpan nama pengguna ke dalam local storage
                             $.each(response.data.data, function(item, value) {
                                 let name_type_document = value.type_document.name_type_document;
                                 let file_arsip = value.file_arsip;
@@ -667,7 +670,7 @@
                 $('#file_arsip-error').remove();
                 $('#description-error').remove();
                 $('#edescription-error').remove();
-                
+
 
             }
 

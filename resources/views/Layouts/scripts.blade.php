@@ -102,6 +102,8 @@
                             success: function(response) {
                                 console.log(response);
                                 window.location.href = '/login';
+                                localStorage.removeItem('id_arsip')
+                                localStorage.removeItem('user_name')
                             },
                             error: function(xhr, status, error) {
                                 console.log(error)
