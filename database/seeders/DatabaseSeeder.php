@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             YearSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            PositionSeeder::class
         ]);
     }
 }

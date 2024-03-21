@@ -25,18 +25,17 @@ class AuthRequest extends FormRequest
     public function rules()
     {
 
-        if ($this->is("api/v1/auth/*")) {
+        if ($this->is("api/v1/auth/update/*")) {
             $rules['id_position'] = 'required';
             $rules['name'] = 'required';
-            $rules['email'] = [
+            $rules['username'] = [
                 'required',
-                'email',
-                Rule::unique('users')->ignore($this->route('id')),
+                Rule::unique('users', 'username')->ignore($this->route('auth')),
             ];
         } else {
             $rules['id_position'] = 'required';
             $rules['name'] = 'required';
-            $rules['email'] = 'required|email|unique:users';
+            $rules['username'] = 'required|unique:users,username';
         }
 
         return $rules;

@@ -22,7 +22,7 @@
                                     <tr class="text-center" style="padding: 0 25px !important;">
                                         <th style="padding: 0 25px !important;" width="50">No</th>
                                         <th style="padding: 0 25px !important;">Name</th>
-                                        <th style="padding: 0 25px !important;">Email</th>
+                                        <th style="padding: 0 25px !important;">Username</th>
                                         <th style="padding: 0 25px !important;">Jabatan</th>
                                         <th style="padding: 0 25px !important;" width="120">Aksi</th>
                                     </tr>
@@ -59,8 +59,8 @@
                                     <input type="text" class="form-control  " required name="name" id="name">
                                 </div>
                                 <div class="form-group form-show-validation">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" required name="email" id="email">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" required name="username" id="username">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="id_position">Jabatan</label>
@@ -114,8 +114,8 @@
                                     <input type="text" class="form-control  " required name="name" id="ename">
                                 </div>
                                 <div class="form-group form-show-validation">
-                                    <label for="email">Email</label>
-                                    <input type="text" class="form-control" required name="email" id="eemail">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" required name="username" id="eusername">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="id_position">Jabatan</label>
@@ -172,7 +172,7 @@
                                 '</td>';
                             tableBody +=
                                 '<td style="padding: 0 25px !important;"  class="text-center">' +
-                                item.email +
+                                item.username +
                                 '</td>';
                             if (item.position !== null) {
                                 tableBody +=
@@ -182,15 +182,24 @@
                                 tableBody +=
                                     '<td style="padding: 0 25px !important;"  class="text-center">Admin</td>';
                             }
-                            tableBody +=
-                                "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
-                                "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#userManagementEditModal' data-id='" +
-                                item.id + "'><i class='fas fa-edit'></i></button>" +
-                                "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
-                                item.id +
-                                "' name='rejected'><i class='fas fa-trash-alt'></i></button>" +
-                                "</td>";
-                            tableBody += '</tr>';
+                            if (item.username == 'adminsimak') {
+                                tableBody +=
+                                    "<td style='padding: 0 10px !important;'  class='text-left text-center '>" + 
+                                        "<span>Tidak Bisa Aksi" + "</span>"
+                                    "</td>";
+                                tableBody += '</tr>';
+                            } else {
+                                tableBody +=
+                                    "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
+                                    "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#userManagementEditModal' data-id='" +
+                                    item.id + "'><i class='fas fa-edit'></i></button>" +
+                                    "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
+                                    item.id +
+                                    "' name='rejected'><i class='fas fa-trash-alt'></i></button>" +
+                                    "</td>";
+                                tableBody += '</tr>';
+                            }
+
                         });
                         dataTable.clear().rows.add($(tableBody)).draw();
                     }
@@ -204,7 +213,7 @@
                         name: {
                             required: true
                         },
-                        email: {
+                        username: {
                             required: true
                         },
                         id_position: {
@@ -221,7 +230,7 @@
                         id_position: {
                             required: "Field ini wajib diisi"
                         },
-                        email: {
+                        username: {
                             required: "Field ini wajib diisi"
                         },
                         password: {
@@ -247,7 +256,7 @@
                         name: {
                             required: true
                         },
-                        email: {
+                        username: {
                             required: true
                         },
                         id_position: {
@@ -261,7 +270,7 @@
                         id_position: {
                             required: "Field ini wajib diisi"
                         },
-                        email: {
+                        username: {
                             required: "Field ini wajib diisi"
                         },
                     },
@@ -300,11 +309,11 @@
                     success: function(response) {
                         console.log(response)
                         submitButton.attr('disabled', false);
-                        if (response.errors && response.errors.email && response.errors.email
-                            .includes('The email has already been taken.')) {
+                        if (response.errors && response.errors.username && response.errors.username
+                            .includes('The username has already been taken.')) {
                             Swal.fire({
                                 title: 'Warning!',
-                                text: 'Email sudah terdaftar sebelumnya !',
+                                text: 'Username sudah terdaftar sebelumnya !',
                                 icon: 'warning',
                                 showConfirmButton: true
                             });
@@ -358,7 +367,7 @@
                         console.log('disini', response)
                         $('#eid').val(response.data.id);
                         $('#ename').val(response.data.name);
-                        $('#eemail').val(response.data.email);
+                        $('#eusername').val(response.data.username);
                         $('#eid_position').val(response.data.id_position).trigger('change');
                     }
                 });
@@ -458,17 +467,17 @@
                 $('#eid_position').val('');
                 $('#name').val('');
                 $('#ename').val('');
-                $('#email').val('');
-                $('#eemail').val('');
+                $('#username').val('');
+                $('#eusername').val('');
                 $('#password').val('12345678');
                 $('#id_position-error').remove();
                 $('#eid_position-error').remove();
                 $('#name-error').remove();
                 $('#ename-error').remove();
-                $('#email-error').remove();
-                $('#eemail-error').remove();
+                $('#username-error').remove();
+                $('#eusername-error').remove();
                 $('#password-error').remove();
-                
+
             }
 
             $('#userManagementModal , #userManagementEditModal').on('hidden.bs.modal', function() {

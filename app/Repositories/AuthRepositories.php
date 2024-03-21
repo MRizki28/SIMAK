@@ -29,7 +29,7 @@ class AuthRepositories implements AuthInterfaces
             $data = new $this->userModel;
             $data->id_position = htmlspecialchars($request->input('id_position'));
             $data->name = htmlspecialchars($request->input('name'));
-            $data->email = htmlspecialchars($request->input('email'));
+            $data->username = htmlspecialchars($request->input('username'));
             $data->password = htmlspecialchars(Hash::make($password));
             $data->save();
 
@@ -39,7 +39,9 @@ class AuthRepositories implements AuthInterfaces
                 'token' => $token
             ]);
         } catch (\Throwable $th) {
-            return $this->error($th);
+            return response()->json([
+                'errors' => $th->getMessage()
+            ]);
         }
     }
 
@@ -48,7 +50,7 @@ class AuthRepositories implements AuthInterfaces
         try {
 
             $validation = Validator::make($request->all(), [
-                'email' => 'required|email',
+                'username' => 'required',
                 'password' => 'required'
             ]);
 
@@ -60,12 +62,12 @@ class AuthRepositories implements AuthInterfaces
                 ]);
             }
 
-            if (!Auth::attempt($request->only('email', 'password'))) {
+            if (!Auth::attempt($request->only('username', 'password'))) {
                 return response()->json([
                     'message' => 'Unauthorization'
                 ]);
             } else {
-                $user = $this->userModel->where('email', $request['email'])->firstOrFail();
+                $user = $this->userModel->where('username', $request['username'])->firstOrFail();
                 $token = $user->createToken('auth_token')->plainTextToken;
 
                 return response()->json([
@@ -137,7 +139,7 @@ class AuthRepositories implements AuthInterfaces
             $data = $this->userModel->where('id', $id)->first();
             $data->id_position = htmlspecialchars($request->input('id_position'));
             $data->name = htmlspecialchars($request->input('name'));
-            $data->email = htmlspecialchars($request->input('email'));
+            $data->username = htmlspecialchars($request->input('username'));
             $data->save();
             return $this->success($data);
         } catch (\Throwable $th) {

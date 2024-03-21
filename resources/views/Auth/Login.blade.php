@@ -26,8 +26,8 @@
                             </div>
                             <div>
                                 <div class="form-group form-show-validation">
-                                    <input type="email" class="form-control" placeholder="Email@gmail.com"
-                                        name="email">
+                                    <input type="text" class="form-control" placeholder="Username"
+                                        name="username">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <input type="password" class="form-control" placeholder="Password" name="password">
@@ -68,7 +68,7 @@
         function validationLogin() {
             $('#formLogin').validate({
                 rules: {
-                    email: {
+                    username: {
                         required: true
                     },
                     password: {
@@ -76,7 +76,7 @@
                     },
                 },
                 messages: {
-                    email: {
+                    username: {
                         required: "Field ini wajib diisi"
                     },
                     password: {

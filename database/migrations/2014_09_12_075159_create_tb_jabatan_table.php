@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('tb_position', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('code_position');
             $table->string('position');
             $table->timestamps();
         });

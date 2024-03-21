@@ -36,10 +36,6 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.arsip');
     });
 
-    Route::get('/jabatan', function () {
-        return view('pages.superadmin.position');
-    });
-
     Route::get('/usermanagement', function () {
         return view('pages.superadmin.usermanagement');
     });

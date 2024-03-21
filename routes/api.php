@@ -66,10 +66,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::prefix('position')->controller(PositionController::class)->group(function () {
             Route::get      ('/',               'getAllData');
-            Route::post     ('/create',         'createData');
-            Route::get      ('/get/{id}',       'getDataById');
-            Route::post     ('/update/{id}',    'updateData');
-            Route::delete   ('/delete/{id}',    'deleteData');
         });
     });
 });
