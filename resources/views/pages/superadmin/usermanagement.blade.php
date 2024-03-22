@@ -184,9 +184,9 @@
                             }
                             if (item.username == 'adminsimak') {
                                 tableBody +=
-                                    "<td style='padding: 0 10px !important;'  class='text-left text-center '>" + 
-                                        "<span>Tidak Bisa Aksi" + "</span>"
-                                    "</td>";
+                                    "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
+                                    "<span>Tidak Bisa Aksi" + "</span>"
+                                "</td>";
                                 tableBody += '</tr>';
                             } else {
                                 tableBody +=
@@ -309,7 +309,8 @@
                     success: function(response) {
                         console.log(response)
                         submitButton.attr('disabled', false);
-                        if (response.errors && response.errors.username && response.errors.username
+                        if (response.errors && response.errors.username && response.errors
+                            .username
                             .includes('The username has already been taken.')) {
                             Swal.fire({
                                 title: 'Warning!',
@@ -484,6 +485,35 @@
                 resetModal();
                 $('#reset-password-btn').prop(
                     'disabled', false);
+            });
+
+            $(document).on('click', '.delete-confirm', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                deleteAlert().then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ url('api/v1/auth/delete') }}/" + id,
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "id": id
+                            },
+                            success: function(response) {
+                                if (response.code === 400) {
+                                    failedDeleteDataAlert();
+                                } else {
+                                    successDeleteAlert().then(function() {
+                                        getAllData();
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                errorAlert();
+                            }
+                        });
+                    }
+                })
             });
 
         });
