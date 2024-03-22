@@ -19,6 +19,7 @@ class ArsipModel extends Model
         'code_arsip',
         'date_arsip',
         'description',
+        'in_or_out_arsip',
         'is_private'
     ];
 

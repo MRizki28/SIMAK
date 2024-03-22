@@ -32,7 +32,7 @@ class ArsipRequest extends FormRequest
                 'code_arsip' => 'required',
                 'date_arsip' => 'required',
                 'description' => 'required',
-                'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar, tidakKeduanya',
+                'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar,jenisLain',
             ];
         } elseif ($this->is("api/v1/arsip/add/file")) {
             $rules = [
@@ -47,7 +47,7 @@ class ArsipRequest extends FormRequest
                 'date_arsip' => 'required',
                 'description' => 'required',
                 'file_arsip' => 'required',
-                'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar, tidakKeduanya',
+                'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar,jenisLain',
             ];
         }
 

@@ -54,9 +54,11 @@
                                         <th style="padding: 0 25px !important;">Kode Arsip</th>
                                         <th style="padding: 0 25px !important;">Pembuat</th>
                                         <th style="padding: 0 25px !important;">Jenis Dokumen</th>
+                                        <th style="padding: 0 25px !important;">Label</th>
                                         <th style="padding: 0 25px !important;">Tahun Arsip</th>
                                         <th style="padding: 0 25px !important;">File</th>
                                         <th style="padding: 0 25px !important;">Tanggal</th>
+                                        <th style="padding: 0 25px !important;">Deskripsi</th>
                                         <th style="padding: 0 25px !important;">Type Dokumen</th>
                                         <th style="padding: 0 25px !important;">Aksi</th>
                                     </tr>
@@ -141,7 +143,7 @@
                                                 <option value="" selected disabled hidden>Choose here</option>
                                                 <option value="suratMasuk">Surat Masuk</option>
                                                 <option value="suratKeluar">Surat Keluar</option>
-                                                <option value="tidakKeduanya">Jenis Lain</option>
+                                                <option value="jenisLain">Jenis Lain</option>
                                             </select>
                                         </div>
                                     </div>
@@ -237,7 +239,7 @@
                                                 <option value="" selected disabled hidden>Choose here</option>
                                                 <option value="suratMasuk">Surat Masuk</option>
                                                 <option value="suratKeluar">Surat Keluar</option>
-                                                <option value="tidakKeduanya">Jenis Lain</option>
+                                                <option value="jenisLain">Jenis Lain</option>
                                             </select>
                                         </div>
                                     </div>
@@ -337,9 +339,9 @@
                         let idUser = decryptToken(Cookies.get('cookie_user'), key)
                         if (response.code == 200) {
                             let userName = response.data.data[0].user
-                                .name; // Dapatkan nama pengguna dari respons API
+                                .name;
                             localStorage.setItem('user_name',
-                                userName); // Simpan nama pengguna ke dalam local storage
+                                userName);
                             $.each(response.data.data, function(item, value) {
                                 let name_type_document = value.type_document.name_type_document;
                                 let file_arsip = value.file_arsip;
@@ -353,11 +355,21 @@
                                 tableBody += "<td>" + name + "</td>"
                                 tableBody += "<td>" + name_type_document +
                                     "</td>"
+                                if (value.in_or_out_arsip == 'jenisLain') {
+                                    tableBody += "<td>" + "Jenis Lain" +
+                                        "</td>"
+                                } else if (value.in_or_out_arsip == 'suratMasuk') {
+                                    tableBody += "<td>" + "Surat Masuk" +
+                                        "</td>"
+                                } else if (value.in_or_out_arsip == 'suratKeluar') {
+                                    tableBody += "<td>" + "Surat Keluar" +
+                                        "</td>"
+                                }
                                 tableBody += "<td>" + year + "</td>"
                                 tableBody += "<td><a href='/file/" + idUser + "/" + value.id +
-                                    "'>View</a></td>";
-
+                                    "'><i class='fas fa-eye fa-xl'></i></a></td>";
                                 tableBody += "<td>" + value.date_arsip + "</td>"
+                                tableBody += "<td>" + value.description + "</td>"
                                 tableBody += "<td>" + (value.is_private === 0 ?
                                     "<i class='fas fa-lock-open'></i>" :
                                     "<i class='fas fa-lock'></i>") + "</td>";

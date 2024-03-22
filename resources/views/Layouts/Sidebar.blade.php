@@ -39,13 +39,33 @@
 								<p>Jenis Dokumen</p>
 							</a>
 						</li>
-						
 						<li class="nav-item {{ request()->is('arsip*') ? 'active' : '' }}">
                             <a href="{{ url('/arsip') }}">
                                 <i class="fas fa-file"></i>
                                 <p>Buat Arsip</p>
                             </a>
-                        </li>    
+                        </li>   
+						<li class="nav-item">
+							<a data-toggle="collapse" href="#sidebarLayouts" class="collapsed" aria-expanded="false">
+								<i class="fas fa-coins"></i>
+								<p>Arsip</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="sidebarLayouts" style="">
+								<ul class="nav nav-collapse">
+									<li class="nav-item {{ request()->is('personal/arsip*') ? 'active' : '' }}">
+										<a href="{{ url('/account-code') }}">
+											<span class="sub-item">Personal Arsip</span>
+										</a>
+									</li>
+									<li class="nav-item {{ request()->is('all/arsip*') ? 'active' : '' }}">
+										<a href="{{ url('/all/arsip') }}">
+											<span class="sub-item">Seluruh Arsip</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li> 
 						<li class="nav-item {{ request()->is('usermanagement*') ? 'active' : '' }}">
                             <a href="{{ url('/usermanagement') }}">
                                 <i class="fas fa-user"></i>

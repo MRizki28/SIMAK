@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('code_arsip');
             $table->date('date_arsip');
             $table->text('description');
-            $table->enum("in_or_out_arsip", ["suratMasuk","suratKeluar" , "tidakKeduanya"]);
+            $table->enum("in_or_out_arsip", ["suratMasuk","suratKeluar" , "jenisLain"]);
             $table->boolean('is_private')->default(false);
             $table->timestamps();
         });
