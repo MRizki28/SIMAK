@@ -30,7 +30,7 @@ class AuthRequest extends FormRequest
             $rules['name'] = 'required';
             $rules['username'] = [
                 'required',
-                Rule::unique('users', 'username')->ignore($this->route('auth')),
+                Rule::unique('users', 'username')->ignore($this->route('id')),
             ];
         } else {
             $rules['id_position'] = 'required';
