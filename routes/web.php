@@ -47,4 +47,16 @@ Route::middleware(['web', 'auth'])->group(function () {
             return view('pages.file.file');
         }
     });
+
+    Route::get('/personal-arsip', function () {
+        return view('pages.managementarsip.personalyeararsip');
+    });
+
+    Route::get('/personal-arsip/jenis-dokumen/{id_user}/{id_year}', function () {
+        return view('pages.managementarsip.personalarsiptypedocument');
+    });
+
+    Route::get('/personal-arsip/data/{id_type_document}/{id_year}', function () {
+        return view('pages.managementarsip.personalarsip');
+    });
 });

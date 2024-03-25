@@ -89,7 +89,7 @@ class ArsipRepositories implements ArsipInterfaces
                             'code' => 400,
                             'message' => 'Invalid file extention'
                         ]);
-                    }else{
+                    } else {
                         $data->save();
                         $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
                         $file->move(public_path('uploads/arsip/'), $filename);
@@ -119,6 +119,48 @@ class ArsipRepositories implements ArsipInterfaces
                 })
                 ->get();
             if (!$data) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data);
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function getDataArsipByPersonal(Request $request, $id_type_document, $id_year)
+    {
+        try {
+            $search = $request->input('search');
+            $startDate = $request->input('startDate');
+            $endDate = $request->input('endDate');
+            $limit = $request->input('limit') ? $request->input('limit') : 10;
+            $page = (int) $request->input('page', 1);
+
+            $user = Auth::user()->id;
+            $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user)->where('id_type_document', $id_type_document)->where('id_year', $id_year);
+            
+            if ($startDate && $endDate) {
+                $query->whereBetween('date_arsip', [$startDate, $endDate]);
+            }
+    
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('code_arsip', 'like', '%' . $search . '%')
+                        ->orWhere('date_arsip', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhereHas('typeDocument', function ($query) use ($search) {
+                            $query->where('name_type_document', 'like', '%' . $search . '%');
+                        })->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('name', 'like', '%' . $search . '%');
+                        })->orWhereHas('year', function ($query) use ($search) {
+                            $query->where('year', 'like', '%' . $search . '%');
+                        });
+                });
+            }
+    
+            $data = $query->paginate($limit, ['*'], 'page', $page);
+            if ($data->isEmpty()) {
                 return $this->dataNotFound();
             } else {
                 return $this->success($data);

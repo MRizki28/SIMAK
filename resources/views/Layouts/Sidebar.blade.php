@@ -53,8 +53,8 @@
 							</a>
 							<div class="collapse" id="sidebarLayouts" style="">
 								<ul class="nav nav-collapse">
-									<li class="nav-item {{ request()->is('personal/arsip*') ? 'active' : '' }}">
-										<a href="{{ url('/account-code') }}">
+									<li class="nav-item {{ request()->is('personal-arsip*') ? 'active' : '' }}">
+										<a href="{{ url('/personal-arsip') }}">
 											<span class="sub-item">Personal Arsip</span>
 										</a>
 									</li>

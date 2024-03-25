@@ -14,4 +14,9 @@ class YearModel extends Model
         'id',
         'year'
     ];
+
+    public function arsip()
+    {
+        return $this->hasMany(ArsipModel::class, 'id_year');
+    }
 }

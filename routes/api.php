@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::prefix('typedocument')->controller(TypeDocumentController::class)->group(function () {
             Route::get      ('/',               'getAllData');
             Route::get      ('/get/user',       'getDataByUser');
+            Route::get      ('/get/user/document/{id_year}',       'getDataByUserYear');
             Route::post     ('/create',         'createData');
             Route::get      ('/get/{id}',       'getDataById');
             Route::post     ('/create',         'createData');
@@ -51,10 +52,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::prefix('year')->controller(YearController::class)->group(function () {
             Route::get      ('/',               'getAllData');
+            Route::get      ('/personal/get',               'getPersonalYear');
         });
 
         Route::prefix('arsip')->controller(ArsipController::class)->group(function () {
             Route::get      ('/',               'list');
+            Route::get      ('/getpersonal/{id_type_document}/{id_year}',               'getDataArsipByPersonal');
             Route::get      ('file/{id_user}/{id_arsip}',               'getFile');
             Route::post     ('/create',         'createData');
             Route::post     ('/update/{id}',         'updateData');

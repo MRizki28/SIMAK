@@ -19,4 +19,9 @@ class YearController extends Controller
     {
         return $this->yearRepositories->getAllData();
     }
+
+    public function getPersonalYear()
+    {
+        return $this->yearRepositories->getPersonalYear();
+    }
 }

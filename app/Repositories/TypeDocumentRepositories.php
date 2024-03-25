@@ -39,6 +39,21 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
         }
     }
 
+    public function getDataByUserYear($id_year)
+    {
+        try {
+            $user  = Auth::user()->id;
+            $data = $this->typeDocumentModel->whereHas('arsip', function ($query) use ($user, $id_year) {
+                $query->where('id_user', $user)
+                    ->where('id_year', $id_year);
+            })->get();
+
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
     public function createData(TypeDocumentRequest $request)
     {
         try {
