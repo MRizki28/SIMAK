@@ -48,12 +48,14 @@
                     $("#dataTable").DataTable().destroy();
                 }
                 let dataTable = $("#dataTable").DataTable();
-                let segments = window.location.pathname.split('/');
-                console.log(segments)
-                let id_year = segments[4];
+                // let segments = window.location.pathname.split('/');
+                // console.log(segments)
+                // let id_year = segments[4];
+                id_year = decryptToken(localStorage.getItem('id_year'), key)
+                console.log('id_year', id_year)
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/typedocument/get/user/document') }}/" + id_year,
+                    url: "{{ url('api/v1/typedocument/get/user/document?id_year=') }}" + id_year,
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)
@@ -69,13 +71,17 @@
                         dataTable.clear().rows.add($(tableBody)).draw();
                         $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
                             const id_type_document = $(this).data("id");
-                            const url = '{{ url('/personal-arsip/data') }}/' + id_type_document + "/" + id_year;
+                            const url = '{{ url('/personal-arsip/data') }}/' +
+                                id_type_document + "/" + id_year;
                             window.location.href = url;
                         });
                     }
                 });
             }
             getAllData();
+            $(window).on('storage', function(event) {
+                protectedModificationSystem(event);
+            });
         });
     </script>
 @endsection

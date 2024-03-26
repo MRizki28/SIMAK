@@ -19,55 +19,7 @@
 <link rel="stylesheet" href="{{ asset('static/css/index.css') }}">
 <link rel="stylesheet" href="{{ asset('static/css/login.css') }}">
 <style media="print">
-    /* style-invoice.css */
-.invoice-text {
-    font-family: 'Lato', sans-serif;
-    font-size: 50px;
-    font-weight: 800;
-    line-height: normal;
-    letter-spacing: 2.5px;
-}
-.ket-customer{
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-.catatan-invoice{
-    color: var(--semantic-text, #444);
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 20px; /* 142.857% */
-}
-.total-invoice{
-    color: var(--semantic-text, #444);
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 20px; /* 142.857% */
-}
-.address-invoice{
-    color: var(--semantic-text, #444);
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-.user-invoice{
-    color: var(--semantic-text, #444);
-    font-family: 'Lato', sans-serif;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
 
-</style>
 
 <style>
     /* header dashboard super admin */

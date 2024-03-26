@@ -64,10 +64,10 @@
                         dataTable.clear().rows.add($(tableBody)).draw();
 
                         $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
-                            const id_year = $(this).data("id");
+                            const id_year = encryptToken( $(this).data("id"), key);
+                            localStorage.setItem('id_year', id_year);
                             let idUser = decryptToken(Cookies.get('cookie_user'), key);
-                            const url = '{{ url('/personal-arsip/jenis-dokumen/') }}/' +
-                                idUser + "/" + id_year;
+                            const url = '{{ url('/personal-arsip/jenis-dokumen/') }}';
                             window.location.href = url;
                         });
                     }

@@ -112,7 +112,7 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    console.log(console.log)
+                    console.log(response)
                     submitButton.attr('disabled', false);
                     console.log(response)
                     if (response.message == "Check your validation") {

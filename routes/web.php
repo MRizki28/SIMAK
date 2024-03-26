@@ -1,6 +1,7 @@
 <?php
 
 use App\Helper\Helper;
+use App\Http\Controllers\CMS\AuthController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,6 +22,7 @@ Route::middleware('guest')->group(function () {
         return view('Auth.Login');
     })->name('login');
 });
+
 
 Route::middleware(['web', 'auth'])->group(function () {
 
@@ -52,7 +54,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.managementarsip.personalyeararsip');
     });
 
-    Route::get('/personal-arsip/jenis-dokumen/{id_user}/{id_year}', function () {
+    Route::get('/personal-arsip/jenis-dokumen/', function () {
         return view('pages.managementarsip.personalarsiptypedocument');
     });
 

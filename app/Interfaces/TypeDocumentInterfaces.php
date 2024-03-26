@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Http\Requests\TypeDocument\TypeDocumentRequest;
+use Illuminate\Http\Request;
 
 interface TypeDocumentInterfaces {
     public function getAllData();
@@ -11,5 +12,5 @@ interface TypeDocumentInterfaces {
     public function getDataByUser();
     public function updateData(TypeDocumentRequest $request, $id);
     public function deleteData($id);
-    public function getDataByUserYear($id_year);
+    public function getDataByUserYear(Request $request);
 }

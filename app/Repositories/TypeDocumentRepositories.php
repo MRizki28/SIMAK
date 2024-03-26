@@ -6,6 +6,7 @@ use App\Http\Requests\TypeDocument\TypeDocumentRequest;
 use App\Interfaces\TypeDocumentInterfaces;
 use App\Models\TypeDocumentModel;
 use App\Traits\HttpResponseTraits;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TypeDocumentRepositories implements TypeDocumentInterfaces
@@ -39,20 +40,21 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
         }
     }
 
-    public function getDataByUserYear($id_year)
+    public function getDataByUserYear(Request $request)
     {
         try {
-            $user  = Auth::user()->id;
+            $id_year = $request->query('id_year');
+            $user = Auth::user()->id;
             $data = $this->typeDocumentModel->whereHas('arsip', function ($query) use ($user, $id_year) {
                 $query->where('id_user', $user)
                     ->where('id_year', $id_year);
             })->get();
-
             return $this->success($data);
         } catch (\Throwable $th) {
             return $this->error($th);
         }
     }
+
 
     public function createData(TypeDocumentRequest $request)
     {

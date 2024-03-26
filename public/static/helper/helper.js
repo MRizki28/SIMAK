@@ -97,6 +97,16 @@ function warningAlert() {
     });
 }
 
+function protectedAlert() {
+    Swal.fire({
+        title: 'warning',
+        text: 'Anda telah melakukan perubahan terhadap sistem, anda akan di kembalikan ke halaman sebelumnya !',
+        icon: 'warning',
+        timer: 5000,
+        showConfirmButton: false
+    });
+}
+
 function warningExtentionAlert() {
     Swal.fire({
         title: 'Peringatan',
@@ -140,13 +150,12 @@ function successDeleteAlert() {
 }
 
 $(document).ready(function () {
-    $.validator.addMethod("fileExtension", function(value, element) {
+    $.validator.addMethod("fileExtension", function (value, element) {
         return this.optional(element) || /\.(docx|png|jpg|jpeg|xlsx|xls|csv|doc|pdf)$/i.test(value);
     },
-    "Hanya file dengan ekstensi docx, png, jpg, jpeg, xlsx, xls, csv, doc, atau pdf yang diperbolehkan."
+        "Hanya file dengan ekstensi docx, png, jpg, jpeg, xlsx, xls, csv, doc, atau pdf yang diperbolehkan."
     );
 });
-
 
 function encryptToken(token, key) {
     return CryptoJS.AES.encrypt(token, key).toString();
@@ -155,4 +164,16 @@ function encryptToken(token, key) {
 function decryptToken(tokenEncrpyt, key) {
     let bytes = CryptoJS.AES.decrypt(tokenEncrpyt, key);
     return bytes.toString(CryptoJS.enc.Utf8)
+}
+
+function protectedModificationSystem(event) {
+    if (event.originalEvent.storageArea === localStorage) {
+        if (!localStorage.getItem('id_year')) {
+            protectedAlert();
+            setTimeout(function () {
+                window.location.replace(document
+                    .referrer);
+            }, 3000);
+        }
+    }
 }

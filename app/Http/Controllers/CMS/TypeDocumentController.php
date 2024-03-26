@@ -38,9 +38,9 @@ class TypeDocumentController extends Controller
         return $this->typeDocumentRepositories->getDataByUser();
     }
 
-    public function getDataByUserYear($id_year)
+    public function getDataByUserYear(Request $request)
     {
-        return $this->typeDocumentRepositories->getDataByUserYear($id_year);
+        return $this->typeDocumentRepositories->getDataByUserYear($request);
     }
 
 
