@@ -8,22 +8,29 @@
         }
     </style>
     <div class="page-inner">
-        <div class="page-header ">
-            <h4 class="page-title">Tahun Arsip</h4>
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class=" d-flex justify-content-end">
-                            <button class="btn btn-primary " data-toggle="modal" data-target="#typeDocumentModal">Tambah
-                                Data
-                                <i class="fas fa-plus"></i>
-                            </button>
+                        <div class="page-header">
+                            <h4 class="page-title">Tahun Arsip</h4>
+                            <ul class="breadcrumbs">
+                                <li class="nav-home">
+                                    <a href="/">
+                                        <i class="flaticon-home"></i>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <span style="font-size: 13px;" class="font-weight-bold">Tahun Arsip</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="table-layout">
                             <table class="table" id="dataTable">
                                 <thead style="background-color: #f7f8fa;">
                                     <tr class="text-center" style="padding: 0 25px !important;">
@@ -64,7 +71,7 @@
                         dataTable.clear().rows.add($(tableBody)).draw();
 
                         $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
-                            const id_year = encryptToken( $(this).data("id"), key);
+                            const id_year = encryptToken($(this).data("id"), key);
                             localStorage.setItem('id_year', id_year);
                             let idUser = decryptToken(Cookies.get('cookie_user'), key);
                             const url = '{{ url('/personal-arsip/jenis-dokumen/') }}';
@@ -74,6 +81,7 @@
                 });
             }
             getAllData();
+            
         });
     </script>
 @endsection
