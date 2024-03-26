@@ -324,6 +324,8 @@
                     params
                 );
 
+                console.log(endpoint)
+
                 const pagination = $(".pagination");
 
                 $("#table tbody").empty();
