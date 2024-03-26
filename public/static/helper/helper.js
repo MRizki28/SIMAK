@@ -177,3 +177,14 @@ function protectedModificationSystem(event) {
         }
     }
 }
+
+function protectedModificationSystem2(event) {
+    if (event.originalEvent.storageArea === localStorage) {
+        if (!localStorage.getItem('id_year') || !localStorage.getItem('id_type_document')) {
+            protectedAlert();
+            setTimeout(function () {
+                window.location.href = '/personal-arsip';
+            }, 3000);
+        }
+    }
+}
