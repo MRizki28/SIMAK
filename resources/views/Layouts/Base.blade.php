@@ -14,7 +14,7 @@
 <body>
     <div class="wrapper">
         <div class="main-header">
-            <div class="logo-header position-relative" data-background-color="blue">
+            <div class="logo-header position-relative" data-background-color="light-blue">
                 <a href="/" class="logo ">
                     <span class="navbar-brand text-light position-relative font-weight-bold " style="left: 65px;">SIMAK</span>
                 </a>
