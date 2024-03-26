@@ -128,7 +128,7 @@ class ArsipRepositories implements ArsipInterfaces
         }
     }
 
-    public function getDataArsipByPersonal(Request $request, $id_type_document, $id_year)
+    public function getDataArsipByPersonal(Request $request)
     {
         try {
             $search = $request->input('search');
@@ -138,6 +138,8 @@ class ArsipRepositories implements ArsipInterfaces
             $page = (int) $request->input('page', 1);
 
             $user = Auth::user()->id;
+            $id_year = $request->query('id_year');
+            $id_type_document = $request->query('id_type_document');
             $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user)->where('id_type_document', $id_type_document)->where('id_year', $id_year);
             
             if ($startDate && $endDate) {
