@@ -56,8 +56,8 @@ class ArsipController extends Controller
         return $this->arsipRepositories->addFile($request);
     }
 
-    public function getDataArsipByPersonal(Request $request, $id_type_document, $id_year)
+    public function getDataArsipByPersonal(Request $request)
     {
-        return $this->arsipRepositories->getDataArsipByPersonal($request, $id_type_document , $id_year);
+        return $this->arsipRepositories->getDataArsipByPersonal($request);
     }
 }
