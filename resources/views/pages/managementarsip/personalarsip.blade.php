@@ -1,18 +1,40 @@
 @extends('Layouts.Base')
 @section('content')
     <div class="page-inner">
-        <div class="page-header ">
-            <h4 class="page-title">Arsip</h4>
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class=" d-flex justify-content-end">
-                            <button class="btn btn-primary " data-toggle="modal" data-target="#arsipModal">Tambah
-                                Data
-                                <i class="fas fa-plus"></i>
-                            </button>
+                        <div class="page-header">
+                            <h4 class="page-title">Personal Arsip</h4>
+                            <ul class="breadcrumbs">
+                                <li class="nav-home">
+                                    <a href="/">
+                                        <i class="flaticon-home"></i>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/personal-arsip">
+                                        <span>tahun arsip</span>
+                                    </a>
+                                </li>
+                                <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/personal-arsip/jenis-dokumen">
+                                        <span>jenis dokumen</span>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <span style="font-size: 13px;" class="font-weight-bold">personal arsip</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="card-body">
@@ -60,7 +82,6 @@
                                         <th style="padding: 0 25px !important;">Tanggal</th>
                                         <th style="padding: 0 25px !important;">Deskripsi</th>
                                         <th style="padding: 0 25px !important;">Type Dokumen</th>
-                                        <th style="padding: 0 25px !important;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -89,6 +110,8 @@
 
     <script>
         $(document).ready(function() {
+            dateRangePickerSetup($('#datetime'))
+
             function paramsSearch() {
                 const search = $("#form-search").val();
                 const startDate = $("#datetime").data("start-date");
@@ -126,15 +149,22 @@
 
             function loadData(url) {
                 let params = paramsSearch();
-                let segments = window.location.pathname.split('/');
-                console.log(segments)
-                let id_type_document = segments[3];
-                let id_year = segments[4];
-                console.log(params)
-                let endpoint = paramsUrl(
-                    url || ("/api/v1/arsip/getpersonal/" + id_type_document + "/" + id_year),
-                    params
-                );
+                id_year = decryptToken(localStorage.getItem('id_year'), key)
+                id_type_document = decryptToken(localStorage.getItem('id_type_document'), key)
+                console.log('id_year', id_year)
+                console.log('id_type_document', id_type_document)
+                let endpoint = url || ("/api/v1/arsip/getpersonal?id_year=" + id_year + "&id_type_document=" +
+                    id_type_document);
+
+                let startDateParam = params.startDate || "";
+                let endDateParam = params.endDate || "";
+
+                if (params.search || startDateParam || endDateParam) {
+                    endpoint += "&search=" + params.search + "&startDate=" + startDateParam + "&endDate=" +
+                        endDateParam;
+                }
+
+                console.log(endpoint)
 
                 const pagination = $(".pagination");
 
@@ -185,14 +215,6 @@
                                 tableBody += "<td>" + (value.is_private === 0 ?
                                     "<i class='fas fa-lock-open'></i>" :
                                     "<i class='fas fa-lock'></i>") + "</td>";
-                                tableBody +=
-                                    "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
-                                    "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#arsipModalEdit' data-id='" +
-                                    value.id + "'><i class='fas fa-edit'></i></button>" +
-                                    "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
-                                    value.id +
-                                    "' name='rejected'><i class='fas fa-trash-alt'></i></button>" +
-                                    "</td>";
                                 tableBody += "</tr>";
 
                                 $("#table tbody").append(tableBody);
@@ -211,6 +233,10 @@
             }
 
             loadData();
+
+            $(window).on('storage', function(event) {
+                protectedModificationSystem2(event);
+            });
 
         });
     </script>
