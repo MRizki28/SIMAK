@@ -58,7 +58,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.managementarsip.personalarsiptypedocument');
     });
 
-    Route::get('/personal-arsip/data/{id_type_document}/{id_year}', function () {
+    Route::get('/personal-arsip/jenis-dokumen/data', function () {
         return view('pages.managementarsip.personalarsip');
     });
 });
