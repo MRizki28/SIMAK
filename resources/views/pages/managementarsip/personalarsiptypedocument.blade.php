@@ -8,18 +8,33 @@
         }
     </style>
     <div class="page-inner">
-        <div class="page-header ">
-            <h4 class="page-title">Jenis Dokumen</h4>
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class=" d-flex justify-content-end">
-                            <button class="btn btn-primary " data-toggle="modal" data-target="#typeDocumentModal">Tambah
-                                Data
-                                <i class="fas fa-plus"></i>
-                            </button>
+                        <div class="page-header">
+                            <h4 class="page-title">Jenis dokumen</h4>
+                            <ul class="breadcrumbs">
+                                <li class="nav-home">
+                                    <a href="/">
+                                        <i class="flaticon-home"></i>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/personal-arsip">
+                                        <span>tahun arsip</span>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <span style="font-size: 13px;" class="font-weight-bold">jenis dokumen</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="card-body">
@@ -27,7 +42,7 @@
                             <table class="table" id="dataTable">
                                 <thead style="background-color: #f7f8fa;">
                                     <tr class="text-center" style="padding: 0 25px !important;">
-                                        <th style="padding: 0 25px !important;">Tahun</th>
+                                        <th style="padding: 0 25px !important;">Jenis dokumen</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -48,9 +63,6 @@
                     $("#dataTable").DataTable().destroy();
                 }
                 let dataTable = $("#dataTable").DataTable();
-                // let segments = window.location.pathname.split('/');
-                // console.log(segments)
-                // let id_year = segments[4];
                 id_year = decryptToken(localStorage.getItem('id_year'), key)
                 console.log('id_year', id_year)
                 $.ajax({
@@ -70,9 +82,9 @@
                         $("#loading-row").remove();
                         dataTable.clear().rows.add($(tableBody)).draw();
                         $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
-                            const id_type_document = $(this).data("id");
-                            const url = '{{ url('/personal-arsip/data') }}/' +
-                                id_type_document + "/" + id_year;
+                            const id_type_document = encryptToken($(this).data("id"), key);
+                            localStorage.setItem('id_type_document', id_type_document);
+                            const url = '{{ url('/personal-arsip/jenis-dokumen/data') }}';
                             window.location.href = url;
                         });
                     }
