@@ -70,4 +70,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/entire-arsip/year', function () {
         return view('pages.managementarsip.entirearsip.entiryear');
     });
+
+    Route::get('/entire-arsip/jenis-dokumen', function () {
+        return view('pages.managementarsip.entirearsip.entirearspidocument');
+    });
 });

@@ -13,4 +13,6 @@ interface TypeDocumentInterfaces {
     public function updateData(TypeDocumentRequest $request, $id);
     public function deleteData($id);
     public function getDataByUserYear(Request $request);
+    public function getDataEntireTypeDocument(Request $request);
+
 }

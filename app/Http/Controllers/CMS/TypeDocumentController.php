@@ -53,4 +53,9 @@ class TypeDocumentController extends Controller
     {
         return $this->typeDocumentRepositories->deleteData($id);
     }
+
+    public function getDataEntireTypeDocument(Request $request)
+    {
+        return $this->typeDocumentRepositories->getDataEntireTypeDocument($request);
+    }
 }

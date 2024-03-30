@@ -77,9 +77,9 @@
 
                         $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
                             const id_year = encryptToken($(this).data("id"), key);
-                            localStorage.setItem('id_year', id_year);
+                            localStorage.setItem('id_entire_year', id_year);
                             let idUser = decryptToken(Cookies.get('cookie_user'), key);
-                            const url = '{{ url('/personal-arsip/jenis-dokumen/') }}';
+                            const url = '{{ url('/entire-arsip/jenis-dokumen') }}';
                             window.location.href = url;
                         });
                     }

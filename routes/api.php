@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get      ('/',               'getAllData');
             Route::get      ('/get/user',       'getDataByUser');
             Route::get      ('/get/user/document',       'getDataByUserYear');
+            Route::get      ('/get/entire/document',       'getDataEntireTypeDocument');
             Route::post     ('/update/{id}',         'updateData');
             Route::post     ('/create',         'createData');
             Route::get      ('/get/{id}',       'getDataById');
