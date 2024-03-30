@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\YearInterfaces;
 use App\Models\YearModel;
 use App\Traits\HttpResponseTraits;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class YearRepositories implements YearInterfaces
@@ -35,6 +36,23 @@ class YearRepositories implements YearInterfaces
                 $query->where('id_user', $user);
             })->get();
             return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function getEntireYear(Request $request)
+    {
+        try {
+            $user = $request->query('id_user');
+            $data = $this->yearModel->whereHas('arsip', function ($query) use ($user) {
+                $query->where('id_user', $user);
+            })->get();
+            if (!$data) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data);
+            }
         } catch (\Throwable $th) {
             return $this->error($th);
         }
