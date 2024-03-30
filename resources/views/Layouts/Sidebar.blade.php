@@ -58,8 +58,8 @@
 											<span class="sub-item">Personal Arsip</span>
 										</a>
 									</li>
-									<li class="nav-item {{ request()->is('all/arsip*') ? 'active' : '' }}">
-										<a href="{{ url('/all/arsip') }}">
+									<li class="nav-item {{ request()->is('/entire-arsip*') ? 'active' : '' }}">
+										<a href="{{ url('/entire-arsip') }}">
 											<span class="sub-item">Seluruh Arsip</span>
 										</a>
 									</li>
