@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\TypeDocument;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -25,9 +26,25 @@ class TypeDocumentRequest extends FormRequest
     {
         $userId = auth()->id();
 
-        return [
-            'name_type_document' => 'required|unique:tb_type_document,name_type_document,NULL,id,id_user,' . $userId,
-        ];
+        $rules = [];
+
+        if ($this->is("api/v1/typedocument/update/*")) {
+            $rules = [
+                'name_type_document' => [
+                    'required',
+                    Rule::unique('tb_type_document', 'name_type_document')
+                        ->where(function ($query) use ($userId) {
+                            $query->where('id_user', $userId);
+                        })
+                        ->ignore($this->route('id'))
+                ]
+            ];
+        } else {
+            $rules = [
+                'name_type_document' => 'required|unique:tb_type_document,name_type_document,NULL,id,id_user,' . $userId,
+            ];
+        }
+        return $rules;
     }
 
     protected function failedValidation(Validator $validator)
