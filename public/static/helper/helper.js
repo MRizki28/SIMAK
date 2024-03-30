@@ -188,3 +188,14 @@ function protectedModificationSystem2(event) {
         }
     }
 }
+
+function protectedModificationSystem3(event) {
+    if (event.originalEvent.storageArea === localStorage) {
+        if (!localStorage.getItem('id_entire_user') || !localStorage.getItem('nameUser')) {
+            protectedAlert();
+            setTimeout(function () {
+                window.location.href = '/entire-arsip';
+            }, 3000);
+        }
+    }
+}
