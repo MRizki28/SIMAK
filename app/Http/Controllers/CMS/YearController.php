@@ -24,4 +24,9 @@ class YearController extends Controller
     {
         return $this->yearRepositories->getPersonalYear();
     }
+
+    public function getEntireYear(Request $request)
+    {
+        return $this->yearRepositories->getEntireYear($request);
+    }
 }
