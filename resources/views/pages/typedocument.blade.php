@@ -54,7 +54,8 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
                                     <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required name="name_type_document" id="name_type_document">
+                                    <input type="text" class="form-control  required" required name="name_type_document"
+                                        id="name_type_document">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -221,14 +222,24 @@
                     success: function(response) {
                         console.log(response)
                         submitButton.attr('disabled', false);
-                        if (response.message == "Check your validation") {
+                        if (response.errors && response.errors.name_type_document && response
+                            .errors
+                            .name_type_document
+                            .includes('The name type document has already been taken.')) {
+                            Swal.fire({
+                                title: 'Warning!',
+                                text: 'Dokumen sudah ada sebelumnya !',
+                                icon: 'warning',
+                                showConfirmButton: true
+                            });
+                        } else if (response.message == 'Check your validation') {
                             warningAlert();
                         } else if (response.code == 400) {
                             errorAlert();
                         } else {
                             successAlert().then(function() {
                                 $('#typeDocumentModal').modal('hide');
-                                getAllData()
+                                getAllData();
                             });
                         }
                     },
@@ -274,7 +285,17 @@
                     success: function(response) {
                         console.log(response);
                         submitButton.attr('disabled', false);
-                        if (response.message == "Check your validation") {
+                        if (response.errors && response.errors.name_type_document && response
+                            .errors
+                            .name_type_document
+                            .includes('The name type document has already been taken.')) {
+                            Swal.fire({
+                                title: 'Warning!',
+                                text: 'Dokumen sudah ada sebelumnya !',
+                                icon: 'warning',
+                                showConfirmButton: true
+                            });
+                        } else if (response.message == 'Check your validation') {
                             warningAlert();
                         } else if (response.code == 400) {
                             errorAlert();
@@ -298,10 +319,10 @@
                 $('#name_type_document').val('');
                 $('#name_type_document-error').remove();
                 $('#ename_type_document-error').remove();
-                
+
             }
 
-            $('#typeDocumentEditModal , #typeDocumentModal' ).on('hidden.bs.modal', function() {
+            $('#typeDocumentEditModal , #typeDocumentModal').on('hidden.bs.modal', function() {
                 resetModal()
             });
 

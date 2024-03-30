@@ -61,4 +61,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/personal-arsip/jenis-dokumen/data', function () {
         return view('pages.managementarsip.personalarsip');
     });
+
+
+    Route::get('/entire-arsip', function () {
+        return view('pages.managementarsip.entirearsip.entirearsipuser');
+    });
+
+    Route::get('/entire-arsip/year', function () {
+        return view('pages.managementarsip.entirearsip.entiryear');
+    });
 });

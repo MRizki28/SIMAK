@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get      ('/',               'getAllData');
             Route::get      ('/get/user',       'getDataByUser');
             Route::get      ('/get/user/document',       'getDataByUserYear');
+            Route::post     ('/update/{id}',         'updateData');
             Route::post     ('/create',         'createData');
             Route::get      ('/get/{id}',       'getDataById');
             Route::post     ('/create',         'createData');
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::prefix('year')->controller(YearController::class)->group(function () {
             Route::get      ('/',               'getAllData');
             Route::get      ('/personal/get',               'getPersonalYear');
+            Route::get      ('/entire/get',               'getEntireYear');
         });
 
         Route::prefix('arsip')->controller(ArsipController::class)->group(function () {
