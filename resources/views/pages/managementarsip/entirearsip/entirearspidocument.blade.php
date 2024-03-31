@@ -92,8 +92,8 @@
                             });
                             $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
                                 const id_type_document = encryptToken($(this).data("id"), key);
-                                localStorage.setItem('id_type_document', id_type_document);
-                                const url = '{{ url('/personal-arsip/jenis-dokumen/data') }}';
+                                localStorage.setItem('id_entire_type_document', id_type_document);
+                                const url = '{{ url('/entire-arsip/data') }}';
                                 window.location.href = url;
                             });
                         }
@@ -102,7 +102,7 @@
             }
             getAllData();
             $(window).on('storage', function(event) {
-                protectedModificationSystem(event);
+                protectedModificationSystem3(event);
             });
         });
     </script>
