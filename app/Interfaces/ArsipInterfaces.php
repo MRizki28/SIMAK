@@ -16,4 +16,5 @@ interface ArsipInterfaces
     public function deleteFile($id);
     public function addFile(ArsipRequest $request);
     public function getDataArsipByPersonal(Request $request);
+    public function getDataArsipByEntire(Request $request);
 }
