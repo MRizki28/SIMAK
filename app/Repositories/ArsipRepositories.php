@@ -141,11 +141,11 @@ class ArsipRepositories implements ArsipInterfaces
             $id_year = $request->query('id_year');
             $id_type_document = $request->query('id_type_document');
             $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user)->where('id_type_document', $id_type_document)->where('id_year', $id_year);
-            
+
             if ($startDate && $endDate) {
                 $query->whereBetween('date_arsip', [$startDate, $endDate]);
             }
-    
+
             if ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('code_arsip', 'like', '%' . $search . '%')
@@ -160,7 +160,56 @@ class ArsipRepositories implements ArsipInterfaces
                         });
                 });
             }
-    
+
+            $data = $query->paginate($limit, ['*'], 'page', $page);
+            if ($data->isEmpty()) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data);
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function getDataArsipByEntire(Request $request)
+    {
+        try {
+            $search = $request->input('search');
+            $startDate = $request->input('startDate');
+            $endDate = $request->input('endDate');
+            $limit = $request->input('limit') ? $request->input('limit') : 10;
+            $page = (int) $request->input('page', 1);
+
+            $id_user = $request->query('id_user');
+            $id_year = $request->query('id_year');
+            $id_type_document = $request->query('id_type_document');
+            $query = $this->arsipModel::query()
+                ->with('typeDocument', 'user', 'year')
+                ->where('id_user', $id_user)
+                ->where('id_type_document', $id_type_document)
+                ->where('id_year', $id_year)
+                ->where('is_private', 0); 
+
+            if ($startDate && $endDate) {
+                $query->whereBetween('date_arsip', [$startDate, $endDate]);
+            }
+
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('code_arsip', 'like', '%' . $search . '%')
+                        ->orWhere('date_arsip', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhereHas('typeDocument', function ($query) use ($search) {
+                            $query->where('name_type_document', 'like', '%' . $search . '%');
+                        })->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('name', 'like', '%' . $search . '%');
+                        })->orWhereHas('year', function ($query) use ($search) {
+                            $query->where('year', 'like', '%' . $search . '%');
+                        });
+                });
+            }
+
             $data = $query->paginate($limit, ['*'], 'page', $page);
             if ($data->isEmpty()) {
                 return $this->dataNotFound();
