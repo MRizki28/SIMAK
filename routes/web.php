@@ -74,4 +74,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/entire-arsip/jenis-dokumen', function () {
         return view('pages.managementarsip.entirearsip.entirearspidocument');
     });
+
+    Route::get('/entire-arsip/data', function () {
+        return view('pages.managementarsip.entirearsip.entirearsip');
+    });
 });
