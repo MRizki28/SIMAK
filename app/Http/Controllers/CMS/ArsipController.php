@@ -60,4 +60,9 @@ class ArsipController extends Controller
     {
         return $this->arsipRepositories->getDataArsipByPersonal($request);
     }
+
+    public function getDataArsipByEntire(Request $request)
+    {
+        return $this->arsipRepositories->getDataArsipByEntire($request);
+    }
 }
