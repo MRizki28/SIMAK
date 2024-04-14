@@ -28,7 +28,7 @@ class TypeDocumentRequest extends FormRequest
 
         $rules = [];
 
-        if ($this->is("api/v1/typedocument/update/*")) {
+        if ($this->is("v1/typedocument/update/*")) {
             $rules = [
                 'name_type_document' => [
                     'required',
