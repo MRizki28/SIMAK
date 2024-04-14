@@ -50,7 +50,6 @@
                             <table class=" table " id="table">
                                 <thead style="background-color: #f7f8fa;">
                                     <tr class="text-center" style="padding: 0 25px !important;">
-                                        <th style="padding: 0 25px !important;">No</th>
                                         <th style="padding: 0 25px !important;">Kode Arsip</th>
                                         <th style="padding: 0 25px !important;">Pembuat</th>
                                         <th style="padding: 0 25px !important;">Jenis Dokumen</th>
@@ -338,7 +337,6 @@
                     success: function(response) {
                         console.log(response)
                         let tableBody = "";
-                        let idUser = decryptToken(Cookies.get('cookie_user'), key)
                         if (response.code == 200) {
                             let userName = response.data.data[0].user
                                 .name;
@@ -349,10 +347,10 @@
                                 let file_arsip = value.file_arsip;
                                 let name = value.user.name;
                                 let year = value.year.year
+                                let id_arsip = value.id;
                                 console.log(file_arsip)
                                 $("#table tbody").empty();
                                 tableBody += "<tr>";
-                                tableBody += "<td>" + (item + 1) + "</td>"
                                 tableBody += "<td>" + value.code_arsip + "</td>"
                                 tableBody += "<td>" + name + "</td>"
                                 tableBody += "<td>" + name_type_document +
@@ -368,8 +366,8 @@
                                         "</td>"
                                 }
                                 tableBody += "<td>" + year + "</td>"
-                                tableBody += "<td><a href='/file/" + idUser + "/" + value.id +
-                                    "'><i class='fas fa-eye fa-xl'></i></a></td>";
+                                tableBody += "<td><a href='/file/personal' data-id_arsip='" +
+                                    id_arsip + "'><i class='fas fa-eye fa-xl'></i></a></td>";
                                 tableBody += "<td>" + value.date_arsip + "</td>"
                                 tableBody += "<td>" + value.description + "</td>"
                                 tableBody += "<td>" + (value.is_private === 0 ?
@@ -388,6 +386,13 @@
                                 $("#table tbody").append(tableBody);
                                 $("#dataNotFound").hide();
                                 $("#data-total").text(response.data.total);
+
+                                $("a[data-id_arsip]").off("click").on("click", function() {
+                                    let id_arsip = encryptToken($(this).data("id_arsip"), key);
+                                    localStorage.setItem("personal_id_arsip", id_arsip);
+                                    localStorage.removeItem("entire_id_arsip");
+                                    localStorage.removeItem("id_entire_user");
+                                });
                             });
                             paginationLink(pagination, response);
                         } else {
