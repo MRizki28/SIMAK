@@ -25,7 +25,7 @@ class ArsipRequest extends FormRequest
     {
         $rules = [];
 
-        if ($this->is("api/v1/arsip/update/*")) {
+        if ($this->is("v1/arsip/update/*")) {
             $rules = [
                 'id_type_document' => 'required',
                 'id_year' => 'required',
@@ -34,7 +34,7 @@ class ArsipRequest extends FormRequest
                 'description' => 'required',
                 'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar,jenisLain',
             ];
-        } elseif ($this->is("api/v1/arsip/add/file")) {
+        } elseif ($this->is("v1/arsip/add/file")) {
             $rules = [
                 'id_arsip' => 'required',
                 'file_arsip' => 'required',
