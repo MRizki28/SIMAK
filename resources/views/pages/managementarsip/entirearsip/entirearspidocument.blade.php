@@ -102,7 +102,7 @@
             }
             getAllData();
             $(window).on('storage', function(event) {
-                protectedModificationSystem3(event);
+                protectedModificationSystem(event);
             });
         });
     </script>
