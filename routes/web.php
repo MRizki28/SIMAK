@@ -1,6 +1,5 @@
 <?php
 
-use App\Helper\Helper;
 use App\Http\Controllers\CMS\ArsipController;
 use App\Http\Controllers\CMS\AuthController;
 use App\Http\Controllers\CMS\PositionController;
@@ -51,12 +50,8 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.superadmin.usermanagement');
     });
 
-    Route::get('/file/{id_user}/{id_arsip}', function ($id_user, $id_arsip) {
-        if (!Helper::isValidUserId($id_user) || !Helper::isValidArsipId($id_arsip)) {
-            abort(404);
-        } else {
+    Route::get('/file/personal', function () {
             return view('pages.file.file');
-        }
     });
 
     Route::get('/personal-arsip', function () {
@@ -122,7 +117,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get      ('/',               'list');
             Route::get      ('/getpersonal',               'getDataArsipByPersonal');
             Route::get      ('/entire',               'getDataArsipByEntire');
-            Route::get      ('file/{id_user}/{id_arsip}',               'getFile');
+            Route::get      ('file',               'getFile');
             Route::post     ('/create',         'createData');
             Route::post     ('/update/{id}',         'updateData');
             Route::delete   ('/delete/{id}',    'deleteData');
