@@ -110,10 +110,12 @@ class ArsipRepositories implements ArsipInterfaces
         }
     }
 
-    public function getFile($id_user, $id_arsip)
+    public function getFile(Request $request)
     {
         try {
-            $data = FileModel::where('id_arsip', $id_arsip)
+            $id_arsip = $request->query('id_arsip');
+            $id_user = $request->query('id_user');
+            $data = $this->fileModel->where('id_arsip', $id_arsip)
                 ->whereHas('getArsip', function ($query) use ($id_user) {
                     $query->where('id_user', $id_user);
                 })
