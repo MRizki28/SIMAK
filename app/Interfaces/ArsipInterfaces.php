@@ -9,7 +9,7 @@ interface ArsipInterfaces
 {
     public function list(Request $request);
     public function createData(ArsipRequest $request);
-    public function getFile($id_user , $id_arsip);
+    public function getFile(Request $request);
     public function updateData(ArsipRequest $request, $id);
     public function deleteData($id);
     public function getDataById($id);
