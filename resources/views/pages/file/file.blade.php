@@ -26,7 +26,8 @@
                                 <h3 id="user_name"></h3>
                             </div>
                             <div class="ml-auto">
-                                <button class="btn btn-primary " data-toggle="modal" data-target="#fileModal">
+                                <button class="btn btn-primary " id="button-tambah" data-toggle="modal"
+                                    data-target="#fileModal">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -89,18 +90,23 @@
         $(document).ready(function() {
             user_name = localStorage.getItem('user_name')
             $('#user_name').html(user_name);
+            let idUser = decryptToken(Cookies.get('cookie_user'), key)
+            let idArsip = decryptToken(localStorage.getItem('personal_id_arsip'), key)
+
+            let url;
+            if (localStorage.getItem('entire_id_arsip')) {
+                let idEntireUser = decryptToken(localStorage.getItem('id_entire_user'), key)
+                url = "{{ url('v1/arsip/file?id_arsip=') }}" + idArsip + "&id_user=" + idEntireUser;
+                $('#button-tambah').hide();
+            }else{
+                url = "{{ url('v1/arsip/file?id_arsip=') }}" + idArsip + "&id_user=" + idUser;
+            }
 
             function getFile() {
-                let segments = window.location.pathname.split('/');
-                console.log(segments)
-                let idUser = segments[2];
-                let idArsip = segments[3];
                 $('#content').empty()
-
-                localStorage.setItem('id_arsip', idArsip);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('v1/arsip/file/') }}/" + idUser + "/" + idArsip,
+                    url: url,
                     dataType: "json",
                     success: function(response) {
                         console.log(response)
@@ -155,6 +161,10 @@
                     }
                 });
             }
+
+            $(window).on('storage', function(event) {
+                protectedModificationSystem(event);
+            });
 
 
             function validationAddFile() {
