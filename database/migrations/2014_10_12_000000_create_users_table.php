@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('id_position')->nullable()->constrained('tb_position');
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('password');
+            $table->string('name', 100);
+            $table->string('username', 100)->unique();
+            $table->string('password', 100);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -67,7 +67,7 @@
                 console.log('id_year', id_year)
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/typedocument/get/user/document?id_year=') }}" + id_year,
+                    url: "{{ url('v1/typedocument/get/user/document?id_year=') }}" + id_year,
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)

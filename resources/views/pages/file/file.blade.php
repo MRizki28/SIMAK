@@ -100,7 +100,7 @@
                 localStorage.setItem('id_arsip', idArsip);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/arsip/file/') }}/" + idUser + "/" + idArsip,
+                    url: "{{ url('v1/arsip/file/') }}/" + idUser + "/" + idArsip,
                     dataType: "json",
                     success: function(response) {
                         console.log(response)
@@ -195,7 +195,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/arsip/add/file') }}",
+                    url: "{{ url('v1/arsip/add/file') }}",
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -231,7 +231,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ url('api/v1/arsip/delete/file') }}/" + id,
+                            url: "{{ url('v1/arsip/delete/file') }}/" + id,
                             data: {
                                 "_token": "{{ csrf_token() }}",
                                 "id": id

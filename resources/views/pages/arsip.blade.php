@@ -320,7 +320,7 @@
                 let params = paramsSearch();
                 console.log(params)
                 let endpoint = paramsUrl(
-                    url || "api/v1/arsip/",
+                    url || "v1/arsip/",
                     params
                 );
 
@@ -406,7 +406,7 @@
                 return new Promise(function(resolve, reject) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('api/v1/typedocument/get/user') }}",
+                        url: "{{ url('v1/typedocument/get/user') }}",
                         dataType: "JSON",
                         success: function(response) {
                             let option = "";
@@ -427,7 +427,7 @@
                 return new Promise(function(resolve, reject) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('api/v1/year') }}",
+                        url: "{{ url('v1/year') }}",
                         dataType: "JSON",
                         success: function(response) {
                             let option2 = "";
@@ -559,7 +559,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/arsip/create') }}",
+                    url: "{{ url('v1/arsip/create') }}",
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -592,7 +592,7 @@
                 console.log("Edit modal clicked, id:", id);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/arsip/get') }}/" + id,
+                    url: "{{ url('v1/arsip/get') }}/" + id,
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response);
@@ -626,7 +626,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/arsip/update') }}/" + id,
+                    url: "{{ url('v1/arsip/update') }}/" + id,
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -699,7 +699,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ url('api/v1/arsip/delete') }}/" + id,
+                            url: "{{ url('v1/arsip/delete') }}/" + id,
                             data: {
                                 "_token": "{{ csrf_token() }}",
                                 "id": id

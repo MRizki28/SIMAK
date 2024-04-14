@@ -31,7 +31,7 @@ class ArsipRepositories implements ArsipInterfaces
         $search = $request->input('search');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-        $limit = $request->input('limit') ? $request->input('limit') : 10;
+        $limit = $request->input('limit') ? $request->input('limit') : 1;
         $page = (int) $request->input('page', 1);
 
         $user = Auth::user()->id;
@@ -236,32 +236,8 @@ class ArsipRepositories implements ArsipInterfaces
             $data->is_private = $request->has('is_private') && $request->input('is_private') == 'true' ? true : false;
             $data->save();
 
-            $oldFiles = $this->fileModel->where('id_arsip', $id)->get();
-            foreach ($oldFiles as $oldFile) {
-                $oldFilePath = public_path('uploads/arsip/') . $oldFile->file_arsip;
-                if (file_exists($oldFilePath)) {
-                    unlink($oldFilePath);
-                }
-                $oldFile->delete();
-            }
-
-            $tbFile = [];
-            if ($request->hasFile('file_arsip')) {
-                foreach ($request->file('file_arsip') as $file) {
-                    $extension = $file->getClientOriginalExtension();
-                    $filename = 'ARSIP-' . Str::random(5) . '.' . $extension;
-                    $file->move(public_path('uploads/arsip/'), $filename);
-                    $newFile = new FileModel();
-                    $newFile->id_arsip = $data->id;
-                    $newFile->file_arsip = $filename;
-                    $newFile->save();
-                    $tbFile[] = $newFile;
-                }
-            }
-
             return $this->success([
-                'data' => $data,
-                'file' => $tbFile
+                'data' => $data
             ]);
         } catch (\Throwable $th) {
             return $this->error($th);

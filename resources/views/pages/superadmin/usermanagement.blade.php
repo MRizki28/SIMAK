@@ -156,7 +156,7 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/auth') }}",
+                    url: "{{ url('v1/auth') }}",
                     dataType: "json",
                     success: function(response) {
                         console.log(response)
@@ -301,7 +301,7 @@
                 submitButton.attr('disabled', true);
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/auth/register') }}",
+                    url: "{{ url('v1/auth/register') }}",
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -339,7 +339,7 @@
             function getDataPosition() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/position') }}",
+                    url: "{{ url('v1/position') }}",
                     dataType: "json",
                     success: function(response) {
                         console.log(response);
@@ -362,7 +362,7 @@
                 console.log(id);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/auth/get') }}/" + id,
+                    url: "{{ url('v1/auth/get') }}/" + id,
                     dataType: "json",
                     success: function(response) {
                         console.log('disini', response)
@@ -399,7 +399,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: "{{ url('api/v1/auth/resetpassword') }}/" + id,
+                            url: "{{ url('v1/auth/resetpassword') }}/" + id,
                             data: data,
                             dataType: "JSON",
                             success: function(response) {
@@ -435,7 +435,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/auth/update') }}/" + id,
+                    url: "{{ url('v1/auth/update') }}/" + id,
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -494,7 +494,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ url('api/v1/auth/delete') }}/" + id,
+                            url: "{{ url('v1/auth/delete') }}/" + id,
                             data: {
                                 "_token": "{{ csrf_token() }}",
                                 "id": id

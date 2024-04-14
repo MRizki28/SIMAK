@@ -50,7 +50,7 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/year/personal/get') }}",
+                    url: "{{ url('v1/year/personal/get') }}",
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)

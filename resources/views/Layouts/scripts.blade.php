@@ -79,7 +79,7 @@
 
     {{-- logout --}}
     <script>
-        const urlLogout = 'api/v1/auth/logout'
+        const urlLogout = 'v1/auth/logout'
         $(document).ready(function() {
             $('#iconLogout').click(function(e) {
                 Swal.fire({

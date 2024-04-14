@@ -157,7 +157,7 @@
                 id_type_document = decryptToken(localStorage.getItem('id_entire_type_document'), key)
                 console.log('id_year', id_year)
                 console.log('id_type_document', id_type_document)
-                let endpoint = url || ("/api/v1/arsip/entire?id_user=" + id_user + "&id_year=" +
+                let endpoint = url || ("v1/arsip/entire?id_user=" + id_user + "&id_year=" +
                     id_year + "&id_type_document=" + id_type_document);
 
                 let startDateParam = params.startDate || "";

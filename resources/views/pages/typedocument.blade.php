@@ -125,7 +125,7 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/typedocument/get/user') }}",
+                    url: "{{ url('v1/typedocument/get/user') }}",
                     dataType: "JSON",
                     success: function(response) {
                         let tableBody = "";
@@ -214,7 +214,7 @@
                 submitButton.attr('disabled', true);
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/typedocument/create') }}",
+                    url: "{{ url('v1/typedocument/create') }}",
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -256,7 +256,7 @@
                 console.log("Edit modal clicked, id:", id);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/typedocument/get') }}/" + id,
+                    url: "{{ url('v1/typedocument/get') }}/" + id,
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response);
@@ -277,7 +277,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('api/v1/typedocument/update') }}/" + id,
+                    url: "{{ url('v1/typedocument/update') }}/" + id,
                     data: formData,
                     dataType: "json",
                     contentType: false,
@@ -334,7 +334,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ url('api/v1/typedocument/delete') }}/" + id,
+                            url: "{{ url('v1/typedocument/delete') }}/" + id,
                             data: {
                                 "_token": "{{ csrf_token() }}",
                                 "id": id

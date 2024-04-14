@@ -62,7 +62,7 @@
                 console.log(id_entire_user)
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/year/entire/get?id_user=') }}" + id_entire_user,
+                    url: "{{ url('v1/year/entire/get?id_user=') }}" + id_entire_user,
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)

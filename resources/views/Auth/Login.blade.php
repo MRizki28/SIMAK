@@ -106,7 +106,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ url('api/v1/auth/login') }}",
+                url: "{{ url('v1/auth/login') }}",
                 data: formData,
                 dataType: "json",
                 contentType: false,

@@ -57,7 +57,7 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('api/v1/auth') }}",
+                    url: "{{ url('v1/auth') }}",
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)
