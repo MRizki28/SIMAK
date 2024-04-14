@@ -100,7 +100,7 @@ function warningAlert() {
 function protectedAlert() {
     Swal.fire({
         title: 'warning',
-        text: 'Anda telah melakukan perubahan terhadap sistem, anda akan di kembalikan ke halaman sebelumnya !',
+        text: 'Anda telah melakukan perubahan terhadap sistem, anda akan di kembalikan ke halaman home!',
         icon: 'warning',
         timer: 5000,
         showConfirmButton: false
@@ -168,34 +168,9 @@ function decryptToken(tokenEncrpyt, key) {
 
 function protectedModificationSystem(event) {
     if (event.originalEvent.storageArea === localStorage) {
-        if (!localStorage.getItem('id_year')) {
-            protectedAlert();
-            setTimeout(function () {
-                window.location.replace(document
-                    .referrer);
-            }, 3000);
-        }
-    }
-}
-
-function protectedModificationSystem2(event) {
-    if (event.originalEvent.storageArea === localStorage) {
-        if (!localStorage.getItem('id_year') || !localStorage.getItem('id_type_document')) {
-            protectedAlert();
-            setTimeout(function () {
-                window.location.href = '/personal-arsip';
-            }, 3000);
-        }
-    }
-}
-
-function protectedModificationSystem3(event) {
-    if (event.originalEvent.storageArea === localStorage) {
-        if (!localStorage.getItem('id_entire_user') || !localStorage.getItem('nameUser')) {
-            protectedAlert();
-            setTimeout(function () {
-                window.location.href = '/entire-arsip';
-            }, 3000);
-        }
+        protectedAlert();
+        setTimeout(function () {
+            window.location.href = "/";
+        }, 3000);
     }
 }
