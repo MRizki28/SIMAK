@@ -26,9 +26,9 @@ class ArsipController extends Controller
         return $this->arsipRepositories->createData($request);
     }
 
-    public function getFile($id_user, $id_arsip)
+    public function getFile(Request $request)
     {
-        return $this->arsipRepositories->getFile($id_user, $id_arsip);
+        return $this->arsipRepositories->getFile($request);
     }
 
     public function updateData(ArsipRequest $request, $id)
