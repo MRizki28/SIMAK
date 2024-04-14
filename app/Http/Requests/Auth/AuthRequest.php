@@ -25,7 +25,7 @@ class AuthRequest extends FormRequest
     public function rules()
     {
 
-        if ($this->is("api/v1/auth/update/*")) {
+        if ($this->is("v1/auth/update/*")) {
             $rules['id_position'] = 'required';
             $rules['name'] = 'required';
             $rules['username'] = [
