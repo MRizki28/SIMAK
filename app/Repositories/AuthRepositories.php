@@ -31,6 +31,7 @@ class AuthRepositories implements AuthInterfaces
             $data->name = htmlspecialchars($request->input('name'));
             $data->username = htmlspecialchars($request->input('username'));
             $data->password = htmlspecialchars(Hash::make($password));
+            $data->role = 'user';
             $data->save();
 
             $token = $data->createToken('auth_token')->plainTextToken;
@@ -140,6 +141,7 @@ class AuthRepositories implements AuthInterfaces
             $data->id_position = htmlspecialchars($request->input('id_position'));
             $data->name = htmlspecialchars($request->input('name'));
             $data->username = htmlspecialchars($request->input('username'));
+            $data->role = 'user';
             $data->save();
             return $this->success($data);
         } catch (\Throwable $th) {

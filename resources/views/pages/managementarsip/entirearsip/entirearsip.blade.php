@@ -224,6 +224,7 @@
                                 $("a[data-id_arsip]").off("click").on("click", function() {
                                     let id_arsip = encryptToken($(this).data("id_arsip"), key);
                                     localStorage.setItem("entire_id_arsip", id_arsip);
+                                    localStorage.removeItem("user_name");
                                 });
                             });
                             paginationLink(pagination, response);

@@ -88,19 +88,25 @@
 
     <script>
         $(document).ready(function() {
-            user_name = localStorage.getItem('user_name')
-            $('#user_name').html(user_name);
-            let idUser = decryptToken(Cookies.get('cookie_user'), key)
-            let idArsip = decryptToken(localStorage.getItem('personal_id_arsip'), key)
 
             let url;
             if (localStorage.getItem('entire_id_arsip')) {
+                let idEntireArsip = decryptToken(localStorage.getItem('entire_id_arsip'), key)
                 let idEntireUser = decryptToken(localStorage.getItem('id_entire_user'), key)
-                url = "{{ url('v1/arsip/file?id_arsip=') }}" + idArsip + "&id_user=" + idEntireUser;
+                console.log(idEntireUser, 'entire user')
+                url = "{{ url('v1/arsip/file?id_arsip=') }}" + idEntireArsip + "&id_user=" + idEntireUser;
+                let nameUser = localStorage.getItem('nameUser')
+                $('#user_name').html(nameUser);
                 $('#button-tambah').hide();
-            }else{
+            } else {
+                let idArsip = decryptToken(localStorage.getItem('personal_id_arsip'), key)
+                let idUser = decryptToken(Cookies.get('cookie_user'), key)
+                let user_name = localStorage.getItem('user_name')
+                $('#user_name').html(user_name);
                 url = "{{ url('v1/arsip/file?id_arsip=') }}" + idArsip + "&id_user=" + idUser;
             }
+
+            console.log(url)
 
             function getFile() {
                 $('#content').empty()
@@ -118,12 +124,16 @@
                             let files = response.data;
                             let contentBody = "";
                             $.each(files, function(index, file) {
-                                contentBody += '<div class=" px-3">'
-                                contentBody +=
-                                    '<div class="text-right text-danger pr-2 pt-2 justify-content-right">'
-                                contentBody += '<a href="' + file.id + '" data-id="' + file.id +
-                                    '" class="delete-confirm"><i class="fas fa-times"></i></a>';
-                                contentBody += '</div>';
+                                contentBody += '<div class="text-right  px-3">'
+                                if (localStorage.getItem('entire_id_arsip')) {
+                                    contentBody += '<a href="' + file.id + '" data-id="' + file
+                                        .id +
+                                        '" class="delete-confirm" style="display: none;"><i class="fas fa-times"></i></a>';
+                                } else {
+                                    contentBody += '<a href="' + file.id + '" data-id="' + file
+                                        .id +
+                                        '" class="delete-confirm text-danger"><i class="fas fa-times"></i></a>';
+                                }
                                 contentBody +=
                                     `<a href="/uploads/arsip/${file.file_arsip}" class="d-flex flex-column mx-3 mt-4" style="color:#575962;" target="_blank">`;
                                 if (file.file_arsip.toLowerCase().endsWith('.pdf')) {

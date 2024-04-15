@@ -225,6 +225,7 @@
                                     localStorage.setItem("personal_id_arsip", id_arsip);
                                     localStorage.removeItem("entire_id_arsip");
                                     localStorage.removeItem("id_entire_user");
+                                    localStorage.removeItem("nameUser");
                                 });
                             });
                             paginationLink(pagination, response);

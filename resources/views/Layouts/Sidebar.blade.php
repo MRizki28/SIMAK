@@ -26,7 +26,41 @@
 							</div>
 						</div>
 					</div>
-                    <ul class="nav nav-primary">
+					@if (auth()->check() && auth()->user()->role =='superadmin')
+					<ul class="nav nav-primary">
+						<li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
+							<a href="{{ url('/') }}">
+								<i class="fa-solid fa-home"></i>
+								<p>Dashboard</p>
+							</a>
+						</li> 
+						<li class="nav-item">
+							<a data-toggle="collapse" href="#sidebarLayouts" class="collapsed" aria-expanded="false">
+								<i class="fas fa-coins"></i>
+								<p>Arsip</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="sidebarLayouts" style="">
+								<ul class="nav nav-collapse">
+									<li class="nav-item {{ request()->is('/entire-arsip*') ? 'active' : '' }}">
+										<a href="{{ url('/entire-arsip') }}">
+											<span class="sub-item">Seluruh Arsip</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li> 
+						<li class="nav-item {{ request()->is('usermanagement*') ? 'active' : '' }}">
+							<a href="{{ url('/usermanagement') }}">
+								<i class="fas fa-user"></i>
+								<p>User Manajemen</p>
+							</a>
+						</li>   
+					<ul>
+					@endif
+
+					@if (auth()->check() && auth()->user()->role =='user')
+					<ul class="nav nav-primary">
                         <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                             <a href="{{ url('/') }}">
                                 <i class="fa-solid fa-home"></i>
@@ -65,14 +99,9 @@
 									</li>
 								</ul>
 							</div>
-						</li> 
-						<li class="nav-item {{ request()->is('usermanagement*') ? 'active' : '' }}">
-                            <a href="{{ url('/usermanagement') }}">
-                                <i class="fas fa-user"></i>
-                                <p>User Manajemen</p>
-                            </a>
-                        </li>                 
+						</li>            
                     </ul>
+					@endif
 				</div>
 			</div>
 		</div>

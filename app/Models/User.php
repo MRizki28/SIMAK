@@ -20,7 +20,8 @@ class User extends Authenticatable
         'id_position',
         'name',
         'username',
-        'password'
+        'password',
+        'role'
     ];
 
     public function position() {
