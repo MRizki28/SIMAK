@@ -388,7 +388,8 @@
                                 $("#data-total").text(response.data.total);
 
                                 $("a[data-id_arsip]").off("click").on("click", function() {
-                                    let id_arsip = encryptToken($(this).data("id_arsip"), key);
+                                    let id_arsip = encryptToken($(this).data(
+                                        "id_arsip"), key);
                                     localStorage.setItem("personal_id_arsip", id_arsip);
                                     localStorage.removeItem("entire_id_arsip");
                                     localStorage.removeItem("id_entire_user");
@@ -573,7 +574,15 @@
                     success: function(response) {
                         console.log(response);
                         submitButton.attr('disabled', false);
-                        if (response.message == "Invalid file extention") {
+                        if (response.error && response.error.code_arsip && response.error
+                            .code_arsip.includes('The code arsip has already been taken.')) {
+                            Swal.fire({
+                                title: 'Warning!',
+                                text: 'Kode arsip sudah ada !',
+                                icon: 'warning',
+                                showConfirmButton: true
+                            });
+                        } else if (response.code == 405) {
                             warningExtentionAlert();
                         } else if (response.message == 'Check your validation') {
                             warningAlert();

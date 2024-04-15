@@ -86,7 +86,7 @@ class ArsipRepositories implements ArsipInterfaces
                     $extention = $file->getClientOriginalExtension();
                     if (!in_array($extention, ['png', 'jpg', 'jpeg', 'pdf', 'docx', 'doc', 'xlsx', 'xls', 'csv'])) {
                         return response()->json([
-                            'code' => 400,
+                            'code' => 405,
                             'message' => 'Invalid file extention'
                         ]);
                     } else {
