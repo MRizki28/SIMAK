@@ -26,6 +26,11 @@ class AuthController extends Controller
         return $this->authRepositories->getAllData();
     }
 
+    public function getDataForArsip()
+    {
+        return $this->authRepositories->getDataForArsip();
+    }
+
     public function getDataById($id)
     {
         return $this->authRepositories->getDataById($id);
