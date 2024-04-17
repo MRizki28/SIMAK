@@ -31,12 +31,17 @@ class ArsipRepositories implements ArsipInterfaces
         $search = $request->input('search');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-        $limit = $request->input('limit') ? $request->input('limit') : 1;
+        $limit = $request->input('limit') ? $request->input('limit') : 10;
         $page = (int) $request->input('page', 1);
+        $is_private = $request->query('is_private');
 
         $user = Auth::user()->id;
 
         $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user);
+
+        if ($is_private !== null) {
+            $query->where('is_private', $is_private);
+        }
 
         if ($startDate && $endDate) {
             $query->whereBetween('date_arsip', [$startDate, $endDate]);
@@ -142,7 +147,13 @@ class ArsipRepositories implements ArsipInterfaces
             $user = Auth::user()->id;
             $id_year = $request->query('id_year');
             $id_type_document = $request->query('id_type_document');
+            $is_private = $request->query('is_private');
+
             $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user)->where('id_type_document', $id_type_document)->where('id_year', $id_year);
+
+            if ($is_private !== null) {
+                $query->where('is_private', $is_private);
+            }
 
             if ($startDate && $endDate) {
                 $query->whereBetween('date_arsip', [$startDate, $endDate]);
