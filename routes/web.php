@@ -88,6 +88,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         Route::prefix('auth')->controller(AuthController::class)->group(function () {
             Route::get('/',                   'getAllData');
+            Route::get('/getforarsip',                   'getDataForArsip');
             Route::post('/register',           'register');
             Route::get('/get/{id}',           'getDataById');
             Route::post('/resetpassword/{id}', 'resetPassword');
