@@ -108,6 +108,17 @@ class AuthRepositories implements AuthInterfaces
         }
     }
 
+    public function getDataForArsip()
+    {
+        $name = 'Muhammad Rizki';
+        $data = $this->userModel->with('position')->where('name', '!=' , $name)->get();
+        if ($data->isEmpty()) {
+            return $this->dataNotFound();
+        } else {
+            return $this->success($data);
+        }
+    }
+
     public function getDataById($id)
     {
         $data = $this->userModel->where('id', $id)->first();
