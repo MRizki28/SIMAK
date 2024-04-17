@@ -57,13 +57,14 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('v1/auth') }}",
+                    url: "{{ url('v1/auth/getforarsip') }}",
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)
                         let tableBody = "";
                         $.each(response.data, function(index, item) {
-                            tableBody += '<tr data-id="' + item.id + '" data-name="' + item.name + '">';
+                            tableBody += '<tr data-id="' + item.id + '" data-name="' + item
+                                .name + '">';
                             tableBody += '<td class="text-center">' + item.name + '</td>';
                             tableBody += '</tr>';
                         });
@@ -72,7 +73,7 @@
 
                         $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
                             const id_entire_user = encryptToken($(this).data("id"), key);
-                            const nameUser = $(this).data("name"); 
+                            const nameUser = $(this).data("name");
                             console.log(nameUser)
                             localStorage.setItem('nameUser', nameUser);
                             localStorage.setItem('id_entire_user', id_entire_user);
@@ -83,7 +84,7 @@
                 });
             }
             getAllData();
-            
+
         });
     </script>
 @endsection
