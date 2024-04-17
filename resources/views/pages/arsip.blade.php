@@ -2,7 +2,7 @@
 @section('content')
     <div class="page-inner">
         <div class="page-header ">
-            <h4 class="page-title">Jenis Dokumen</h4>
+            <h4 class="page-title">Buat Arsip</h4>
         </div>
         <div class="row">
             <div class="col-md-12">

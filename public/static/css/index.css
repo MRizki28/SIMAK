@@ -1,6 +1,7 @@
 .w-60 {
     width: 60%;
 }
+
 #content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

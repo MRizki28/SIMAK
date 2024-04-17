@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 use App\Http\Requests\Auth\AuthRequest;
+use App\Http\Requests\Setting\SettingRequest;
 use App\Interfaces\AuthInterfaces;
 use App\Models\User;
 use App\Traits\HttpResponseTraits;
@@ -169,6 +170,31 @@ class AuthRepositories implements AuthInterfaces
             } else {
                 $data->delete();
                 return $this->delete();
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function setting(SettingRequest $request)
+    {
+        try {
+            $id = Auth::user()->id;
+            $data = $this->userModel->where('id', $id)->first();
+            if (!Hash::check($request->password_old, $data->password)) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Old password is wrong'
+                ]);
+            }
+
+            $data->password = Hash::make($request->input('password'));
+            $data->save();
+            if ($data) {
+                return $this->success($data);
+                Auth::guard('web')->logout();
+            }else{
+                return $this->error();
             }
         } catch (\Throwable $th) {
             return $this->error($th);

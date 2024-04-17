@@ -68,7 +68,27 @@ function dateRangePickerSetup(element) {
 function successAlert() {
     return Swal.fire({
         title: 'Success',
-        text: 'Data berhasil Ditambahkan',
+        text: 'Data berhasil ditambahkan',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+    })
+}
+
+function successResetPasswordAlert() {
+    return Swal.fire({
+        title: 'Success',
+        text: 'Password berhasil direset',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+    })
+}
+
+function successSettingPasswordAlert() {
+    return Swal.fire({
+        title: 'Success',
+        text: 'Password berhasil diperbaharui',
         icon: 'success',
         showCancelButton: false,
         confirmButtonText: 'OK',

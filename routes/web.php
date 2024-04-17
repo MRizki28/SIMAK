@@ -83,6 +83,9 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.managementarsip.entirearsip.entirearsip');
     })->middleware('rolemanagement:superadmin,user');
 
+    Route::get('/setting', function () {
+        return view('pages.settings');
+    })->middleware('rolemanagement:user');
 
     Route::prefix('v1')->group(function () {
         Route::prefix('auth')->controller(AuthController::class)->group(function () {
@@ -93,6 +96,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/resetpassword/{id}', 'resetPassword');
             Route::post('/update/{id}',        'updateData');
             Route::delete('/delete/{id}',        'deleteData');
+            Route::post('/setting',           'setting');
         });
 
         Route::prefix('typedocument')->controller(TypeDocumentController::class)->group(function () {

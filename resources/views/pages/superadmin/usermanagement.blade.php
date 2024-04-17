@@ -408,7 +408,7 @@
                                 if (response.code == 400) {
                                     errorAlert();
                                 } else {
-                                    successAlert().then(function() {
+                                    successResetPasswordAlert().then(function() {
                                         $('#userManagementEditModal').modal(
                                             'hide');
                                         $('#reset-password-btn').prop(
