@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CMS\ArsipController;
 use App\Http\Controllers\CMS\AuthController;
+use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\PositionController;
 use App\Http\Controllers\CMS\TypeDocumentController;
 use App\Http\Controllers\CMS\YearController;
@@ -132,6 +133,10 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         Route::prefix('position')->controller(PositionController::class)->group(function () {
             Route::get('/',               'getAllData');
+        });
+
+        Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
+            Route::get('/',               'dashboard');
         });
     });
 });

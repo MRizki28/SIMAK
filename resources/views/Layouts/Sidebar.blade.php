@@ -10,7 +10,7 @@
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									{{ auth()->user()->name }}
-									<span class="user-level">{{ json_decode(auth()->user()->position)->position ?? 'Super Admin' }}</span>
+									<span class="user-level" id="user-level">{{ json_decode(auth()->user()->position)->position ?? 'Super Admin' }}</span>
 									<span class="caret"></span>
 								</span>
 							</a>
@@ -105,4 +105,15 @@
 				</div>
 			</div>
 		</div>
+
+		<script>
+		$(document).ready(function() {
+				let userLevelSpan = $('#user-level');
+				let positionText = userLevelSpan.text();
+
+				let newTextWithLineBreaks = insertLineBreaks(positionText, 3);
+				userLevelSpan.html(newTextWithLineBreaks);
+				console.log(userLevelSpan)
+		});
+		</script>
 		<!-- End Sidebar -->

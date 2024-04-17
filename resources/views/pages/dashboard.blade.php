@@ -18,13 +18,13 @@
                         <div class="row align-items-center">
                             <div class="col-icon">
                                 <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                    <i class="flaticon-users"></i>
+                                    <i class="flaticon-interface-6"></i>
                                 </div>
                             </div>
                             <div class="col col-stats ml-3 ml-sm-0">
                                 <div class="numbers">
                                     <p class="card-category">Jenis Dokumen</p>
-                                    <h4 class="card-title">1,294</h4>
+                                    <h4 class="card-title" id="jenisDokumen"></h4>
                                 </div>
                             </div>
                         </div>
@@ -37,13 +37,13 @@
                         <div class="row align-items-center">
                             <div class="col-icon">
                                 <div class="icon-big text-center icon-info bubble-shadow-small">
-                                    <i class="flaticon-interface-6"></i>
+                                    <i class="flaticon-archive"></i>
                                 </div>
                             </div>
                             <div class="col col-stats ml-3 ml-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Personal Arsip</p>
-                                    <h4 class="card-title">1303</h4>
+                                    <p class="card-category">Total Personal Arsip</p>
+                                    <h4 class="card-title" id="personalArsip"></h4>
                                 </div>
                             </div>
                         </div>
@@ -61,8 +61,8 @@
                             </div>
                             <div class="col col-stats ml-3 ml-sm-0">
                                 <div class="numbers">
-                                    <p class="card-category">Total Pengguna</p>
-                                    <h4 class="card-title">$ 1,345</h4>
+                                    <p class="card-category">Total Pengguna Aplikasi</p>
+                                    <h4 class="card-title" id="totalUser"></h4>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                             <div class="col col-stats ml-3 ml-sm-0">
                                 <div class="numbers">
                                     <p class="card-category">Total seluruh arsip</p>
-                                    <h4 class="card-title">576</h4>
+                                    <h4 class="card-title" id="totalSeluruhArsip"></h4>
                                 </div>
                             </div>
                         </div>
@@ -112,4 +112,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "{{ url('v1/dashboard') }}",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    $('#jenisDokumen').text(response.data.typeDocument)
+                    $('#personalArsip').text(response.data.personalArsip)
+                    $('#totalUser').text(response.data.totalUser)
+                    $('#totalSeluruhArsip').text(response.data.totalSeluruhArsip)
+                }
+            });
+        });
+    </script>
 @endsection
