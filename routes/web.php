@@ -85,7 +85,6 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 
     Route::prefix('v1')->group(function () {
-
         Route::prefix('auth')->controller(AuthController::class)->group(function () {
             Route::get('/',                   'getAllData');
             Route::get('/getforarsip',                   'getDataForArsip');

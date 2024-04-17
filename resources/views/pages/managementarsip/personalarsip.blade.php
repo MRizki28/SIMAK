@@ -39,24 +39,29 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-2 mb-md-0 row">
-                            <div class="col-md-5 col-12 row mb-2" style="margin-left: -8px;">
-
+                            <div class="col-md-7 row mb-2">
                                 {{-- Form Search --}}
-                                <div class="input-icon">
+                                <div class="input-icon col-md-4 mb-2 ">
                                     <input type="text" class="form-control" placeholder="Cari..." id="form-search">
-                                    <span class="input-icon-addon" id="search-button">
+                                    <span class="input-icon-addon p-3 text-center" id="search-button">
                                         <i class="fa fa-search " style="cursor: pointer;"></i>
                                     </span>
                                 </div>
+                                <div class="input-icon col-md-2 mb-2">
+                                    <select id="filteredIsPrivate" class="form-control">
+                                        <option value="" selected disabled hidden>Sortir...</option>
+                                        <option value="1">Private</option>
+                                        <option value="0">Not Private</option>
+                                        <option value="">Tampilkan Semua</option>
+                                    </select>
+                                </div>
                             </div>
-
-                            <div class="col-md-5 col-12 p-0 d-flex justify-content-end align-items-center "
-                                style="margin-right: 20px;">
+                        
+                            <div class="col-md-5 p-0 d-flex justify-content-end align-items-center">
                                 {{-- Form search by daterange --}}
                                 <div class="form-group col-sm-12 col-md-7 row">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="datetime" name="datetime"
-                                            placeholder="Cari berdasarkan rentang ">
+                                        <input type="text" class="form-control" id="datetime" name="datetime" placeholder="Cari berdasarkan rentang">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
@@ -64,7 +69,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -115,11 +119,13 @@
                 const search = $("#form-search").val();
                 const startDate = $("#datetime").data("start-date");
                 const endDate = $("#datetime").data("end-date");
+                const is_private = $("#filteredIsPrivate").val()
 
                 return {
                     search,
                     startDate,
-                    endDate
+                    endDate,
+                    is_private
                 };
             }
 
@@ -132,6 +138,15 @@
             $(document).on('click', '#search-button', function() {
                 loadData()
             })
+
+            $(document).on('change', '#filteredIsPrivate', function() {
+                const selecteValue  = $(this).val()
+                if (selecteValue == '') {
+                    window.location.reload()
+                }else{
+                    loadData();
+                }
+            });
 
             $('#datetime').on('apply.daterangepicker cancel.daterangepicker', function() {
                 loadData();
@@ -157,10 +172,10 @@
 
                 let startDateParam = params.startDate || "";
                 let endDateParam = params.endDate || "";
-
-                if (params.search || startDateParam || endDateParam) {
+                
+                if (params.search || startDateParam || endDateParam || params.is_private) {
                     endpoint += "&search=" + params.search + "&startDate=" + startDateParam + "&endDate=" +
-                        endDateParam;
+                        endDateParam + "&is_private=" + params.is_private;
                 }
 
                 console.log(endpoint)
