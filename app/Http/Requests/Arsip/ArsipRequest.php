@@ -31,12 +31,14 @@ class ArsipRequest extends FormRequest
             $rules = [
                 'id_type_document' => 'required',
                 'id_year' => 'required',
-                'code_arsip' => 'required',
-                Rule::unique('tb_arsip', 'code_arsip')
-                    ->where(function ($query) use ($userId) {
-                        $query->where('id_user', $userId);
-                    })
-                    ->ignore($this->route('id')),
+                'code_arsip' =>  [
+                    'required',
+                    Rule::unique('tb_arsip', 'code_arsip')
+                        ->where(function ($query) use ($userId) {
+                            $query->where('id_user', $userId);
+                        })
+                        ->ignore($this->route('id')),
+                    ],
                 'date_arsip' => 'required',
                 'description' => 'required',
                 'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar,jenisLain',
