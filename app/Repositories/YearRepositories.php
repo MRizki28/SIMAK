@@ -46,7 +46,8 @@ class YearRepositories implements YearInterfaces
         try {
             $user = $request->query('id_user');
             $data = $this->yearModel->whereHas('arsip', function ($query) use ($user) {
-                $query->where('id_user', $user);
+                $query->where('id_user', $user)
+                    ->where('is_private', '!=', true);
             })->get();
             if (!$data) {
                 return $this->dataNotFound();
