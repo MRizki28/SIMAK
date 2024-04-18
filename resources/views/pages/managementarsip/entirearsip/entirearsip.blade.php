@@ -151,21 +151,20 @@
 
             function loadData(url) {
                 let params = paramsSearch();
-                id_user = decryptToken(localStorage.getItem('id_entire_user'), key)
-                id_year = decryptToken(localStorage.getItem('id_entire_year'), key)
-                id_type_document = decryptToken(localStorage.getItem('id_entire_type_document'), key)
-                console.log('id_year', id_year)
-                console.log('id_type_document', id_type_document)
-                let endpoint = url || ("/v1/arsip/entire?id_user=" + id_user + "&id_year=" +
-                    id_year + "&id_type_document=" + id_type_document);
+                let id_user = decryptToken(localStorage.getItem('id_entire_user'), key);
+                let id_year = decryptToken(localStorage.getItem('id_entire_year'), key);
+                let id_type_document = decryptToken(localStorage.getItem('id_entire_type_document'), key);
 
-                let startDateParam = params.startDate || "";
-                let endDateParam = params.endDate || "";
+                let endpointParams = {
+                    id_user: id_user,
+                    id_year: id_year,
+                    id_type_document: id_type_document,
+                    search: params.search || '',
+                    startDate: params.startDate || '',
+                    endDate: params.endDate || ''
+                };
 
-                if (params.search || startDateParam || endDateParam) {
-                    endpoint += "&search=" + params.search + "&startDate=" + startDateParam + "&endDate=" +
-                        endDateParam;
-                }
+                let endpoint = paramsUrl(url || "/v1/arsip/entire", endpointParams);
 
                 console.log(endpoint)
 
@@ -222,7 +221,8 @@
                                 $("#data-total").text(response.data.total);
 
                                 $("a[data-id_arsip]").off("click").on("click", function() {
-                                    let id_arsip = encryptToken($(this).data("id_arsip"), key);
+                                    let id_arsip = encryptToken($(this).data(
+                                        "id_arsip"), key);
                                     localStorage.setItem("entire_id_arsip", id_arsip);
                                     localStorage.removeItem("user_name");
                                 });

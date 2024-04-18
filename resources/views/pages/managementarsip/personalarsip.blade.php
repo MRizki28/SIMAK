@@ -56,12 +56,13 @@
                                     </select>
                                 </div>
                             </div>
-                        
+
                             <div class="col-md-5 p-0 d-flex justify-content-end align-items-center">
                                 {{-- Form search by daterange --}}
                                 <div class="form-group col-sm-12 col-md-7 row">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="datetime" name="datetime" placeholder="Cari berdasarkan rentang">
+                                        <input type="text" class="form-control" id="datetime" name="datetime"
+                                            placeholder="Cari berdasarkan rentang">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
@@ -140,10 +141,10 @@
             })
 
             $(document).on('change', '#filteredIsPrivate', function() {
-                const selecteValue  = $(this).val()
+                const selecteValue = $(this).val()
                 if (selecteValue == '') {
                     window.location.reload()
-                }else{
+                } else {
                     loadData();
                 }
             });
@@ -163,21 +164,19 @@
 
             function loadData(url) {
                 let params = paramsSearch();
-                id_year = decryptToken(localStorage.getItem('id_year'), key)
-                id_type_document = decryptToken(localStorage.getItem('id_type_document'), key)
-                console.log('id_year', id_year)
-                console.log('id_type_document', id_type_document)
-                let endpoint = url || ("/v1/arsip/getpersonal?id_year=" + id_year + "&id_type_document=" +
-                    id_type_document);
+                let id_year = decryptToken(localStorage.getItem('id_year'), key);
+                let id_type_document = decryptToken(localStorage.getItem('id_type_document'), key);
 
-                let startDateParam = params.startDate || "";
-                let endDateParam = params.endDate || "";
-                
-                if (params.search || startDateParam || endDateParam || params.is_private) {
-                    endpoint += "&search=" + params.search + "&startDate=" + startDateParam + "&endDate=" +
-                        endDateParam + "&is_private=" + params.is_private;
-                }
+                let endpointParams = {
+                    id_year: id_year,
+                    id_type_document: id_type_document,
+                    search: params.search || '',
+                    startDate: params.startDate || '',
+                    endDate: params.endDate || '',
+                    is_private: params.is_private || ''
+                };
 
+                let endpoint = paramsUrl(url || "/v1/arsip/getpersonal", endpointParams);
                 console.log(endpoint)
 
                 const pagination = $(".pagination");
@@ -234,9 +233,10 @@
                                 $("#table tbody").append(tableBody);
                                 $("#dataNotFound").hide();
                                 $("#data-total").text(response.data.total);
-                                
+
                                 $("a[data-id_arsip]").off("click").on("click", function() {
-                                    let id_arsip = encryptToken($(this).data("id_arsip"), key);
+                                    let id_arsip = encryptToken($(this).data(
+                                        "id_arsip"), key);
                                     localStorage.setItem("personal_id_arsip", id_arsip);
                                     localStorage.removeItem("entire_id_arsip");
                                     localStorage.removeItem("id_entire_user");
