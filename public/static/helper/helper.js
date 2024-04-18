@@ -188,10 +188,28 @@ function decryptToken(tokenEncrpyt, key) {
 
 function protectedModificationSystem(event) {
     if (event.originalEvent.storageArea === localStorage) {
-        protectedAlert();
-        setTimeout(function () {
-            window.location.href = "/";
-        }, 3000);
+        if (!localStorage.getItem('entire_id_arsip') || !localStorage.getItem('nameUser')
+            || !localStorage.getItem('id_entire_user')
+            || !localStorage.getItem('id_entire_year')
+            || !localStorage.getItem('id_entire_type_document')) {
+            protectedAlert();
+            setTimeout(function () {
+                window.location.href = '/';
+            }, 2000);
+        }
+    }
+}
+
+function protectedModificationSystem2(event) {
+    if (event.originalEvent.storageArea === localStorage) {
+        if (!localStorage.getItem('personal_id_arsip') || !localStorage.getItem('user_name')
+            || !localStorage.getItem('id_year')
+            || !localStorage.getItem('id_type_document')) {
+            protectedAlert();
+            setTimeout(function () {
+                window.location.href = '/';
+            }, 2000);
+        }
     }
 }
 
