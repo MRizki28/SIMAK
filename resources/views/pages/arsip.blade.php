@@ -409,6 +409,8 @@
                                     localStorage.removeItem("entire_id_arsip");
                                     localStorage.removeItem("id_entire_user");
                                     localStorage.removeItem("nameUser");
+                                    localStorage.removeItem("id_entire_year");
+                                    localStorage.removeItem("id_entire_type_document");
                                 });
                             });
                             paginationLink(pagination, response);
