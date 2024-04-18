@@ -206,11 +206,12 @@
 
             $("#formTambah").submit(function(e) {
                 e.preventDefault();
+
                 let formData = new FormData(this);
                 let submitButton = $(this).find(":submit");
-                let id_arsip = localStorage.getItem('id_arsip');
-                console.log(id_arsip)
-                formData.append('id_arsip', id_arsip);
+
+                let id_arsip = decryptToken(localStorage.getItem('personal_id_arsip'), key)
+                formData.append('id_arsip', id_arsip)
                 submitButton.attr("disabled", true);
 
                 $.ajax({
