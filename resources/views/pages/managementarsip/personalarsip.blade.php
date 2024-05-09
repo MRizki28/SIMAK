@@ -86,6 +86,7 @@
                                         <th style="padding: 0 25px !important;">Tanggal</th>
                                         <th style="padding: 0 25px !important;">Deskripsi</th>
                                         <th style="padding: 0 25px !important;">Type Dokumen</th>
+                                        <th style="padding: 0 25px !important;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -105,6 +106,95 @@
                                 </span>
                                 <ul class="pagination pg-info"></ul>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- modal update --}}
+    <div class="modal fade " id="arsipModalEdit" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 1024px; ">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="modal-body">
+                        <div class="header">
+                            <span style="font-size: 20px;" id="modal-title">Edit Data</span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="form mt-4">
+                            <form action="" id="formEdit">
+                                @csrf
+                                <input type="hidden" name="id" id="eid">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="code_arsip">Kode Arsip</label>
+                                            <input type="text" class="form-control  required" required
+                                                name="code_arsip" id="ecode_arsip" placeholder="Contoh: SM-001">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="id_type_document">Jenis Dokumen</label>
+                                            <select name="id_type_document" class="form-control" id="eid_type_document"
+                                                style="width: 100%; height: 30px;">
+                                                <option value="" selected disabled hidden>Choose here</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="id_year">Tahun Arsip</label>
+                                            <select name="id_year" class="form-control" id="eid_year"
+                                                style="width: 100%; height: 30px;">
+                                                <option value="" selected disabled hidden>Choose here</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group form-show-validation">
+                                            <label for="date_arsip">Tanggal Arsip</label>
+                                            <input type="date" class="form-control  required" required
+                                                name="date_arsip" id="edate_arsip">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group form-show-validation">
+                                            <label for="date_arsip">Label</label>
+                                            <select class="form-control" name="in_or_out_arsip" id="ein_or_out_arsip">
+                                                <option value="" selected disabled hidden>Choose here</option>
+                                                <option value="suratMasuk">Surat Masuk</option>
+                                                <option value="suratKeluar">Surat Keluar</option>
+                                                <option value="jenisLain">Jenis Lain</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-show-validation">
+                                    <label for="date_arsip">Deskripsi/Prihal</label>
+                                    <textarea class="form-control" required name="description" id="edescription" rows="3"></textarea>
+                                </div>
+                                <div class="form-group form-show-validation">
+                                    <label for="date_arsip">Private</label>
+                                    <input type="checkbox" name="is_private" id="eis_private">
+                                </div>
+
+                                <div class="button-footer d-flex justify-content-between mt-4">
+                                    <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
+                                        <div class="button-footer d-flex justify-content-between mt-4">
+                                            <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
+                                                <button type="button" class="btn btn-danger text-white mr-3"
+                                                    data-dismiss="modal" aria-label="Close">Batal</button>
+                                                <button class="btn btn-primary" type="submit">Simpan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -221,13 +311,21 @@
                                         "</td>"
                                 }
                                 tableBody += "<td>" + year + "</td>"
-                                tableBody += "<td><a href='/file/personal' data-id_arsip='" +
+                                tableBody += "<td><a href='/file' data-id_arsip='" +
                                     id_arsip + "'><i class='fas fa-eye fa-xl'></i></a></td>";
                                 tableBody += "<td>" + value.date_arsip + "</td>"
                                 tableBody += "<td>" + value.description + "</td>"
                                 tableBody += "<td>" + (value.is_private === 0 ?
                                     "<i class='fas fa-lock-open'></i>" :
                                     "<i class='fas fa-lock'></i>") + "</td>";
+                                tableBody +=
+                                    "<td style='padding: 0 10px !important;'  class='text-left text-center '>" +
+                                    "<button class='btn btn-sm edit-modal mr-1' data-toggle='modal' data-target='#arsipModalEdit' data-id='" +
+                                    value.id + "'><i class='fas fa-edit'></i></button>" +
+                                    "<button type='submit' class='delete-confirm btn btn-sm' data-id='" +
+                                    value.id +
+                                    "' name='rejected'><i class='fas fa-trash-alt'></i></button>" +
+                                    "</td>";
                                 tableBody += "</tr>";
 
                                 $("#table tbody").append(tableBody);
@@ -257,6 +355,227 @@
             }
 
             loadData();
+
+            function getDataTypeDocument() {
+                return new Promise(function(resolve, reject) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ url('v1/typedocument/get/user') }}",
+                        dataType: "JSON",
+                        success: function(response) {
+                            let option = "";
+                            $.each(response.data, function(index, item) {
+                                option += '<option value="' + item.id +
+                                    '">' + item.name_type_document + '</option>';
+                            });
+                            resolve(option)
+                        },
+                        error: function(error) {
+                            reject(error);
+                        }
+                    });
+                })
+            }
+
+            function getDataYear() {
+                return new Promise(function(resolve, reject) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ url('v1/year') }}",
+                        dataType: "JSON",
+                        success: function(response) {
+                            let option2 = "";
+                            $.each(response.data, function(index, item) {
+                                option2 += '<option value="' + item.id +
+                                    '">' + item.year + '</option>';
+                            });
+                            resolve(option2)
+                        },
+                        error: function(error) {
+                            reject(error);
+                        }
+                    });
+                })
+            }
+
+            Promise.all([getDataTypeDocument(), getDataYear()])
+                .then(function(result) {
+                    let dataTypeDocument = result[0];
+                    let dataYear = result[1];
+
+                    $("#eid_type_document").append(dataTypeDocument);
+                    $("#eid_year").append(dataYear);
+                }).catch(function(err) {
+                    console.log(error)
+                });
+
+            $(document).on('click', '.edit-modal', function() {
+                const id = $(this).data('id');
+                console.log("Edit modal clicked, id:", id);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('v1/arsip/get') }}/" + id,
+                    dataType: "JSON",
+                    success: function(response) {
+                        console.log(response);
+                        $('#eid').val(response.data.id);
+                        $('#ecode_arsip').val(response.data.code_arsip);
+                        $('#eid_type_document').val(response.data.id_type_document).trigger(
+                            'change');
+                        $('#eid_year').val(response.data.id_year).trigger('change');
+                        $('#edate_arsip').val(response.data.date_arsip);
+                        $('#ein_or_out_arsip').val(response.data.in_or_out_arsip).trigger(
+                            'change');
+                        $('#edescription').val(response.data.description);
+                        if (response.data.is_private) {
+                            $("#eis_private").prop("checked", true);
+                        } else {
+                            $("#eis_private").prop("checked", false);
+                        }
+                    }
+                });
+            });
+
+            function validationEditData() {
+                $('#formEdit').validate({
+                    rules: {
+                        code_arsip: {
+                            required: true
+                        },
+                        id_type_document: {
+                            required: true
+                        },
+                        id_year: {
+                            required: true
+                        },
+                        date_arsip: {
+                            required: true
+                        },
+                        in_or_out_arsip: {
+                            required: true
+                        },
+                        "file_arsip[]": {
+                            required: true,
+                            extension: "docx|pdf|xls|xlsx|csv|jpg|jpeg|png"
+                        },
+                        description: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        code_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_type_document: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_year: {
+                            required: "Field ini wajib diisi"
+                        },
+                        date_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        in_or_out_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        "file_arsip[]": {
+                            required: "Field ini wajib diisi",
+                            extension: "Format hanya png, jpg, jpeg, pdf, docx, doc, xlsx, xls, csv"
+                        },
+                        description: {
+                            required: "Field ini wajib diisi"
+                        }
+                    },
+                    highlight: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-success').addClass(
+                            'has-error');
+                    },
+                    success: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-error').addClass(
+                            'has-success');
+                    }
+                });
+            }
+
+            $('#eid_type_document, #eid_year').on('change', function() {
+                $(this).valid();
+            });
+
+            validationEditData();
+
+            $("#formEdit").submit(function(e) {
+                e.preventDefault();
+                let id = $('#eid').val();
+                console.log("Form submitted for editing, id:", id);
+                let formData = new FormData(this);
+                let submitButton = $(this).find(':submit');
+                submitButton.attr('disabled', true);
+                let isPrivate = $("#eis_private").is(":checked");
+                formData.append("is_private", isPrivate);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('v1/arsip/update') }}/" + id,
+                    data: formData,
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        console.log(response);
+                        submitButton.attr('disabled', false);
+                        if (response.error && response.error.code_arsip && response.error
+                            .code_arsip.includes('The code arsip has already been taken.')) {
+                            Swal.fire({
+                                title: 'Warning!',
+                                text: 'Kode arsip sudah ada !',
+                                icon: 'warning',
+                                showConfirmButton: true
+                            });
+                        } else if (response.message == 'Check your validation') {
+                            warningAlert();
+                        } else if (response.code == 400) {
+                            errorAlert();
+                        } else {
+                            successAlert().then(function() {
+                                window.location.reload()
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        submitButton.attr('disabled', false);
+                        errorAlert();
+                    }
+                });
+            });
+
+            $(document).on('click', '.delete-confirm', function(e) {
+                e.preventDefault();
+                let id = $(this).data('id');
+                deleteAlert().then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ url('v1/arsip/delete') }}/" + id,
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "id": id
+                            },
+                            success: function(response) {
+                                if (response.code === 400) {
+                                    failedDeleteDataAlert();
+                                } else {
+                                    successDeleteAlert().then(function() {
+                                        loadData();
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                errorAlert();
+                            }
+                        });
+                    }
+                })
+            });
 
             $(window).on('storage', function(event) {
                 protectedModificationSystem2(event);
