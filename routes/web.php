@@ -51,7 +51,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         return view('pages.superadmin.usermanagement');
     })->middleware('rolemanagement:superadmin');
 
-    Route::get('/file/personal', function () {
+    Route::get('/file', function () {
         return view('pages.file.file');
     })->middleware('rolemanagement:superadmin,user');
 
