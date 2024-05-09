@@ -159,7 +159,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-show-validation">
-                                    <label for="date_arsip">Description</label>
+                                    <label for="date_arsip">Deskripsi/Prihal</label>
                                     <textarea class="form-control" required name="description" id="description" rows="3"></textarea>
                                 </div>
                                 <div class="form-group form-show-validation">
@@ -248,7 +248,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-show-validation">
-                                    <label for="date_arsip">Description</label>
+                                    <label for="date_arsip">Deskripsi/Prihal</label>
                                     <textarea class="form-control" required name="description" id="edescription" rows="3"></textarea>
                                 </div>
                                 <div class="form-group form-show-validation">
@@ -381,7 +381,7 @@
                                         "</td>"
                                 }
                                 tableBody += "<td>" + year + "</td>"
-                                tableBody += "<td><a href='/file/personal' data-id_arsip='" +
+                                tableBody += "<td><a href='/file' data-id_arsip='" +
                                     id_arsip + "'><i class='fas fa-eye fa-xl'></i></a></td>";
                                 tableBody += "<td>" + value.date_arsip + "</td>"
                                 tableBody += "<td>" + value.description + "</td>"
@@ -547,6 +547,73 @@
             });
 
             validationCreateData();
+
+            function validationEditData() {
+                $('#formEdit').validate({
+                    rules: {
+                        code_arsip: {
+                            required: true
+                        },
+                        id_type_document: {
+                            required: true
+                        },
+                        id_year: {
+                            required: true
+                        },
+                        date_arsip: {
+                            required: true
+                        },
+                        in_or_out_arsip: {
+                            required: true
+                        },
+                        "file_arsip[]": {
+                            required: true,
+                            extension: "docx|pdf|xls|xlsx|csv|jpg|jpeg|png"
+                        },
+                        description: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        code_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_type_document: {
+                            required: "Field ini wajib diisi"
+                        },
+                        id_year: {
+                            required: "Field ini wajib diisi"
+                        },
+                        date_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        in_or_out_arsip: {
+                            required: "Field ini wajib diisi"
+                        },
+                        "file_arsip[]": {
+                            required: "Field ini wajib diisi",
+                            extension: "Format hanya png, jpg, jpeg, pdf, docx, doc, xlsx, xls, csv"
+                        },
+                        description: {
+                            required: "Field ini wajib diisi"
+                        }
+                    },
+                    highlight: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-success').addClass(
+                            'has-error');
+                    },
+                    success: function(element) {
+                        $(element).closest('.form-group, .select2').removeClass('has-error').addClass(
+                            'has-success');
+                    }
+                });
+            }
+
+            $('#eid_type_document, #eid_year').on('change', function() {
+                $(this).valid();
+            });
+
+            validationEditData();
 
             $('#is_private').click(function() {
                 if ($(this).is(':checked')) {
