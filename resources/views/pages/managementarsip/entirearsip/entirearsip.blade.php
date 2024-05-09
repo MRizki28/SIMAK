@@ -17,14 +17,14 @@
                                     <i class="flaticon-right-arrow"></i>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/personal-arsip">
+                                    <a href="/entire-arsip/year">
                                         <span>tahun arsip</span>
                                     </a>
                                 </li>
                                 <i class="flaticon-right-arrow"></i>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/personal-arsip/jenis-dokumen">
+                                    <a href="/entire-arsip/jenis-dokumen">
                                         <span>jenis dokumen</span>
                                     </a>
                                 </li>
@@ -207,7 +207,7 @@
                                         "</td>"
                                 }
                                 tableBody += "<td>" + year + "</td>"
-                                tableBody += "<td><a href='/file/personal' data-id_arsip='" +
+                                tableBody += "<td><a href='/file' data-id_arsip='" +
                                     id_arsip + "'><i class='fas fa-eye fa-xl'></i></a></td>";
                                 tableBody += "<td>" + value.date_arsip + "</td>"
                                 tableBody += "<td>" + value.description + "</td>"
