@@ -86,7 +86,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::get('/setting', function () {
         return view('pages.settings');
-    })->middleware('rolemanagement:user');
+    })->middleware('rolemanagement:admin,user');
 
     Route::prefix('v1')->group(function () {
         Route::prefix('auth')->controller(AuthController::class)->group(function () {
