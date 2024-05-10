@@ -10,7 +10,7 @@
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									{{ auth()->user()->name }}
-									<span class="user-level" id="user-level">{{ json_decode(auth()->user()->position)->position ?? 'Super Admin' }}</span>
+									<span class="user-level" id="user-level">{{ json_decode(auth()->user()->position)->position ?? 'Admin' }}</span>
 									<span class="caret"></span>
 								</span>
 							</a>
@@ -26,7 +26,7 @@
 							</div>
 						</div>
 					</div>
-					@if (auth()->check() && auth()->user()->role =='superadmin')
+					@if (auth()->check() && auth()->user()->role =='admin')
 					<ul class="nav nav-primary">
 						<li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
 							<a href="{{ url('/') }}">
