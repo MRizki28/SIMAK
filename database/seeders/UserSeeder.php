@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'id' => 'c8846d0f-037a-4481-bdc0-43f9fe6bc3d7',
             'name' => 'Muhammad Rizki',
             'username' => 'adminsimak',
-            'role' => 'superadmin',
+            'role' => 'admin',
             'password' => Hash::make('123')
         ]);
 
