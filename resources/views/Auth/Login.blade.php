@@ -120,7 +120,7 @@
                     } else if (response.message == "Unauthorization") {
                         Swal.fire({
                             title: 'Peringatan',
-                            text: 'Email atau password anda salah',
+                            text: 'Username atau password anda salah',
                             icon: 'warning',
                             timer: 5000,
                             showConfirmButton: true
