@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 
 /*
-|--------------------------------------------------------------------------
+|-----------------------------------------------ad---------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -37,7 +37,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::get('/', function () {
         return view('pages.dashboard');
-    })->middleware('rolemanagement:superadmin,user');
+    })->middleware('rolemanagement:admin,user');
 
     Route::get('typedocument', function () {
         return view('pages.typedocument');
@@ -48,12 +48,12 @@ Route::middleware(['web', 'auth'])->group(function () {
     })->middleware('rolemanagement:user');
 
     Route::get('/usermanagement', function () {
-        return view('pages.superadmin.usermanagement');
-    })->middleware('rolemanagement:superadmin');
+        return view('pages.admin.usermanagement');
+    })->middleware('rolemanagement:admin');
 
     Route::get('/file', function () {
         return view('pages.file.file');
-    })->middleware('rolemanagement:superadmin,user');
+    })->middleware('rolemanagement:admin,user');
 
     Route::get('/personal-arsip', function () {
         return view('pages.managementarsip.personalyeararsip');
@@ -70,19 +70,19 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::get('/entire-arsip', function () {
         return view('pages.managementarsip.entirearsip.entirearsipuser');
-    })->middleware('rolemanagement:superadmin,user');
+    })->middleware('rolemanagement:admin,user');
 
     Route::get('/entire-arsip/year', function () {
         return view('pages.managementarsip.entirearsip.entiryear');
-    })->middleware('rolemanagement:superadmin,user');
+    })->middleware('rolemanagement:admin,user');
 
     Route::get('/entire-arsip/jenis-dokumen', function () {
         return view('pages.managementarsip.entirearsip.entirearspidocument');
-    })->middleware('rolemanagement:superadmin,user');
+    })->middleware('rolemanagement:admin,user');
 
     Route::get('/entire-arsip/data', function () {
         return view('pages.managementarsip.entirearsip.entirearsip');
-    })->middleware('rolemanagement:superadmin,user');
+    })->middleware('rolemanagement:admin,user');
 
     Route::get('/setting', function () {
         return view('pages.settings');
