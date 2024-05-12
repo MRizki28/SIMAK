@@ -1,12 +1,5 @@
 @extends('Layouts.Base')
 @section('content')
-    <style>
-        /* Ganti tampilan baris saat kursor diarahkan ke atas */
-        #dataTable tbody tr:hover {
-            background-color: #f2f2f2;
-            cursor: pointer;
-        }
-    </style>
     <div class="page-inner">
         <div class="row">
             <div class="col-md-12">
@@ -18,6 +11,14 @@
                                 <li class="nav-home">
                                     <a href="/">
                                         <i class="flaticon-home"></i>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/entire-arsip/">
+                                        <span>Pengguna</span>
                                     </a>
                                 </li>
                                 <li class="separator">
@@ -75,13 +76,27 @@
                         $("#loading-row").remove();
                         dataTable.clear().rows.add($(tableBody)).draw();
 
-                        $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
+                        if (response.data.length == 0 | response.data.length == null) {
+                            $("#dataTable tbody tr").css("cursor", "");
+                        } else {
+                            $("#dataTable tbody tr").css("background-color", "");
+                            $("#dataTable tbody tr").css("cursor", "pointer");
+                            $("#dataTable tbody tr").hover(function() {
+                                $(this).css("background-color",
+                                    "#f2f2f2");
+                            }, function() {
+                                $(this).css("background-color",
+                                    "");
+                            });
+
+                            $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
                             const id_year = encryptToken($(this).data("id"), key);
                             localStorage.setItem('id_entire_year', id_year);
                             let idUser = decryptToken(Cookies.get('cookie_user'), key);
                             const url = '{{ url('/entire-arsip/jenis-dokumen') }}';
                             window.location.href = url;
                         });
+                        }
                     }
                 });
             }
