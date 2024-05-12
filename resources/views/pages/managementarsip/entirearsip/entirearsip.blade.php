@@ -17,8 +17,16 @@
                                     <i class="flaticon-right-arrow"></i>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="/entire-arsip/">
+                                        <span>Pengguna</span>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
                                     <a href="/entire-arsip/year">
-                                        <span>tahun arsip</span>
+                                        <span>Tahun arsip</span>
                                     </a>
                                 </li>
                                 <i class="flaticon-right-arrow"></i>
@@ -32,7 +40,7 @@
                                     <i class="flaticon-right-arrow"></i>
                                 </li>
                                 <li class="nav-item">
-                                    <span style="font-size: 13px;" class="font-weight-bold">personal arsip</span>
+                                    <span style="font-size: 13px;" class="font-weight-bold">Arsip</span>
                                 </li>
                             </ul>
                         </div>
@@ -80,7 +88,7 @@
                                         <th style="padding: 0 25px !important;">File</th>
                                         <th style="padding: 0 25px !important;">Tanggal</th>
                                         <th style="padding: 0 25px !important;">Deskripsi</th>
-                                        <th style="padding: 0 25px !important;">Type Dokumen</th>
+                                        <th style="padding: 0 25px !important;">Private</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
