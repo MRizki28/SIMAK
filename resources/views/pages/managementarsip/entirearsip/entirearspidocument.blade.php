@@ -17,8 +17,16 @@
                                     <i class="flaticon-right-arrow"></i>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="/entire-arsip/">
+                                        <span>Pengguna</span>
+                                    </a>
+                                </li>
+                                <li class="separator">
+                                    <i class="flaticon-right-arrow"></i>
+                                </li>
+                                <li class="nav-item">
                                     <a href="/entire-arsip/year">
-                                        <span>tahun arsip</span>
+                                        <span>Tahun arsip</span>
                                     </a>
                                 </li>
                                 <li class="separator">
