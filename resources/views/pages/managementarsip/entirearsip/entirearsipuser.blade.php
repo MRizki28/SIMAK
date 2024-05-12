@@ -24,7 +24,7 @@
                                     <i class="flaticon-right-arrow"></i>
                                 </li>
                                 <li class="nav-item">
-                                    <span style="font-size: 13px;" class="font-weight-bold">Tahun Arsip</span>
+                                    <span style="font-size: 13px;" class="font-weight-bold">Pengguna</span>
                                 </li>
                             </ul>
                         </div>
