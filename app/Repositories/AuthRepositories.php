@@ -112,7 +112,10 @@ class AuthRepositories implements AuthInterfaces
     public function getDataForArsip()
     {
         $id = 'c8846d0f-037a-4481-bdc0-43f9fe6bc3d7';
-        $data = $this->userModel->with('position')->where('id', '!=' , $id)->get();
+        $data = $this->userModel->with('position')->where('id', '!=', $id)->whereHas('arsip', function ($query) {
+                $query->whereNotNull('id_user')
+                ->where('is_private', '!=' , true);
+            })->get();
         if ($data->isEmpty()) {
             return $this->dataNotFound();
         } else {
@@ -193,7 +196,7 @@ class AuthRepositories implements AuthInterfaces
             if ($data) {
                 return $this->success($data);
                 Auth::guard('web')->logout();
-            }else{
+            } else {
                 return $this->error();
             }
         } catch (\Throwable $th) {
