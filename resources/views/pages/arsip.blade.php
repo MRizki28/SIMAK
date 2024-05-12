@@ -62,7 +62,7 @@
                                         <th style="padding: 0 25px !important;">File</th>
                                         <th style="padding: 0 25px !important;">Tanggal</th>
                                         <th style="padding: 0 25px !important;">Deskripsi</th>
-                                        <th style="padding: 0 25px !important;">Type Dokumen</th>
+                                        <th style="padding: 0 25px !important;">Private</th>
                                         <th style="padding: 0 25px !important;">Aksi</th>
                                     </tr>
                                 </thead>
