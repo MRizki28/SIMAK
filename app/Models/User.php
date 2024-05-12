@@ -27,4 +27,9 @@ class User extends Authenticatable
     public function position() {
         return $this->belongsTo(PositionModel::class, 'id_position');
     }
+
+    public function arsip()
+    {
+        return $this->hasMany(ArsipModel::class, 'id_user');
+    }
 }
