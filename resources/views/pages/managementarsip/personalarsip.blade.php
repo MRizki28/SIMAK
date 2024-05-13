@@ -536,7 +536,7 @@
                         } else if (response.code == 400) {
                             errorAlert();
                         } else {
-                            successAlert().then(function() {
+                            successUpdateAlert().then(function() {
                                 window.location.reload()
                             });
                         }
