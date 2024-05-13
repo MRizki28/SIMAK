@@ -75,7 +75,7 @@
                                     <div class="account-settings">
                                         <div class="user-profile">
                                             <div class="user-avatar">
-                                                <img src="{{ asset('static/img/profile.jpg') }}" alt="User">
+                                                <img src="{{ asset('profile-anonym.jpeg') }}" alt="User">
                                             </div>
                                             <h5 class="user-name" id="name"></h5>
                                             <h6 class="user-email" id="email"></h6>
