@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="key" content="{{ env('APP_KEY') }}">
+    <link rel="icon" href="{{ asset('img/logo/favicon_palukota.png') }}" type="image/svg+xml" />
     <title>SIMAK - LOGIN</title>
     @include('Layouts.styles')
 </head>
