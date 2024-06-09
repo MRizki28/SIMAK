@@ -140,7 +140,3 @@ Route::middleware(['web', 'auth'])->group(function () {
         });
     });
 });
-
-echo "Hello World";
-
-
