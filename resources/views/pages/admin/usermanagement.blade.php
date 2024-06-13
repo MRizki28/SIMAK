@@ -56,11 +56,11 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control  " required name="name" id="name">
+                                    <input type="text" class="form-control  " required name="name" id="name" placeholder="Input here">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="username">Username</label>
-                                    <input type="text" class="form-control" required name="username" id="username">
+                                    <input type="text" class="form-control" required name="username" id="username" placeholder="Input here">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="id_position">Jabatan</label>
@@ -111,11 +111,11 @@
                                 <input type="hidden" name="id" id="eid">
                                 <div class="form-group form-show-validation">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control  " required name="name" id="ename">
+                                    <input type="text" class="form-control  " required name="name" id="ename" placeholder="Input here">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="username">Username</label>
-                                    <input type="text" class="form-control" required name="username" id="eusername">
+                                    <input type="text" class="form-control" required name="username" id="eusername" placeholder="Input here">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <label for="id_position">Jabatan</label>
@@ -211,30 +211,30 @@
                 $('#formTambah').validate({
                     rules: {
                         name: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         username: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         id_position: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
-                        password: {
-                            required: true
-                        }
                     },
                     messages: {
                         name: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         id_position: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         username: {
-                            required: "Field ini wajib diisi"
-                        },
-                        password: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                     },
                     highlight: function(element) {
@@ -254,24 +254,30 @@
                 $('#formEdit').validate({
                     rules: {
                         name: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         username: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         id_position: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                     },
                     messages: {
                         name: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         id_position: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         username: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                     },
                     highlight: function(element) {

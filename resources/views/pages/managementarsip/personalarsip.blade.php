@@ -440,7 +440,8 @@
                 $('#formEdit').validate({
                     rules: {
                         code_arsip: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         id_type_document: {
                             required: true
@@ -459,12 +460,14 @@
                             extension: "docx|pdf|xls|xlsx|csv|jpg|jpeg|png"
                         },
                         description: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         }
                     },
                     messages: {
                         code_arsip: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         id_type_document: {
                             required: "Field ini wajib diisi"
@@ -483,7 +486,8 @@
                             extension: "Format hanya png, jpg, jpeg, pdf, docx, doc, xlsx, xls, csv"
                         },
                         description: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         }
                     },
                     highlight: function(element) {
@@ -579,6 +583,44 @@
 
             $(window).on('storage', function(event) {
                 protectedModificationSystem2(event);
+            });
+
+            function resetModal() {
+                $('#id').val('').removeClass('border-danger');
+                $('.form-group').removeClass('has-error').removeClass('has-success');
+                $('#code_arsip').val('');
+                $('#ecode_arsip').val('');
+                $('#id_type_document').val('').trigger('change');
+                $('#eid_type_document').val('').trigger('change');
+                $('#id_year').val('').trigger('change');
+                $('#eid_year').val('').trigger('change');
+                $('#date_arsip').val('');
+                $('#edate_arsip').val('');
+                $('#in_or_out_arsip').val('');
+                $('#ein_or_out_arsip').val('');
+                $('#file_arsip').val('');
+                $('#description').val('');
+                $('#edescription').val('');
+                $("#is_private").prop("checked", false);
+                $("#eis_private").prop("checked", false);
+
+                $('#code_arsip-error').remove();
+                $('#ecode_arsip-error').remove();
+                $('#id_type_document-error').remove();
+                $('#eid_type_document-error').remove();
+                $('#id_year-error').remove();
+                $('#eid_year-error').remove();
+                $('#date_arsip-error').remove();
+                $('#edate_arsip-error').remove();
+                $('#in_or_out_arsip-error').remove();
+                $('#ein_out_arsip-error').remove();
+                $('#file_arsip-error').remove();
+                $('#description-error').remove();
+                $('#edescription-error').remove();
+            }
+
+            $('#arsipModalEdit').on('hidden.bs.modal', function() {
+                resetModal()
             });
 
         });

@@ -34,7 +34,7 @@
 								<p>Dashboard</p>
 							</a>
 						</li> 
-						<li class="nav-item">
+						<li class="nav-item {{ request()->is('entire-arsip*') ? 'active' : '' }}">
 							<a data-toggle="collapse" href="#sidebarLayouts" class="collapsed" aria-expanded="false">
 								<i class="fas fa-coins"></i>
 								<p>Arsip</p>
@@ -43,7 +43,7 @@
 							<div class="collapse" id="sidebarLayouts" style="">
 								<ul class="nav nav-collapse">
 									<li class="nav-item {{ request()->is('/entire-arsip*') ? 'active' : '' }}">
-										<a href="{{ url('/entire-arsip') }}">
+										<a href="{{ url('/entire-arsip*') }}">
 											<span class="sub-item">Entire Arsip</span>
 										</a>
 									</li>
@@ -79,7 +79,7 @@
                                 <p>Buat Arsip</p>
                             </a>
                         </li>   
-						<li class="nav-item">
+						<li class="nav-item {{ request()->is('personal-arsip*') || request()->is('entire-arsip*') ? 'active' : '' }}"">
 							<a data-toggle="collapse" href="#sidebarLayouts" class="collapsed" aria-expanded="false">
 								<i class="fas fa-coins"></i>
 								<p>Arsip</p>
@@ -92,7 +92,7 @@
 											<span class="sub-item">Personal Arsip</span>
 										</a>
 									</li>
-									<li class="nav-item {{ request()->is('/entire-arsip*') ? 'active' : '' }}">
+									<li class="nav-item {{ request()->is('entire-arsip*') ? 'active' : '' }}">
 										<a href="{{ url('/entire-arsip') }}">
 											<span class="sub-item">Entire Arsip</span>
 										</a>

@@ -27,8 +27,7 @@
                             </div>
                             <div>
                                 <div class="form-group form-show-validation">
-                                    <input type="text" class="form-control" placeholder="Username"
-                                        name="username">
+                                    <input type="text" class="form-control" placeholder="Username" name="username">
                                 </div>
                                 <div class="form-group form-show-validation">
                                     <input type="password" class="form-control" placeholder="Password" name="password">
@@ -64,24 +63,28 @@
 
 <script>
     $(document).ready(function() {
-        var key = $('meta[name="key"]').attr('content');
+        let key = $('meta[name="key"]').attr('content');
 
         function validationLogin() {
             $('#formLogin').validate({
                 rules: {
                     username: {
-                        required: true
+                        required: true,
+                        noSpaces: true
                     },
                     password: {
-                        required: true
+                        required: true,
+                        noSpaces: true
                     },
                 },
                 messages: {
                     username: {
-                        required: "Field ini wajib diisi"
+                        required: "Field ini wajib diisi",
+                        noSpaces: "Tidak boleh input hanya space !"
                     },
                     password: {
-                        required: "Field ini wajib diisi"
+                        required: "Field ini wajib diisi",
+                        noSpaces: "Tidak boleh input hanya space !"
                     }
                 },
                 highlight: function(element) {
@@ -96,7 +99,7 @@
             });
         }
 
-        validationLogin();
+        validationLogin()
 
         $('#formLogin').submit(function(e) {
             e.preventDefault();
@@ -139,7 +142,7 @@
                         let id = encryptToken(response.user.id, key);
                         console.log(id);
                         Cookies.set('cookie_user', id, {
-                            secure: true, 
+                            secure: true,
                             SameSite: 'Strict'
                         });
                         window.location.href = '/'

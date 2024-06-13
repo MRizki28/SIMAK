@@ -485,7 +485,8 @@
                 $('#formTambah').validate({
                     rules: {
                         code_arsip: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         id_type_document: {
                             required: true
@@ -504,12 +505,14 @@
                             extension: "docx|pdf|xls|xlsx|csv|jpg|jpeg|png"
                         },
                         description: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         }
                     },
                     messages: {
                         code_arsip: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         id_type_document: {
                             required: "Field ini wajib diisi"
@@ -528,7 +531,8 @@
                             extension: "Format hanya png, jpg, jpeg, pdf, docx, doc, xlsx, xls, csv"
                         },
                         description: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         }
                     },
                     highlight: function(element) {
@@ -552,7 +556,8 @@
                 $('#formEdit').validate({
                     rules: {
                         code_arsip: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         id_type_document: {
                             required: true
@@ -571,12 +576,14 @@
                             extension: "docx|pdf|xls|xlsx|csv|jpg|jpeg|png"
                         },
                         description: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         }
                     },
                     messages: {
                         code_arsip: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         id_type_document: {
                             required: "Field ini wajib diisi"
@@ -595,7 +602,8 @@
                             extension: "Format hanya png, jpg, jpeg, pdf, docx, doc, xlsx, xls, csv"
                         },
                         description: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         }
                     },
                     highlight: function(element) {

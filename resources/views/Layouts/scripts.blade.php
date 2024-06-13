@@ -17,7 +17,6 @@
 	<script src="{{asset('static/js/setting-demo2.js')}}"></script>
 	<script src="{{asset('static/js/select2.full.min.js')}}"></script>
     <script src="{{ asset('static/js/plugin/chart.js/chart.min.js') }}"></script>
-    <script src="{{ asset('static/helper/helper.js') }}"></script>
 
 	{{-- Jquery Validate --}}
 	
@@ -25,6 +24,8 @@
     <script src="{{asset('static/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{asset('static/jquery-validation/dist/additional-methods.js')}}"></script>
     <script src="{{asset('static/jquery-validation/dist/additional-methods.min.js')}}"></script>
+
+    <script src="{{ asset('static/helper/helper.js') }}"></script>
 
 	{{-- Numeral --}}
 	<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>

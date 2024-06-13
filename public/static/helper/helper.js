@@ -240,3 +240,7 @@ function insertLineBreaks(text, wordsPerLine) {
 
     return newText.trim();
 }
+
+$.validator.addMethod("noSpaces", function(value, element) {
+    return this.optional(element) || $.trim(value) !== "";
+}, "Field ini wajib diisi");

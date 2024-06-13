@@ -54,8 +54,8 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
                                     <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required name="name_type_document"
-                                        id="name_type_document">
+                                    <input type="text" class="form-control" required name="name_type_document"
+                                        id="name_type_document" placeholder="Input here">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -94,8 +94,8 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="form-group form-show-validation">
                                     <label for="name_type_document">Jenis Dokumen</label>
-                                    <input type="text" class="form-control  required" required name="name_type_document"
-                                        id="ename_type_document">
+                                    <input type="text" class="form-control" required name="name_type_document"
+                                        id="ename_type_document" placeholder="Input here">
                                 </div>
                                 <div class="button-footer d-flex justify-content-between mt-4">
                                     <div class="d-flex justify-content-end align-items-end" style="width: 100%;">
@@ -159,12 +159,14 @@
                 $('#formTambah').validate({
                     rules: {
                         name_type_document: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         }
                     },
                     messages: {
                         name_type_document: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         }
                     },
                     highlight: function(element) {
@@ -183,12 +185,14 @@
                 $('#formEdit').validate({
                     rules: {
                         name_type_document: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         }
                     },
                     messages: {
                         name_type_document: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         }
                     },
                     highlight: function(element) {

@@ -140,24 +140,30 @@
                 $('#formSetting').validate({
                     rules: {
                         password_old: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         password: {
-                            required: true
+                            required: true,
+                            noSpaces: true
                         },
                         password_confirmation: {
-                            required: true
+                            required: true,
+                            noSpaces: true,
                         },
                     },
                     messages: {
                         password_old: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         password: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         },
                         password_confirmation: {
-                            required: "Field ini wajib diisi"
+                            required: "Field ini wajib diisi",
+                            noSpaces: "Tidak boleh input hanya space !"
                         }
                     },
                     highlight: function(element) {
