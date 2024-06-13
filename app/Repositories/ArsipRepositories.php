@@ -89,20 +89,13 @@ class ArsipRepositories implements ArsipInterfaces
             if ($request->hasFile('file_arsip')) {
                 foreach ($request->file('file_arsip') as $key => $file) {
                     $extention = $file->getClientOriginalExtension();
-                    if (!in_array($extention, ['png', 'jpg', 'jpeg', 'pdf', 'docx', 'doc', 'xlsx', 'xls', 'csv'])) {
-                        return response()->json([
-                            'code' => 405,
-                            'message' => 'Invalid file extention'
-                        ]);
-                    } else {
-                        $data->save();
-                        $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
-                        $file->move(public_path('uploads/arsip/'), $filename);
-                        $tbFile[$key] = new $this->fileModel;
-                        $tbFile[$key]->id_arsip = $data->id;
-                        $tbFile[$key]->file_arsip = $filename;
-                        $tbFile[$key]->save();
-                    }
+                    $data->save();
+                    $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
+                    $file->move(public_path('uploads/arsip/'), $filename);
+                    $tbFile[$key] = new $this->fileModel;
+                    $tbFile[$key]->id_arsip = $data->id;
+                    $tbFile[$key]->file_arsip = $filename;
+                    $tbFile[$key]->save();
                 }
             }
 
@@ -202,7 +195,7 @@ class ArsipRepositories implements ArsipInterfaces
                 ->where('id_user', $id_user)
                 ->where('id_type_document', $id_type_document)
                 ->where('id_year', $id_year)
-                ->where('is_private', 0); 
+                ->where('is_private', 0);
 
             if ($startDate && $endDate) {
                 $query->whereBetween('date_arsip', [$startDate, $endDate]);
@@ -315,11 +308,6 @@ class ArsipRepositories implements ArsipInterfaces
             if ($request->hasFile('file_arsip')) {
                 foreach ($request->file('file_arsip') as $file) {
                     $extention = $file->getClientOriginalExtension();
-                    if (!in_array($extention, ['png', 'jpg', 'jpeg', 'pdf', 'docx', 'doc', 'xlsx', 'xls', 'csv'])) {
-                        return response()->json([
-                            'message' => 'Invalid file extention'
-                        ]);
-                    }
                     $filename  = 'ARSIP-' . Str::random(5) . '.' . $extention;
                     $file->move(public_path('uploads/arsip/'), $filename);
                     $data = new $this->fileModel;

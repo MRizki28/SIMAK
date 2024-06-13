@@ -34,12 +34,13 @@
                                     </select>
                                 </div>
                             </div>
-                        
+
                             <div class="col-md-5 p-0 d-flex justify-content-end align-items-center">
                                 {{-- Form search by daterange --}}
                                 <div class="form-group col-sm-12 col-md-7 row">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="datetime" name="datetime" placeholder="Cari berdasarkan rentang">
+                                        <input type="text" class="form-control" id="datetime" name="datetime"
+                                            placeholder="Cari berdasarkan rentang">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="fa fa-calendar"></i>
@@ -49,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="table-responsive">
                             <table class=" table " id="table">
                                 <thead style="background-color: #f7f8fa;">
@@ -153,8 +154,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-show-validation">
                                             <label for="file_arsip">File</label>
-                                            <input type="file" class="form-control" required name="file_arsip[]"
-                                                id="file_arsip" multiple>
+                                            <input type="file" class="form-control file_arsip" required
+                                                name="file_arsip[]" id="file_arsip" multiple>
                                         </div>
                                     </div>
                                 </div>
@@ -309,10 +310,10 @@
             })
 
             $(document).on('change', '#filteredIsPrivate', function() {
-                const selecteValue  = $(this).val()
+                const selecteValue = $(this).val()
                 if (selecteValue == '') {
                     window.location.reload()
-                }else{
+                } else {
                     loadData();
                 }
             });
@@ -674,8 +675,22 @@
                                 icon: 'warning',
                                 showConfirmButton: true
                             });
-                        } else if (response.code == 405) {
-                            warningExtentionAlert();
+                        } else if(response.error) {
+                            Object.keys(response.error).forEach(key => {
+                                if (key.startsWith('file_arsip.') && response.error[key]
+                                    .includes('Format file tidak sesuai')) {
+                                    warningExtentionAlert();
+                                    $('.form-group').removeClass('has-error')
+                                        .removeClass(
+                                            'has-success');
+                                    $('.file_arsip').addClass('border-danger');
+                                    let errorLabel = $('#file_arsip-error');
+                                    errorLabel.text(
+                                        'Format hanya png, jpg, jpeg, pdf, docx, doc, xlsx, xls, csv'
+                                    );
+                                    return;
+                                }
+                            });
                         } else if (response.message == 'Check your validation') {
                             warningAlert();
                         } else if (response.code == 400) {
@@ -770,6 +785,7 @@
             function resetModal() {
                 $('#id').val('').removeClass('border-danger');
                 $('.form-group').removeClass('has-error').removeClass('has-success');
+                $('.file_arsip').removeClass('border-danger');
                 $('#code_arsip').val('');
                 $('#ecode_arsip').val('');
                 $('#id_type_document').val('').trigger('change');
@@ -799,8 +815,6 @@
                 $('#file_arsip-error').remove();
                 $('#description-error').remove();
                 $('#edescription-error').remove();
-
-
             }
 
             $('#arsipModal , #arsipModalEdit').on('hidden.bs.modal', function() {

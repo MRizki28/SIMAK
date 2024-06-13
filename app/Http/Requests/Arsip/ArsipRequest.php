@@ -46,7 +46,8 @@ class ArsipRequest extends FormRequest
         } elseif ($this->is("v1/arsip/add/file")) {
             $rules = [
                 'id_arsip' => 'required',
-                'file_arsip' => 'required',
+                'file_arsip' => 'required|array',
+                'file_arsip.*' => 'mimes:png,jpg,jpeg,pdf,docx,doc,xlsx,xls,csv',        
             ];
         } else {
             $rules = [
@@ -55,12 +56,20 @@ class ArsipRequest extends FormRequest
                 'code_arsip' => 'required|unique:tb_arsip,code_arsip,NULL,id,id_user,' . $userId,
                 'date_arsip' => 'required',
                 'description' => 'required',
-                'file_arsip' => 'required',
+                'file_arsip' => 'required|array',
+                'file_arsip.*' => 'mimes:png,jpg,jpeg,pdf,docx,doc,xlsx,xls,csv',
                 'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar,jenisLain',
             ];
         }
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'file_arsip.*.mimes' => 'Format file tidak sesuai',
+        ];
     }
 
     protected function failedValidation(Validator $validator)

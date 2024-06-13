@@ -62,7 +62,7 @@
                             <form action="" id="formTambah">
                                 @csrf
                                 <input type="hidden" name="id" id="id">
-                                <div class="form-group form-show-validation">
+                                <div id="sja" class="form-group form-show-validation">
                                     <label for="file_arsip">File</label>
                                     <input type="file" class="form-control  required" required name="file_arsip[]"
                                         id="file_arsip" multiple>
@@ -224,8 +224,20 @@
                     success: function(response) {
                         console.log(response);
                         submitButton.attr('disabled', false);
-                        if (response.message == "Invalid file extention") {
-                            warningExtentionAlert();
+                        if (response.error) {
+                            Object.keys(response.error).forEach(key => {
+                                if (key.startsWith('file_arsip.') && response.error[key]
+                                    .includes('Format file tidak sesuai')) {
+                                    warningExtentionAlert();
+                                    $('.form-group').removeClass('has-error')
+                                        .removeClass('has-success').addClass(
+                                            'has-error');
+                                    $('#file_arsip-error').text(
+                                        'Format hanya png, jpg, jpeg, pdf, docx, doc, xlsx, xls, csv'
+                                        );
+                                    return;
+                                }
+                            });
                         } else if (response.message == 'Check your validation') {
                             warningAlert();
                         } else if (response.code == 400) {
@@ -276,6 +288,12 @@
             });
 
             getFile();
+
+            $('#fileModal').on('hidden.bs.modal', function() {
+                $('#file_arsip').val('');
+                $('.form-group').removeClass('has-error').removeClass('has-success');
+                $('#file_arsip-error').remove();
+            });
         });
     </script>
 @endsection
