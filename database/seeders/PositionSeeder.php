@@ -20,7 +20,10 @@ class PositionSeeder extends Seeder
             'Kasi Pemerintahan, Ketentraman dan Ketertiban Umum',
             'Staf Kasi Pemerintahan, Ketentraman dan Ketertiban Umum',
             'Kasi Ekonomi dan Pembangunan',
-            'Staf Kasi Ekonomi dan Pembangunan'
+            'Staf Kasi Ekonomi dan Pembangunan',
+            'Kasi Pemberdayaan Masyarakat dan kesejahteraan sosial',
+            'Staf Kasi Pemberdayaan Masyarakat dan kesejahteraan sosial',
+
         ];
 
         foreach ($position as $pos) {
