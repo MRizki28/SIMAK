@@ -43,7 +43,7 @@
 							<div class="collapse" id="sidebarLayouts" style="">
 								<ul class="nav nav-collapse">
 									<li class="nav-item {{ request()->is('/entire-arsip*') ? 'active' : '' }}">
-										<a href="{{ url('/entire-arsip*') }}">
+										<a href="{{ url('/entire-arsip') }}">
 											<span class="sub-item">Entire Arsip</span>
 										</a>
 									</li>
