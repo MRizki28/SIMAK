@@ -10,6 +10,7 @@ use App\Traits\HttpResponseTraits;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
@@ -37,7 +38,7 @@ class ArsipRepositories implements ArsipInterfaces
 
         $user = Auth::user()->id;
 
-        $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user);
+        $query = $this->arsipModel::query()->with('typeDocument', 'user')->where('id_user', $user);
 
         if ($is_private !== null) {
             $query->where('is_private', $is_private);
@@ -56,8 +57,6 @@ class ArsipRepositories implements ArsipInterfaces
                         $query->where('name_type_document', 'like', '%' . $search . '%');
                     })->orWhereHas('user', function ($query) use ($search) {
                         $query->where('name', 'like', '%' . $search . '%');
-                    })->orWhereHas('year', function ($query) use ($search) {
-                        $query->where('year', 'like', '%' . $search . '%');
                     });
             });
         }
@@ -78,7 +77,6 @@ class ArsipRepositories implements ArsipInterfaces
             $data = new $this->arsipModel;
             $data->id_user = $user;
             $data->id_type_document = $request->input('id_type_document');
-            $data->id_year = $request->input("id_year");
             $data->code_arsip = $request->input("code_arsip");
             $data->date_arsip = Carbon::parse($request->input('date_arsip'))->format('Y-m-d');
             $data->description = htmlspecialchars($request->input("description"));
@@ -138,11 +136,11 @@ class ArsipRepositories implements ArsipInterfaces
             $page = (int) $request->input('page', 1);
 
             $user = Auth::user()->id;
-            $id_year = $request->query('id_year');
+            $year = $request->query('year');
             $id_type_document = $request->query('id_type_document');
             $is_private = $request->query('is_private');
 
-            $query = $this->arsipModel::query()->with('typeDocument', 'user', 'year')->where('id_user', $user)->where('id_type_document', $id_type_document)->where('id_year', $id_year);
+            $query = $this->arsipModel::query()->with('typeDocument', 'user')->where('id_user', $user)->where('id_type_document', $id_type_document)->where(DB::raw('YEAR(date_arsip)'), $year);;
 
             if ($is_private !== null) {
                 $query->where('is_private', $is_private);
@@ -161,8 +159,6 @@ class ArsipRepositories implements ArsipInterfaces
                             $query->where('name_type_document', 'like', '%' . $search . '%');
                         })->orWhereHas('user', function ($query) use ($search) {
                             $query->where('name', 'like', '%' . $search . '%');
-                        })->orWhereHas('year', function ($query) use ($search) {
-                            $query->where('year', 'like', '%' . $search . '%');
                         });
                 });
             }
@@ -234,7 +230,6 @@ class ArsipRepositories implements ArsipInterfaces
             $data = $this->arsipModel->findOrFail($id);
             $data->id_user = $user;
             $data->id_type_document = $request->input('id_type_document');
-            $data->id_year = $request->input("id_year");
             $data->code_arsip = $request->input("code_arsip");
             $data->date_arsip = Carbon::parse($request->input('date_arsip'))->format('Y-m-d');
             $data->description = htmlspecialchars($request->input("description"));
@@ -320,6 +315,21 @@ class ArsipRepositories implements ArsipInterfaces
             return $this->success('Files uploaded successfully.');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
+        }
+    }
+
+    public function getYearArsip(Request $request)
+    {
+        try {
+            $id_user = Auth::user()->id;
+            $data = $this->arsipModel->where('id_user', $id_user)->select(DB::raw('YEAR(date_arsip) as year'))->distinct()->get();
+            if (!$data) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data);
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th);
         }
     }
 }
