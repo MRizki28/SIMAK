@@ -125,7 +125,7 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('v1/typedocument/get/user') }}",
+                    url: "{{ url('v1/typedocument/') }}",
                     dataType: "JSON",
                     success: function(response) {
                         let tableBody = "";
