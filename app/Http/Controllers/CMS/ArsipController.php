@@ -65,4 +65,9 @@ class ArsipController extends Controller
     {
         return $this->arsipRepositories->getDataArsipByEntire($request);
     }
+
+    public function getYearArsip(Request $request)
+    {
+        return $this->arsipRepositories->getYearArsip($request);
+    }
 }
