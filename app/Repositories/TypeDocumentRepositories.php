@@ -8,6 +8,7 @@ use App\Models\TypeDocumentModel;
 use App\Traits\HttpResponseTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TypeDocumentRepositories implements TypeDocumentInterfaces
 {
@@ -43,11 +44,11 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
     public function getDataByUserYear(Request $request)
     {
         try {
-            $id_year = $request->query('id_year');
+            $year = $request->query('year');
             $user = Auth::user()->id;
-            $data = $this->typeDocumentModel->whereHas('arsip', function ($query) use ($user, $id_year) {
+            $data = $this->typeDocumentModel->whereHas('arsip', function ($query) use ($user, $year) {
                 $query->where('id_user', $user)
-                    ->where('id_year', $id_year);
+                ->where(DB::raw('YEAR(date_arsip)'), $year);
             })->get();
             return $this->success($data);
         } catch (\Throwable $th) {
@@ -74,9 +75,7 @@ class TypeDocumentRepositories implements TypeDocumentInterfaces
     public function createData(TypeDocumentRequest $request)
     {
         try {
-            $user = Auth::user();
             $data = new $this->typeDocumentModel;
-            $data->id_user = $user->id;
             $data->name_type_document = $request->input('name_type_document');
             $data->save();
             return $this->success($data);
