@@ -34,6 +34,12 @@
 								<p>Dashboard</p>
 							</a>
 						</li> 
+						<li class="nav-item {{ request()->is('typedocument*') ? 'active' : '' }}">
+							<a href="{{ url('/typedocument') }}">
+								<i class="fas fa-paperclip"></i>
+								<p>Jenis Dokumen</p>
+							</a>
+						</li>
 						<li class="nav-item {{ request()->is('entire-arsip*') ? 'active' : '' }}">
 							<a data-toggle="collapse" href="#sidebarLayouts" class="collapsed" aria-expanded="false">
 								<i class="fas fa-coins"></i>
@@ -67,12 +73,6 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>     
-						<li class="nav-item {{ request()->is('typedocument*') ? 'active' : '' }}">
-							<a href="{{ url('/typedocument') }}">
-								<i class="fas fa-paperclip"></i>
-								<p>Jenis Dokumen</p>
-							</a>
-						</li>
 						<li class="nav-item {{ request()->is('arsip*') ? 'active' : '' }}">
                             <a href="{{ url('/arsip') }}">
                                 <i class="fas fa-file"></i>
