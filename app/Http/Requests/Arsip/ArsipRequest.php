@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Arsip;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -30,7 +31,6 @@ class ArsipRequest extends FormRequest
         if ($this->is("v1/arsip/update/*")) {
             $rules = [
                 'id_type_document' => 'required',
-                'id_year' => 'required',
                 'code_arsip' =>  [
                     'required',
                     Rule::unique('tb_arsip', 'code_arsip')
@@ -39,7 +39,7 @@ class ArsipRequest extends FormRequest
                         })
                         ->ignore($this->route('id')),
                     ],
-                'date_arsip' => 'required',
+                'date_arsip' => 'required|date|before_or_equal:'. Carbon::today()->format('Y-m-d'),
                 'description' => 'required',
                 'in_or_out_arsip' => 'required|in:suratMasuk,suratKeluar,jenisLain',
             ];
@@ -52,9 +52,8 @@ class ArsipRequest extends FormRequest
         } else {
             $rules = [
                 'id_type_document' => 'required',
-                'id_year' => 'required',
                 'code_arsip' => 'required|unique:tb_arsip,code_arsip,NULL,id,id_user,' . $userId,
-                'date_arsip' => 'required',
+                'date_arsip' => 'required|date|before_or_equal:' . Carbon::today()->format('Y-m-d'),
                 'description' => 'required',
                 'file_arsip' => 'required|array',
                 'file_arsip.*' => 'mimes:png,jpg,jpeg,pdf,docx,doc,xlsx,xls,csv',
@@ -69,6 +68,7 @@ class ArsipRequest extends FormRequest
     {
         return [
             'file_arsip.*.mimes' => 'Format file tidak sesuai',
+            'date_arsip.before_or_equal' => 'Tanggal tidak boleh lebih dari hari ini',
         ];
     }
 
