@@ -15,7 +15,6 @@ class ArsipModel extends Model
         'id',
         'id_user',
         'id_type_document',
-        'id_year',
         'code_arsip',
         'date_arsip',
         'description',
@@ -31,11 +30,6 @@ class ArsipModel extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
-    }
-
-    public function year()
-    {
-        return $this->belongsTo(YearModel::class, 'id_year');
     }
 
     public function getFile()
