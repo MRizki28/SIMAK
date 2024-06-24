@@ -120,7 +120,17 @@ function errorAlert() {
 function warningAlert() {
     Swal.fire({
         title: 'Peringatan',
-        text: 'Input tidak boleh kosong !',
+        text: 'Periksa kembali inputan anda',
+        icon: 'warning',
+        timer: 5000,
+        showConfirmButton: true
+    });
+}
+
+function dateAlert() {
+    Swal.fire({
+        title: 'Peringatan',
+        text: 'Tanggal tidak boleh lewat dari hari ini',
         icon: 'warning',
         timer: 5000,
         showConfirmButton: true
