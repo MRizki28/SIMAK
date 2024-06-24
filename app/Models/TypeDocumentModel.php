@@ -13,7 +13,7 @@ class TypeDocumentModel extends Model
     protected $table = 'tb_type_document';
     protected $fillable = [
         'id',
-        'id_user',
+        // 'id_user',
         'name_type_document'
     ];
 
