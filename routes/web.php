@@ -41,7 +41,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::get('typedocument', function () {
         return view('pages.typedocument');
-    })->middleware('rolemanagement:user');
+    })->middleware('rolemanagement:admin');
 
     Route::get('arsip', function () {
         return view('pages.arsip');
@@ -112,12 +112,6 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::delete('/delete/{id}',    'deleteData');
         });
 
-        Route::prefix('year')->controller(YearController::class)->group(function () {
-            Route::get('/',               'getAllData');
-            Route::get('/personal/get',               'getPersonalYear');
-            Route::get('/entire/get',               'getEntireYear');
-        });
-
         Route::prefix('arsip')->controller(ArsipController::class)->group(function () {
             Route::get('/',               'list');
             Route::get('/getpersonal',               'getDataArsipByPersonal');
@@ -129,6 +123,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/get/{id}',       'getDataById');
             Route::delete('/delete/file/{id}',    'deleteFile');
             Route::post('/add/file',         'addFile');
+            Route::get('/year',         'getYearArsip');
         });
 
         Route::prefix('position')->controller(PositionController::class)->group(function () {
