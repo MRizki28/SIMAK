@@ -50,14 +50,14 @@
                 let dataTable = $("#dataTable").DataTable();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('v1/year/personal/get') }}",
+                    url: "{{ url('v1/arsip/year') }}",
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)
                         let tableBody = "";
                         $.each(response.data, function(index, item) {
-                            tableBody += '<tr data-id="' + item.id + '">';
-                            tableBody += '<td class="text-center">' + item.year + '</td>';
+                            tableBody += '<tr>';
+                            tableBody += '<td class="text-center" data-year="' + item.year + '">' + item.year + '</td>';
                             tableBody += '</tr>';
                         });
                         $("#loading-row").remove();
@@ -75,8 +75,9 @@
                                 "");
                             });
                             $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
-                                const id_year = encryptToken($(this).data("id"), key);
-                                localStorage.setItem('id_year', id_year);
+                                const year = encryptToken(String($(this).find('td').data("year")), key);
+                                console.log(year)
+                                localStorage.setItem('year', year);
                                 let idUser = decryptToken(Cookies.get('cookie_user'), key);
                                 const url = '{{ url('/personal-arsip/jenis-dokumen/') }}';
                                 window.location.href = url;
