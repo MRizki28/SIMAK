@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(TypeDocumentInterfaces::class, TypeDocumentRepositories::class);
-        $this->app->bind(YearInterfaces::class, YearRepositories::class);
         $this->app->bind(ArsipInterfaces::class, ArsipRepositories::class);
         $this->app->bind(AuthInterfaces::class, AuthRepositories::class);
         $this->app->bind(PositionInterfaces::class, PositionRepositories::class);
