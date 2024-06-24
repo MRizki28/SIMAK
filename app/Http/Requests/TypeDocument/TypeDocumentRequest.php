@@ -24,8 +24,6 @@ class TypeDocumentRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = auth()->id();
-
         $rules = [];
 
         if ($this->is("v1/typedocument/update/*")) {
@@ -33,15 +31,12 @@ class TypeDocumentRequest extends FormRequest
                 'name_type_document' => [
                     'required',
                     Rule::unique('tb_type_document', 'name_type_document')
-                        ->where(function ($query) use ($userId) {
-                            $query->where('id_user', $userId);
-                        })
-                        ->ignore($this->route('id'))
+                    ->ignore($this->route('id'), 'id')
                 ]
             ];
         } else {
             $rules = [
-                'name_type_document' => 'required|unique:tb_type_document,name_type_document,NULL,id,id_user,' . $userId,
+                'name_type_document' => 'required|unique:tb_type_document,name_type_document',
             ];
         }
         return $rules;
