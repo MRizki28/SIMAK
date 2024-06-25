@@ -84,7 +84,6 @@
                                         <th style="padding: 0 25px !important;">Pembuat</th>
                                         <th style="padding: 0 25px !important;">Jenis Dokumen</th>
                                         <th style="padding: 0 25px !important;">Label</th>
-                                        <th style="padding: 0 25px !important;">Tahun Arsip</th>
                                         <th style="padding: 0 25px !important;">File</th>
                                         <th style="padding: 0 25px !important;">Tanggal</th>
                                         <th style="padding: 0 25px !important;">Deskripsi</th>
@@ -160,12 +159,12 @@
             function loadData(url) {
                 let params = paramsSearch();
                 let id_user = decryptToken(localStorage.getItem('id_entire_user'), key);
-                let id_year = decryptToken(localStorage.getItem('id_entire_year'), key);
+                let year = decryptToken(localStorage.getItem('entire_year'), key);
                 let id_type_document = decryptToken(localStorage.getItem('id_entire_type_document'), key);
 
                 let endpointParams = {
                     id_user: id_user,
-                    id_year: id_year,
+                    year: year,
                     id_type_document: id_type_document,
                     search: params.search || '',
                     startDate: params.startDate || '',
@@ -195,7 +194,6 @@
                                     .name_type_document;
                                 let file_arsip = value.file_arsip;
                                 let name = value.user.name;
-                                let year = value.year.year
                                 let id_arsip = value.id;
                                 console.log(file_arsip)
                                 $("#table tbody").empty();
@@ -214,7 +212,6 @@
                                     tableBody += "<td>" + "Surat Keluar" +
                                         "</td>"
                                 }
-                                tableBody += "<td>" + year + "</td>"
                                 tableBody += "<td><a href='/file' data-id_arsip='" +
                                     id_arsip + "'><i class='fas fa-eye fa-xl'></i></a></td>";
                                 tableBody += "<td>" + value.date_arsip + "</td>"
