@@ -66,13 +66,13 @@
                     $("#dataTable").DataTable().destroy();
                 }
                 let dataTable = $("#dataTable").DataTable();
-                id_year = decryptToken(localStorage.getItem('id_entire_year'), key)
+                year = decryptToken(localStorage.getItem('entire_year'), key)
                 id_user = decryptToken(localStorage.getItem('id_entire_user'), key)
-                console.log('id_year', id_year)
+                console.log('year', year)
                 $.ajax({
                     type: "GET",
                     url: "{{ url('v1/typedocument/get/entire/document?id_user=') }}" + id_user +
-                        "&id_year=" + id_year,
+                        "&year=" + year,
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)
