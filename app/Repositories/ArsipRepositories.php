@@ -140,7 +140,7 @@ class ArsipRepositories implements ArsipInterfaces
             $id_type_document = $request->query('id_type_document');
             $is_private = $request->query('is_private');
 
-            $query = $this->arsipModel::query()->with('typeDocument', 'user')->where('id_user', $user)->where('id_type_document', $id_type_document)->where(DB::raw('YEAR(date_arsip)'), $year);;
+            $query = $this->arsipModel::query()->with('typeDocument', 'user')->where('id_user', $user)->where('id_type_document', $id_type_document)->where(DB::raw('YEAR(date_arsip)'), $year);
 
             if ($is_private !== null) {
                 $query->where('is_private', $is_private);
@@ -184,13 +184,13 @@ class ArsipRepositories implements ArsipInterfaces
             $page = (int) $request->input('page', 1);
 
             $id_user = $request->query('id_user');
-            $id_year = $request->query('id_year');
+            $year = $request->query('year');
             $id_type_document = $request->query('id_type_document');
             $query = $this->arsipModel::query()
-                ->with('typeDocument', 'user', 'year')
+                ->with('typeDocument', 'user')
                 ->where('id_user', $id_user)
                 ->where('id_type_document', $id_type_document)
-                ->where('id_year', $id_year)
+                ->where(DB::raw('YEAR(date_arsip)'), $year)
                 ->where('is_private', 0);
 
             if ($startDate && $endDate) {
@@ -206,8 +206,6 @@ class ArsipRepositories implements ArsipInterfaces
                             $query->where('name_type_document', 'like', '%' . $search . '%');
                         })->orWhereHas('user', function ($query) use ($search) {
                             $query->where('name', 'like', '%' . $search . '%');
-                        })->orWhereHas('year', function ($query) use ($search) {
-                            $query->where('year', 'like', '%' . $search . '%');
                         });
                 });
             }
@@ -323,6 +321,20 @@ class ArsipRepositories implements ArsipInterfaces
         try {
             $id_user = Auth::user()->id;
             $data = $this->arsipModel->where('id_user', $id_user)->select(DB::raw('YEAR(date_arsip) as year'))->distinct()->get();
+            if (!$data) {
+                return $this->dataNotFound();
+            } else {
+                return $this->success($data);
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th);
+        }
+    }
+
+    public function getYearArsipEntire($id)
+    {
+        try {
+            $data = $this->arsipModel->where('id_user', $id)->select(DB::raw('YEAR(date_arsip) as year'))->distinct()->get();
             if (!$data) {
                 return $this->dataNotFound();
             } else {
