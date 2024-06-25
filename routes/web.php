@@ -124,6 +124,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::delete('/delete/file/{id}',    'deleteFile');
             Route::post('/add/file',         'addFile');
             Route::get('/year',         'getYearArsip');
+            Route::get('/entire/year/{id}',         'getYearArsipEntire');
         });
 
         Route::prefix('position')->controller(PositionController::class)->group(function () {
