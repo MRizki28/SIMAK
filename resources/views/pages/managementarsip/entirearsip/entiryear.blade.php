@@ -63,14 +63,14 @@
                 console.log(id_entire_user)
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('v1/year/entire/get?id_user=') }}" + id_entire_user,
+                    url: "{{ url('v1/arsip/entire/year') }}/" + id_entire_user,
                     dataType: "JSON",
                     success: function(response) {
                         console.log(response)
                         let tableBody = "";
                         $.each(response.data, function(index, item) {
-                            tableBody += '<tr data-id="' + item.id + '">';
-                            tableBody += '<td class="text-center">' + item.year + '</td>';
+                            tableBody += '<tr>';
+                            tableBody += '<td class="text-center" data-year="' + item.year + '">' + item.year + '</td>';
                             tableBody += '</tr>';
                         });
                         $("#loading-row").remove();
@@ -90,12 +90,14 @@
                             });
 
                             $("#dataTable tbody").off("click", "tr").on("click", "tr", function() {
-                            const id_year = encryptToken($(this).data("id"), key);
-                            localStorage.setItem('id_entire_year', id_year);
-                            let idUser = decryptToken(Cookies.get('cookie_user'), key);
-                            const url = '{{ url('/entire-arsip/jenis-dokumen') }}';
-                            window.location.href = url;
-                        });
+                                const entire_year = encryptToken(String($(this).find('td').data(
+                                    "year")), key);
+                                console.log(entire_year)
+                                localStorage.setItem('entire_year', entire_year);
+                                let idUser = decryptToken(Cookies.get('cookie_user'), key);
+                                const url = '{{ url('/entire-arsip/jenis-dokumen') }}';
+                                window.location.href = url;
+                            });
                         }
                     }
                 });
@@ -105,7 +107,7 @@
             $(window).on('storage', function(event) {
                 protectedModificationSystem(event);
             });
-            
+
         });
     </script>
 @endsection
