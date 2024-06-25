@@ -18,4 +18,5 @@ interface ArsipInterfaces
     public function getDataArsipByPersonal(Request $request);
     public function getDataArsipByEntire(Request $request);
     public function getYearArsip(Request $request);
+    public function getYearArsipEntire($id);
 }
